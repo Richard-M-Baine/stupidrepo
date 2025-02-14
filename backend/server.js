@@ -2,11 +2,16 @@ require("dotenv").config();
 const express = require("express");
 const { sequelize } = require("./models");
 const routes = require("./routes");
+const authRoutes = require('./routes/loginRoutes');
+const protectedRoutes = require('./routes/userRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
+const jwtSecret = process.env.JWT_SECRET;
+console.log(jwtSecret); // Check if it's loaded correctly
+
 app.use("/api", routes);
 
 // Global error handler to log full errors
