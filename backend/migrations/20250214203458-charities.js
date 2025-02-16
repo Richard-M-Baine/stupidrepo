@@ -23,7 +23,7 @@ module.exports = {
       },
       purpose: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.STRING
       },
       locationID: {
         allowNull: false,

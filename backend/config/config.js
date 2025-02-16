@@ -8,7 +8,7 @@ module.exports = {
     database: process.env.DB_NAME || "default_db",
     host: process.env.DB_HOST || "127.0.0.1",
     dialect: process.env.DB_DIALECT || "sqlite",
-    storage: path.join(__dirname, "../database.sqlite") // Define storage path for SQLite
+    storage: path.join(__dirname, "../database/database.sqlite") // Define storage path for SQLite
   },
   test: {
     username: "root",
