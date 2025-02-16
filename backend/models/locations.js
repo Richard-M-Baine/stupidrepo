@@ -35,5 +35,9 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true, // Include createdAt and updatedAt fields
     });
 
+    Locations.associate = (models) => {
+        Locations.hasMany(models.Charities, { foreignKey: "locationID" });
+      };
+
     return Locations;
 };

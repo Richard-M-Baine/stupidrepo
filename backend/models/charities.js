@@ -26,7 +26,13 @@ module.exports = (sequelize, DataTypes) => {
         },
         locationID: {
             allowNull: false,
-            type: DataTypes.INTEGER
+            type: DataTypes.INTEGER,
+            references: {
+                model: "Locations", // Locations
+                key: "id",
+              },
+              onUpdate: "CASCADE",
+              onDelete: "CASCADE",
         },
         private: {
             allowNull: false,
@@ -38,5 +44,9 @@ module.exports = (sequelize, DataTypes) => {
         timestamps: true, // Include createdAt and updatedAt fields
     });
 
-    return Charities;
+    Charities.associate = (models) => {
+        Charities.belongsTo(models.Locations, { foreignKey: "id", as: "locationID" });
+      };
+
+    return Charities
 };
