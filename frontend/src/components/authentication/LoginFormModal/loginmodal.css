@@ -1,0 +1,107 @@
+#modal-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 600px;
+    height: auto;
+    align-items: center;
+    align-content: center;
+    border-radius: 16px;
+    overflow: hidden;
+    perspective: 1px;
+    padding-bottom: 20px;
+    background-color: rgb(225,230,238);
+
+}
+
+.email-login-label{
+    font-size: 22px;
+    padding-bottom: 5px;
+    padding-top: 18px;
+}
+
+.login-erstediv{
+    display: flex;
+    flex-direction: column;
+}
+
+.signup-div{
+
+    font-size: 18px;
+}
+.signup-link{
+    text-decoration: none;
+    color: #f65858;
+    font-size: 16px;
+}
+
+.login-div{
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.login-button-div{
+    display: flex;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.login-button{
+    width: 424px;
+    height: 3rem;
+    background-color: rgba(130, 169, 238);
+    color: rgb(0,28,78);
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    font-size: 22px;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 254px;
+    margin-top: 20px;
+}
+
+.email-box{
+    width: 400px;
+    border-color: rgba(34, 34, 34, 0.1);
+    border-radius: 10px;
+    height: 22px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.button-login {
+    background-color: transparent;
+    border: none;
+    color: rgba(0, 0, 0, 0.637);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.login-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.loginFormModal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: 300px;
+    width: 740px;
+}
+
+#emailloginformlabel{
+    margin-right: 36px;
+}
+
+#passwordloginformlabel{
+    margin-right: 12px;
+}

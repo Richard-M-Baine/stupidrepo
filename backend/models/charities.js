@@ -45,7 +45,7 @@ module.exports = (sequelize, DataTypes) => {
     });
 
     Charities.associate = (models) => {
-        Charities.belongsTo(models.Locations, { foreignKey: "id", as: "locationID" });
+        Charities.belongsTo(models.Locations, { foreignKey: "locationID", as: "location" });
       };
 
     return Charities
