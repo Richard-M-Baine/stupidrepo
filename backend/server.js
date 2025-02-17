@@ -9,8 +9,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(express.json());
-const jwtSecret = process.env.JWT_SECRET;
-console.log(jwtSecret); // Check if it's loaded correctly
+
+
 
 app.use("/api", routes);
 

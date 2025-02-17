@@ -5,7 +5,7 @@ const loginRoutes = require('./loginRoutes')
 const groupRoutes = require('./groupRoutes')
 
 router.use('/users', userRoutes);
-router.use('/login', loginRoutes);
+router.use('/authenticate', loginRoutes);
 router.use('/groups', groupRoutes)
 
 

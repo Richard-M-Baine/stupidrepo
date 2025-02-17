@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../../../context/Modal'
 import LoginForm from './LoginForm.js';
 
-import './loginform.css'
+import './loginmodal.css'
 
 // Ryan Login Modal
 

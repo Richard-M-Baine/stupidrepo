@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+
 import { login } from '../../../store/session';
-import './loginform.css'
+import './loginmodal.css'
 
 const LoginForm = () => {
   const [errors, setErrors] = useState([]);
-  const [email, setEmail] = useState('');
+  const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const user = useSelector(state => state.session.user);
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const LoginForm = () => {
   
   const onLogin = async (e) => {
     e.preventDefault();
-    const data = await dispatch(login(email, password));
+    const data = await dispatch(login(userName, password));
     if (data) {
       setErrors(data);
     }
@@ -25,8 +26,8 @@ const LoginForm = () => {
   };
   
 
-  const updateEmail = (e) => {
-    setEmail(e.target.value);
+  const updateUserName = (e) => {
+    setUserName(e.target.value);
   };
 
   const updatePassword = (e) => {
@@ -34,8 +35,9 @@ const LoginForm = () => {
   };
 
   if (user) {
-    return <Redirect to='/mylistings' />;
+    return <Navigate to='/mylistings' />;
   }
+  
 
   return (
     <form className='loginFormModal' onSubmit={onLogin}>
@@ -45,14 +47,14 @@ const LoginForm = () => {
         ))}
       </div>
       <div className='loginFormDiv'>
-        <label htmlFor='email' id='emailloginformlabel' className='email-login-label'>Please enter your Email</label>
+        <label htmlFor='email' id='emailloginformlabel' className='email-login-label'>Please enter your Username</label>
         <input
           className='email-box'
-          name='email'
+          name='userName'
           type='text'
           placeholder='Email'
-          value={email}
-          onChange={updateEmail}
+          value={userName}
+          onChange={updateUserName}
         />
       </div>
       <div className='loginFormDiv'>

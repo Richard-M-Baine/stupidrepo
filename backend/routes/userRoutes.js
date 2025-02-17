@@ -12,14 +12,14 @@ router.get('/protected', authenticate, (req, res) => {
 
 
 router.post('/create', async (req,res,next) => {
-    console.log(req.body)
-    const {username, email, password } = req.body
+    console.log(req.body, 'i am inside create')
+    const {userName, email, password } = req.body
 
-    if (!username || !email || !password) {
+    if (!userName || !email || !password) {
         return res.status(400).json({ error: "userName and email are required" });
     }
 
-    const newUser = await User.create({ username, email, password });
+    const newUser = await User.create({ userName, email, password });
 
     return res.status(201).json(newUser);
 

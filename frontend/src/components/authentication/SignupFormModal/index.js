@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Modal } from '../../../context/Modal'
-import SignUpForm from './SignUpForm.js';
+import SignUpForm from './SignupForm.js';
 
-import './signup.css'
+import './signupform.css'
 
 
 
