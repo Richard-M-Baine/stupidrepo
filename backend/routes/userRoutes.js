@@ -1,9 +1,9 @@
 const express = require('express');
 const { User } = require('../models');
 const router = express.Router();
-const authenticate = require('../middleware/authenticate');
+const { authenticateToken } = require('../middleware/authenticate');
 
-router.get('/protected', authenticate, (req, res) => {
+router.get('/protected', authenticateToken, (req, res) => {
   res.json({ message: 'You have access to this route!', user: req.user });
 });
 

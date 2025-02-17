@@ -7,6 +7,8 @@ import ProtectedRoute from './components/authentication/ProtectedRoute';
 // homepage stuff
 import LandingPage from './components/landingPage';
 import About from './components/about';
+import MyCharities from './components/Home/myPage';
+
 
 
 
@@ -14,7 +16,7 @@ import About from './components/about';
 function App() {
 
   const [loaded, setLoaded] = useState(false);
-  
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -34,8 +36,17 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-      <Route path='/about' element={<About />} />
-      <Route path='/' element={<LandingPage />} />
+        <Route path='/about' element={<About />} />
+        <Route path='/' element={<LandingPage />} />
+        <Route
+          path='/mylistings'
+          element={
+            <ProtectedRoute>
+              <MyCharities />
+            </ProtectedRoute>
+          }
+        />
+
       </Routes>
     </BrowserRouter>
   );

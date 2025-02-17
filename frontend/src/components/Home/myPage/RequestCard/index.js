@@ -2,27 +2,27 @@ import { NavLink, useNavigate} from 'react-router-dom';
 import React from 'react'
 import {useDispatch} from 'react-redux'
 
-import {deleteRequestThunk} from '../../../store/requests.js'
+import {deleteRequestThunk} from '../../../../store/requests.js'
 import './requestCard.css'
 
 function MyRequestsCard({request}) {
 
     
 
-    const history = useHistory()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
   
     
    
     const destroyRequest = e => {
         e.preventDefault()
-        dispatch(deleteRequestThunk(request?.id)).then(() => history.push('/mylistings'))
+        dispatch(deleteRequestThunk(request?.id)).then(() => navigate.push('/mylistings'))
     }
 
     const editRequest = e => {
         
         e.preventDefault()
-        history.push(`/requests/edit/${request?.id}`)
+        navigate.push(`/requests/edit/${request?.id}`)
         }
 
 

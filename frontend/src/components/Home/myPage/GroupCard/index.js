@@ -2,7 +2,7 @@ import { NavLink, useNavigate} from 'react-router-dom';
 import React from 'react'
 import { useDispatch} from 'react-redux'
 
-import { deleteGroupThunk } from '../../../store/groups.js'
+import { deleteGroupThunk } from '../../../../store/groups.js'
 
 import './groupCard.css'
 

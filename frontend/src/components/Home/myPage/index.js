@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import MyCharityCard from '../GroupCard/index.js'
-import MyRequestsCard from '../RequestCard/index.js'
+import MyCharityCard from './GroupCard/index.js'
+import MyRequestsCard from './RequestCard/index.js'
 
 
 
@@ -14,11 +14,14 @@ import './homePage.css'
 
 function MyCharities() {
     const dispatch = useDispatch()
-    const groups = useSelector(state => state.groups)
+    const session = useSelector(state => state.session)
+    const groups = useSelector(state => state.group)
     const requests = useSelector(state => state.requests)
 
-    const groupsList = Object.values(groups)
-    const requestList = Object.values(requests)
+    const sessionList = Object.values(session?.user || {});
+    const groupList = Object.values(groups?.user || {});
+    const requestList = Object.values(requests?.user || {});
+    
 
     const [loaded, setLoaded] = useState(false)
 
@@ -28,6 +31,13 @@ function MyCharities() {
             .then(() => setLoaded(true))
     }, [dispatch])
 
+    if (!session || !groups || !requests) {
+        return <p>wait a bloody minute...</p>; 
+    }
+
+      console.log("session:", session);
+console.log("group:", groups);
+console.log("requests:", requests);
 
     return loaded && (
         <div className='homePageMainDiv'>
@@ -36,13 +46,13 @@ function MyCharities() {
                 <div className='hpgroupheader'>
                     <h1>My Listings</h1>
                 </div>
-                {!groupsList.length > 0 &&
+                {!groupList.length > 0 &&
 
                     <h2 className='hpgroupsAllPart'>When you create an organization you will be considered its "go to person." Messages regarding the group will appear next to it. Buttons will also populate allowing you to edit its data or delete it.  This message will then disappear. </h2>
 
                 }
                 <div className='hpgroupsAllPart'>
-                    {groupsList.map(group => (
+                    {groupList.map(group => (
                         <MyCharityCard group={group} key={group?.id} />
                     ))}
                 </div>

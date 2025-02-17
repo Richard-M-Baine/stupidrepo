@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { User } = require('../models');
 const {Charities} = require('../models') 
-
+const { setTokenCookie, requireAuth } = require('../middleware/authenticate.js');
 const router = express.Router();
 
 
@@ -32,5 +32,22 @@ router.delete('/:id/edit', requireAuth, async (req, res) => {
     }
 });
 
+router.get('/current', requireAuth, async (req, res) => {
+    try {
+        console.log('i am in current groups')
+        // Fetch groups where the founder matches the authenticated user
+        const myCharities = await Charities.findAll({
+            where: { founder: req.user.userName } 
+        });
+
+        // Convert to JSON-friendly format
+        const response = { Charities: myCharities.map(charity => charity.toJSON()) };
+
+        return res.status(200).json(response);
+    } catch (error) {
+        console.error("Error fetching groups:", error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
 
 module.exports = router

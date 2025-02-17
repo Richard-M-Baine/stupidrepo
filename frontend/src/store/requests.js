@@ -70,6 +70,10 @@ const requestReducer = (state = initialState, action) => {
             delete newState[action.requestId]
             return newState
     }
+
+    default: {
+        return state;
+    }
     }
 
 }
