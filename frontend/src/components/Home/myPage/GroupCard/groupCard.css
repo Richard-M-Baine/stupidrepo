@@ -1,0 +1,26 @@
+.groupcardbutton{
+    background-color: antiquewhite;
+    color: rgba(44, 44, 44, 0.9);;
+    height: 30px;
+    width: 120px;
+    border-radius: 12px;
+}
+.navGroupAllgroupcard{
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    border-color: chocolate;
+    border-width: 1px;
+    border-style: solid;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    word-wrap: break-word;
+}
+
+.groupcardhometext{
+    margin-left: 14px;
+    word-wrap: break-word;
+}
+
+

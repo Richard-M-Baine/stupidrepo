@@ -1,0 +1,19 @@
+#requestcardtextdiv{
+    margin-left: 10px;
+}
+
+
+.navRequestAllgroupcard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-color: chocolate;
+    border-width: 1px;
+    border-style: solid;
+    margin-bottom: 20px;
+    margin-top: 40px;
+}
+
+#requestcardtitle{
+    font-size: 18px;
+}

@@ -1,0 +1,16 @@
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate, useLocation } from 'react-router-dom';
+
+const ProtectedRoute = ({ children }) => {
+  const user = useSelector(state => state.session.user);
+  const location = useLocation(); // Get current location
+
+  if (!user) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
+  }
+
+  return children;
+};
+
+export default ProtectedRoute;

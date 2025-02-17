@@ -1,0 +1,21 @@
+.homePageMainDiv{
+    display: flex;
+    flex-direction: row;
+    min-height: 900px;
+    max-width: 90vw;
+    justify-content: space-around;
+    
+    
+}
+
+.hpgroupOutDiv{
+    max-width: 400px;
+}
+
+.hpgroupheader{
+    display: flex;
+    flex-direction: column;
+    font-size: 26px;
+    width: 300px;
+    margin-left: 60px;
+}

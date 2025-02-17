@@ -3,9 +3,13 @@ import { thunk } from 'redux-thunk';
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger'; // Import logger properly
 import session from './session';
+import group from './session'
+import requests from './session'
 
 const rootReducer = combineReducers({
   session,
+  group,
+  requests
 });
 
 const store = configureStore({
