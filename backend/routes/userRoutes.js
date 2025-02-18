@@ -12,7 +12,7 @@ router.get('/protected', authenticateToken, (req, res) => {
 
 
 router.post('/create', async (req,res,next) => {
-    console.log(req.body, 'i am inside create')
+   
     const {userName, email, password } = req.body
 
     if (!userName || !email || !password) {

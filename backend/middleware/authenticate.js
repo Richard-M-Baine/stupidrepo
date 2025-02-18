@@ -45,31 +45,45 @@ const setTokenCookie = (res, user) => {
   };
 
   const restoreUser = (req, res, next) => {
-    // token parsed from cookies
+    
+    console.log('i am req.user ', req.user)
+    console.log('i am req.cookies ',req.cookies)
     const { token } = req.cookies;
+    
+    console.log("Token from cookie:", token); // Log the token
+  
     req.user = null;
+  
+    if (!token) return next(); // If no token, just move on
   
     return jwt.verify(token, secret, null, async (err, jwtPayload) => {
       if (err) {
+        console.error("JWT Verification Error:", err); // Log the error
         return next();
       }
   
       try {
         const { id } = jwtPayload.data;
+        console.log("JWT Payload ID:", id); // Log the ID
         req.user = await User.scope('currentUser').findByPk(id);
+        console.log("User from DB:", req.user); // Log the retrieved user
       } catch (e) {
+        console.error("Database Error:", e); // Log the error
         res.clearCookie('token');
         return next();
       }
   
-      if (!req.user) res.clearCookie('token');
+      if (!req.user) {
+        console.log("User not found in DB"); // Log if user not found
+        res.clearCookie('token');
+      }
   
       return next();
     });
   };
 
   const requireAuth = function (req, _res, next) {
-    
+    console.log(req.user)
     if (req.user) return next();
   
     const err = new Error('Forbidden');

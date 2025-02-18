@@ -29,10 +29,11 @@ function MyCharityCard({ group }) {
         dispatch(deleteGroupThunk(group?.id)).then(() => navigate.push('/mylistings'))
     }
 
-    let date = group?.updated_at.slice(5,7)
-    let day = group?.updated_at.slice(0,3)
-    let month = group?.updated_at.slice(8,11)
-    let year = group?.updated_at.slice(12,16)
+    let date = group?.updated_at?.slice(5, 7) || '00';
+    let day = group?.updated_at?.slice(0, 3) || 'N/A';
+    let month = group?.updated_at?.slice(8, 11) || 'N/A';
+    let year = group?.updated_at?.slice(12, 16) || '0000';
+    
 
 
 

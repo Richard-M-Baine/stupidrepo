@@ -3,11 +3,11 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { User } = require('../models');
 const {Charities} = require('../models') 
-const { setTokenCookie, requireAuth } = require('../middleware/authenticate.js');
+const { setTokenCookie, restoreUser, requireAuth } = require('../middleware/authenticate.js');
 const router = express.Router();
 
 
-router.delete('/:id/edit', requireAuth, async (req, res) => {
+router.delete('/:id/edit', restoreUser, requireAuth, async (req, res) => {
     const groupId = req.params.id;
 
     try {
@@ -32,7 +32,7 @@ router.delete('/:id/edit', requireAuth, async (req, res) => {
     }
 });
 
-router.get('/current', requireAuth, async (req, res) => {
+router.get('/current', restoreUser, requireAuth, async (req, res) => {
     try {
         console.log('i am in current groups')
         // Fetch groups where the founder matches the authenticated user

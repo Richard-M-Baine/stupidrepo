@@ -4,9 +4,16 @@ const { sequelize } = require("./models");
 const routes = require("./routes");
 const authRoutes = require('./routes/loginRoutes');
 const protectedRoutes = require('./routes/userRoutes');
+const { restoreUser } = require('./middleware/authenticate');
+const cookieParser = require('cookie-parser');
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.use(cookieParser());
+app.use(restoreUser); // Use it *before* routes!
+
 
 app.use(express.json());
 

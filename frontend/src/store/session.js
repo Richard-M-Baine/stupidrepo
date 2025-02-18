@@ -15,36 +15,42 @@ const initialState = { user: null };
 
 export const authenticate = () => async (dispatch) => {
   const token = localStorage.getItem('token');
-  if (!token) return;
+  if (token) { // Only attempt to authenticate if a token exists
+    try {
+      const response = await fetch('/api/auth/', {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` // Send token in Authorization header
+        }
+      });
 
-  const response = await fetch('/api/auth/', {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}` // Include the token
+      if (response.ok) {
+        const data = await response.json();
+        dispatch(setUser(data));
+      } else {
+        console.error("Authentication failed:", response.status);
+        localStorage.removeItem('token'); // Clear invalid token
+      }
+    } catch (error) {
+      console.error("Authentication error:", error);
+      localStorage.removeItem('token');
     }
-  });
-
-  if (response.ok) {
-    const data = await response.json();
-    if (data.errors) return;
-    
-    dispatch(setUser(data));
   }
 };
+
 
 export const login = (userName, password) => async (dispatch) => {
   const response = await fetch('/api/authenticate/login', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ userName, password })
   });
 
   if (response.ok) {
     const data = await response.json();
-    localStorage.setItem('token', data.token); // Store token
+    console.log("Login successful:", data); // Debugging log
 
+    localStorage.setItem('token', data.token); // Ensure this works
     dispatch(setUser({
       id: data.id,
       userName: data.userName,
@@ -52,21 +58,20 @@ export const login = (userName, password) => async (dispatch) => {
       token: data.token
     }));
     return null;
-  } else if (response.status < 500) {
-    const data = await response.json();
-    if (data.errors) {
-      return data.errors;
-    }
   } else {
-    return ['An error occurred. Please try again.'];
+    console.log("Login failed:", response.status);
+    return response.status < 500 ? await response.json() : ['An error occurred. Please try again.'];
   }
 };
 
 
+
 export const logout = () => async (dispatch) => {
-  localStorage.removeItem('token'); // Clear token
+  console.log("Logging out, removing token...");
+  localStorage.removeItem('token');
   dispatch(removeUser());
 };
+
 
 
 

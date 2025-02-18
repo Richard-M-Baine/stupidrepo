@@ -4,7 +4,9 @@ import { Navigate, useLocation } from 'react-router-dom';
 
 const ProtectedRoute = ({ children }) => {
   const user = useSelector(state => state.session.user);
-  const location = useLocation(); // Get current location
+  const location = useLocation(); 
+
+  console.log("Protected Route - Current user:", user);
 
   if (!user) {
     return <Navigate to="/login" state={{ from: location }} replace />;
@@ -12,5 +14,6 @@ const ProtectedRoute = ({ children }) => {
 
   return children;
 };
+
 
 export default ProtectedRoute;

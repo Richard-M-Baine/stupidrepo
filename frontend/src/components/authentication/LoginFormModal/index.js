@@ -4,7 +4,7 @@ import LoginForm from './LoginForm.js';
 
 import './loginmodal.css'
 
-// Ryan Login Modal
+
 
 function LoginFormModal() {
   const [showModal, setShowModal] = useState(false);
