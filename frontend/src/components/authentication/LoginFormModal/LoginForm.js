@@ -19,11 +19,14 @@ const LoginForm = () => {
   const onLogin = async (e) => {
     e.preventDefault();
     const data = await dispatch(login(userName, password));
+    
     if (data) {
-      setErrors(data);
+      setErrors(data); // If login fails, `data` contains errors
+    } else {
+      setErrors([]); // Clear errors on successful login
     }
-    return setErrors(['your password is incorrect or your email is not registered.'])
   };
+  
   
 
   const updateUserName = (e) => {
@@ -35,6 +38,7 @@ const LoginForm = () => {
   };
 
   if (user) {
+    console.log('i am user ', user)
     return <Navigate to='/mylistings' />;
   }
   

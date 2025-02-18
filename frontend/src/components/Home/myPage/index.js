@@ -14,7 +14,7 @@ import './homePage.css'
 
 function MyCharities() {
     const dispatch = useDispatch()
-    const session = useSelector(state => state.session)
+    const session = useSelector(state => state?.session)
     const groups = useSelector(state => state.group)
     const requests = useSelector(state => state.requests)
 
@@ -26,6 +26,7 @@ function MyCharities() {
     const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
+        
         dispatch(fetchMyGroupsThunk())
             .then(dispatch(fetchMyRequestsThunk()))
             .then(() => setLoaded(true))
@@ -35,9 +36,7 @@ function MyCharities() {
         return <p>wait a bloody minute...</p>; 
     }
 
-      console.log("session:", session);
-console.log("group:", groups);
-console.log("requests:", requests);
+   
 
     return loaded && (
         <div className='homePageMainDiv'>

@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'your_secret_key';
 const { jwtConfig } = require('../config');
 const { User } = require('../models');
 
 const { secret, expiresIn } = jwtConfig;
+const JWT_SECRET = secret
 
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers['authorization'];
@@ -19,7 +19,7 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-
+// no expires in?
 
 
 // Sends a JWT Cookie
@@ -30,6 +30,7 @@ const setTokenCookie = (res, user) => {
       secret,
       { expiresIn: parseInt(expiresIn) } // 604,800 seconds = 1 week
     );
+    console.log("Setting token cookie:", token); // Debugging lo
   
     const isProduction = process.env.NODE_ENV === "production";
   

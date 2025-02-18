@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-module.exports = (sequelize, DataTypes) => { // Accept DataTypes here
+module.exports = (sequelize, DataTypes) => { 
   const User = sequelize.define('User', {
     userName: {
       type: DataTypes.STRING,
@@ -16,12 +16,26 @@ module.exports = (sequelize, DataTypes) => { // Accept DataTypes here
       type: DataTypes.STRING,
       allowNull: false
     }
+  }, { // <-- This is where you should add model options
+    defaultScope: { 
+      attributes: { exclude: ['password'] }
+    },
+    scopes: {  
+      currentUser: { 
+        attributes: { exclude: ['password'] }
+      }
+    }
   });
 
   // Hash password before saving
   User.beforeCreate(async (user) => {
     user.password = await bcrypt.hash(user.password, 10);
   });
+
+  User.prototype.toSafeObject = function () {
+    const { id, userName, email } = this;
+    return { id, userName, email };
+  };
 
   return User;
 };

@@ -12,7 +12,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 app.use(cookieParser());
-app.use(restoreUser); // Use it *before* routes!
+app.use(restoreUser); 
 
 
 app.use(express.json());

@@ -17,11 +17,12 @@ export const authenticate = () => async (dispatch) => {
   const token = localStorage.getItem('token');
   if (token) { // Only attempt to authenticate if a token exists
     try {
-      const response = await fetch('/api/auth/', {
+      const response = await fetch('/api/authenticate/', { 
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}` // Send token in Authorization header
-        }
+        },
+        credentials: 'include',
       });
 
       if (response.ok) {
@@ -104,11 +105,11 @@ export const signUp = (userName, email, password) => async (dispatch) => {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case SET_USER:
-      return { user: { ...action.payload } }; // Ensure full user object is stored
-    case REMOVE_USER:
-      return { user: null };
-    default:
-      return state;
+      case SET_USER:
+          return { ...state, user: { ...action.payload } }; // Spread existing state!
+      case REMOVE_USER:
+          return { ...state, user: null }; // Spread existing state!
+      default:
+          return state;
   }
 }

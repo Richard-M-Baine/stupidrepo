@@ -1,4 +1,4 @@
-
+import { useSelector } from 'react-redux';
 const MY_GROUPS = 'groups/mine'
 const DESTROY_GROUP = 'groups/destroy'
 
@@ -19,20 +19,34 @@ const deleteGroupAction = (groupId) => {
 
 
 
-export const fetchMyGroupsThunk = () => async dispatch => {
-
-    const response = await fetch('/api/groups/current')
-
-    if (response.ok) {
-
-        const groups = await response.json()
-
-        dispatch(myGroupsGetAction(groups))
-
-        return groups
+export const fetchMyGroupsThunk = () => async (dispatch, getState) => { // Add getState
+    const token = useSelector(state => state.session.user.token)
+    // or if the token is in local storage:
+    // const token = localStorage.getItem('token')
+    console.log('token in thunk ', token)
+    if (!token) {
+        console.error("No token found. User might not be logged in.");
+        return; // Or handle the error as needed
     }
 
-}
+    const response = await fetch('/api/groups/current', {
+        headers: {
+            'Authorization': `Bearer ${token}` // Add the token to the header
+        }
+    });
+
+    if (response.ok) {
+        const groups = await response.json();
+        dispatch(myGroupsGetAction(groups));
+        return groups;
+    } else {
+        // Handle error responses, e.g.,
+        const errorData = await response.json(); // If the server sends error details
+        console.error("Error fetching groups:", response.status, errorData);
+        // Dispatch an error action if you have one
+        // dispatch(fetchGroupsError(errorData));
+    }
+};
 
 export const deleteGroupThunk = (id) => async dispatch => {
     const response = await fetch(`/api/groups/${id}/edit`, {
