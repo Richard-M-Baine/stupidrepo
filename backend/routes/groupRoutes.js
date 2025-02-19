@@ -50,4 +50,9 @@ router.get('/current', restoreUser, requireAuth, async (req, res) => {
     }
 });
 
+router.post('/create', restoreUser, requireAuth, async (req, res) => {
+    const body = req.body
+    console.log(body)
+})
+
 module.exports = router

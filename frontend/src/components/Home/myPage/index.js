@@ -16,11 +16,10 @@ function MyCharities() {
     const dispatch = useDispatch()
     const session = useSelector(state => state?.session)
     const groups = useSelector(state => state.group)
+
     const requests = useSelector(state => state.requests)
 
-    const sessionList = Object.values(session?.user || {});
-    const groupList = Object.values(groups?.user || {});
-    const requestList = Object.values(requests?.user || {});
+    
     
 
     const [loaded, setLoaded] = useState(false)
@@ -28,6 +27,7 @@ function MyCharities() {
     useEffect(() => {
         
         dispatch(fetchMyGroupsThunk())
+            
             .then(dispatch(fetchMyRequestsThunk()))
             .then(() => setLoaded(true))
     }, [dispatch])
@@ -45,14 +45,14 @@ function MyCharities() {
                 <div className='hpgroupheader'>
                     <h1>My Listings</h1>
                 </div>
-                {!groupList.length > 0 &&
+                {!groups.length > 0 &&
 
                     <h2 className='hpgroupsAllPart'>When you create an organization you will be considered its "go to person." Messages regarding the group will appear next to it. Buttons will also populate allowing you to edit its data or delete it.  This message will then disappear. </h2>
 
                 }
                 <div className='hpgroupsAllPart'>
-                    {groupList.map(group => (
-                        <MyCharityCard group={group} key={group?.id} />
+                    {Object.values(groups).map(gruppe => (
+                        <MyCharityCard group={gruppe} key={gruppe?.id} />
                     ))}
                 </div>
 
@@ -63,14 +63,14 @@ function MyCharities() {
                     <h1>My Requests</h1>
                 </div>
 
-                {!requestList.length > 0 &&
+                {!requests.length > 0 &&
 
                     <h2 className='hpgroupsAllPart'>When you create a request it will appear here.  Messages regarding the request will populate next to it.  This message will also disappear once a request is present.  </h2>
 
                 }
 
                 <div className='hpgroupsAllPart'>
-                    {requestList.map(request => (
+                    {Object.values(requests).map(request => (
                         <MyRequestsCard request={request} key={request?.id} />
                     ))}
                 </div>

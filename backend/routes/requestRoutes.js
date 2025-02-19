@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { User } = require('../models');
 const {Requests} = require('../models') 
-const { setTokenCookie, requireAuth } = require('../middleware/authenticate.js');
+const { setTokenCookie, requireAuth, restoreUser } = require('../middleware/authenticate.js');
 const router = express.Router();
 
 
@@ -32,7 +32,7 @@ router.delete('/:id/edit', requireAuth, async (req, res) => {
     }
 });
 
-router.get('/current', requireAuth, async (req, res) => {
+router.get('/current', restoreUser, requireAuth, async (req, res) => {
     try {
         console.log('i am in current requests')
         // Fetch groups where the founder matches the authenticated user

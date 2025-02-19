@@ -30,7 +30,7 @@ const setTokenCookie = (res, user) => {
       secret,
       { expiresIn: parseInt(expiresIn) } // 604,800 seconds = 1 week
     );
-    console.log("Setting token cookie:", token); // Debugging lo
+    
   
     const isProduction = process.env.NODE_ENV === "production";
   
@@ -47,11 +47,10 @@ const setTokenCookie = (res, user) => {
 
   const restoreUser = (req, res, next) => {
     
-    console.log('i am req.user ', req.user)
-    console.log('i am req.cookies ',req.cookies)
+
     const { token } = req.cookies;
     
-    console.log("Token from cookie:", token); // Log the token
+
   
     req.user = null;
   
@@ -65,17 +64,17 @@ const setTokenCookie = (res, user) => {
   
       try {
         const { id } = jwtPayload.data;
-        console.log("JWT Payload ID:", id); // Log the ID
+     
         req.user = await User.scope('currentUser').findByPk(id);
-        console.log("User from DB:", req.user); // Log the retrieved user
+    
       } catch (e) {
-        console.error("Database Error:", e); // Log the error
+
         res.clearCookie('token');
         return next();
       }
   
       if (!req.user) {
-        console.log("User not found in DB"); // Log if user not found
+
         res.clearCookie('token');
       }
   
@@ -84,7 +83,7 @@ const setTokenCookie = (res, user) => {
   };
 
   const requireAuth = function (req, _res, next) {
-    console.log(req.user)
+
     if (req.user) return next();
   
     const err = new Error('Forbidden');

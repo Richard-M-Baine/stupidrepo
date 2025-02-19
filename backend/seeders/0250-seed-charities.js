@@ -2,14 +2,14 @@
 
 const bcrypt = require("bcryptjs");
 
-let options = {};
-if (process.env.NODE_ENV === 'production') {
-    options.schema = process.env.SCHEMA;  
-}
-
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        options.tableName = 'Charities';
+        let options = {}; // Declare options inside the function
+        if (process.env.NODE_ENV === 'production') {
+            options.schema = process.env.SCHEMA;  
+        }
+        options.tableName = 'Charities'; // Set the table name
+
         return await queryInterface.bulkInsert(options, [
             {
                 founder: 'loseRings',
@@ -17,7 +17,9 @@ module.exports = {
                 about: 'food pantry in brick township',
                 purpose: 'food',
                 locationID: 1,
-                private: false
+                private: false,
+                createdAt: new Date(),
+                updatedAt: new Date()
             },
             {
                 founder: 'walktomordor',
@@ -25,7 +27,9 @@ module.exports = {
                 about: 'vegan pop up food pantry',
                 purpose: 'food',
                 locationID: 2,
-                private: false
+                private: false,
+                createdAt: new Date(),
+                updatedAt: new Date()
             },
             {
                 founder: 'cthulhu',
@@ -33,14 +37,20 @@ module.exports = {
                 about: 'immigration help and mental health care',
                 purpose: 'legal / mental health',
                 locationID: 3,
-                private: false
+                private: false,
+                createdAt: new Date(),
+                updatedAt: new Date()
             }
-        ], {}); // Fix: Removed empty object in the array
+        ], {}); 
     },
 
     down: async (queryInterface, Sequelize) => {
-        const Op = Sequelize.Op;
+        let options = {}; // Declare options inside the function
+        if (process.env.NODE_ENV === 'production') {
+            options.schema = process.env.SCHEMA;  
+        }
         options.tableName = 'Charities';
-        return queryInterface.bulkDelete(options, null, {}); // Fix: Properly delete all entries
+
+        return queryInterface.bulkDelete(options, null, {}); 
     }
 };

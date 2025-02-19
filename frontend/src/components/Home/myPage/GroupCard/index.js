@@ -29,11 +29,19 @@ function MyCharityCard({ group }) {
         dispatch(deleteGroupThunk(group?.id)).then(() => navigate.push('/mylistings'))
     }
 
-    let date = group?.updated_at?.slice(5, 7) || '00';
-    let day = group?.updated_at?.slice(0, 3) || 'N/A';
-    let month = group?.updated_at?.slice(8, 11) || 'N/A';
-    let year = group?.updated_at?.slice(12, 16) || '0000';
+    function formatUpdatedAt(updatedAt) {
+        const date = new Date(updatedAt);
+        const year = date.getFullYear();
+        const month = date.getMonth() + 1; // Months are zero-based
+        const day = date.getDate();
     
+        return { year, month, day };
+    }
+
+    const updatedDate = formatUpdatedAt(group.updatedAt)
+
+   
+    console.log(updatedDate)
 
 
 
@@ -41,9 +49,9 @@ function MyCharityCard({ group }) {
         <div>
             <NavLink className='navGroupAllgroupcard' to={`/groups/${group?.id}`}>
                 <div className='groupcardhometext'>
-                    <h2 className='homegroupcardname'>{group?.name}</h2>
-                    <p className='homegroupcardpurpose'>{group?.purpose}</p>
-                    <p className='homegroupcardpurpose'>Last Updated {day} {date} {month} {year}</p>
+                    <h2 className='homegroupcardname'>name - {group?.name}</h2>
+                    <p className='homegroupcardpurpose'>purpose - {group?.purpose}</p>
+                    <p className='homegroupcardpurpose'>Last Updated {updatedDate.day}, {updatedDate.month} {updatedDate.year}</p>
                 </div>
             </ NavLink>
             <div className='buttondivgroupcard'>

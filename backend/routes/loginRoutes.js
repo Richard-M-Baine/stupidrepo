@@ -13,7 +13,7 @@ router.post('/login', async (req, res) => {
   const { userName, password } = req.body;
   const user = await User.unscoped().findOne({ where: { userName } });
   
-  console.log(user)
+
   if (!user || !(await bcrypt.compare(password, user.password))) {
     return res.status(401).json({ error: 'Invalid credentials' });
   }
