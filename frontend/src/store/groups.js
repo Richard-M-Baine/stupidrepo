@@ -82,6 +82,7 @@ export const createGroupThunk = (payload) => async dispatch => {
         })
 
     const data = await response.json()
+    console.log('i am data ',data)
 
     if (response.ok) {
         await dispatch(createGroupAction(data))
@@ -103,10 +104,12 @@ const groupReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case CREATE_GROUP: {
-            newState = { ...state }
-            newState[action.payload.group.id] = action.payload.group
-            return newState
+            newState = { ...state };
+            const group = action.payload.newCharity; // Extract newCharity instead of expecting group
+            newState[group.id] = group;
+            return newState;
         }
+        
 
         case MY_GROUPS: {
             if (!action.payload || !Array.isArray(action.payload.Charities)) {

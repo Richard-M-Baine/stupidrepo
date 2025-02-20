@@ -56,7 +56,7 @@ function CreateGroupForm() {
 
 
         const newGroup = {
-            founder: sessionUser.id,
+            founder: sessionUser.userName,
             name: name,
             about: about,
             purpose: purpose,
@@ -71,13 +71,13 @@ function CreateGroupForm() {
         await dispatch(createGroupThunk(newGroup))
 
 
-        navigate.push('/mylistings')
+        navigate('/mylistings')
 
     }
 
 
     if (!sessionUser) {
-        navigate.push('/')
+        navigate('/')
     }
 
     return (

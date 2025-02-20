@@ -21,12 +21,12 @@ function MyCharityCard({ group }) {
     }
     const updateAddress = e => {
         e.preventDefault()
-        navigate.push(`/groups/editAddress/${group?.id}`)
+        navigate(`/groups/editAddress/${group?.id}`)
     }
 
     const destroyGroup = e => {
         e.preventDefault()
-        dispatch(deleteGroupThunk(group?.id)).then(() => navigate.push('/mylistings'))
+        dispatch(deleteGroupThunk(group?.id)).then(() => navigate('/mylistings'))
     }
 
     function formatUpdatedAt(updatedAt) {

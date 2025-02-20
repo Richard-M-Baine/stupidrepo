@@ -15,9 +15,9 @@ import './homePage.css'
 function MyCharities() {
     const dispatch = useDispatch()
     const session = useSelector(state => state?.session)
-    const groups = useSelector(state => state.group)
+    const groups = useSelector(state => state?.group)
 
-    const requests = useSelector(state => state.requests)
+    const requests = useSelector(state => state?.requests)
 
     
     
@@ -45,11 +45,11 @@ function MyCharities() {
                 <div className='hpgroupheader'>
                     <h1>My Listings</h1>
                 </div>
-                {!groups.length > 0 &&
-
-                    <h2 className='hpgroupsAllPart'>When you create an organization you will be considered its "go to person." Messages regarding the group will appear next to it. Buttons will also populate allowing you to edit its data or delete it.  This message will then disappear. </h2>
-
-                }
+                {Object.values(groups).length === 0 && (
+    <h2 className='hpgroupsAllPart'>
+        When you create an organization you will be considered its "go to person." Messages regarding the group will appear next to it. Buttons will also populate allowing you to edit its data or delete it. This message will then disappear.
+    </h2>
+)}
                 <div className='hpgroupsAllPart'>
                     {Object.values(groups).map(gruppe => (
                         <MyCharityCard group={gruppe} key={gruppe?.id} />
@@ -63,7 +63,7 @@ function MyCharities() {
                     <h1>My Requests</h1>
                 </div>
 
-                {!requests.length > 0 &&
+                {Object.values(requests).length === 0 && 
 
                     <h2 className='hpgroupsAllPart'>When you create a request it will appear here.  Messages regarding the request will populate next to it.  This message will also disappear once a request is present.  </h2>
 

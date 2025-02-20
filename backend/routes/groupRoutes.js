@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const { User } = require('../models');
 const {Charities} = require('../models') 
+const {Locations} = require('../models')
 const { setTokenCookie, restoreUser, requireAuth } = require('../middleware/authenticate.js');
 const router = express.Router();
 
@@ -51,8 +52,27 @@ router.get('/current', restoreUser, requireAuth, async (req, res) => {
 });
 
 router.post('/create', restoreUser, requireAuth, async (req, res) => {
-    const body = req.body
-    console.log(body)
+    const { founder , name, about, purpose, private, address, city, state } = req.body
+
+
+    const newLocation = await Locations.create({
+        address: address,
+        city: city,
+        state: state,
+        lat: '2343.223',
+        lon: '222.222',
+        
+    })
+
+    const newCharity = await Charities.create({
+        founder: founder,
+        name: name,
+        about: about,
+        purpose: purpose,
+        locationID: newLocation.id,
+        private: private
+    })
+res.json({newCharity})
 })
 
 module.exports = router
