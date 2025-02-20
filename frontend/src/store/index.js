@@ -5,11 +5,13 @@ import logger from 'redux-logger'; // Import logger properly
 import session from './session';
 import group from './groups'
 import requests from './requests'
+import locations from './locations'
 
 const rootReducer = combineReducers({
   session,
   group,
-  requests
+  requests,
+  locations
 });
 
 const store = configureStore({

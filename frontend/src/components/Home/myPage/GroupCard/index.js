@@ -17,7 +17,7 @@ function MyCharityCard({ group }) {
 
     const editGroup = e => {
         e.preventDefault()
-        navigate.push(`/groups/edit/${group?.id}`)
+        navigate(`/groups/edit/${group?.id}`)
     }
     const updateAddress = e => {
         e.preventDefault()

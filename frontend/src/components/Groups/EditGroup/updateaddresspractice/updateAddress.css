@@ -1,0 +1,14 @@
+#editLocationCityinput{
+    margin-left: 80px;
+}
+
+#editLocationStateinput{
+    margin-left: 64px;
+    width: 200px;
+}
+.editLocationStateinput{
+    border-radius: 12px;
+    font-size: 18px;
+    min-height: 26px;
+    min-width: 250px;
+}

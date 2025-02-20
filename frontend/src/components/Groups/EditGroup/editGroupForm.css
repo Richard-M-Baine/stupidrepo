@@ -1,0 +1,68 @@
+.editGroupMainDiv{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    max-width: 60vw;
+    min-width: 60vw;
+    max-height: 1000px;
+    margin-left: 20vw;
+    margin-right: 20vw;
+}
+
+.editGroupForm{
+    display: flex;
+    flex-direction: column;
+}
+
+.editGroupTextBox{
+    margin-left: 140px;
+    margin-top: 40px;
+}
+
+.editGroupEditDiv{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+
+.editGroupLabel{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 24px;
+}
+
+.editgroupinput{
+    min-height: 26px;
+    min-width: 750px;
+    border-radius: 12px;
+    font-size: 18px;
+}
+
+#editgrouppurposeinput{
+    margin-left: 24px;
+}
+#editgroupnameinput{
+    margin-left: 36px;
+}
+#editgroupabouttextarea{
+    border-radius: 12px;
+    margin-left: 40px;
+    border-width: 2px;
+}
+
+.editGroupselect{
+    min-height: 26px;
+    min-width: 250px;
+    border-radius: 12px;
+    font-size: 18px;
+    margin-left: 36px;
+}
+
+.editgroupsubmitbutton{
+    height: 50px;
+    width: 170px;
+    margin-left: 420px;
+    border-radius: 14px;
+    background-color: blanchedalmond;
+}

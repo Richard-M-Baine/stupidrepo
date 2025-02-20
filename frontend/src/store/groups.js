@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react'
 
+const EDIT_GROUP = 'group/edit'
 const CREATE_GROUP = 'groups/new'
 const MY_GROUPS = 'groups/mine'
 const DESTROY_GROUP = 'groups/destroy'
+const ONE_GROUP = 'groups/one'
 
 const myGroupsGetAction = payload => {
 
@@ -24,6 +26,21 @@ const createGroupAction = payload => {
     return {
         type: CREATE_GROUP,
         payload: payload
+    }
+}
+
+const getOneGroupAction = payload => {
+
+    return {
+        type: ONE_GROUP,
+        payload
+    }
+}
+
+const EditGroupAction = group => {
+    return {
+        type: EDIT_GROUP,
+        group
     }
 }
 
@@ -93,6 +110,41 @@ export const createGroupThunk = (payload) => async dispatch => {
 
 }
 
+export const editGroupThunk = (payload, id) => async (dispatch) => {
+    
+   
+    const response = await fetch(`/api/groups/${id}/edit`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload),
+        
+        
+    })
+
+    const data = await response.json();
+    
+
+
+    dispatch(EditGroupAction(data));
+    return data;
+}
+
+export const getOneGroupThunk = id => async dispatch => {
+
+    const res = await fetch(`/api/groups/${id}`);
+    if (res.ok) {
+
+
+        const singleGroup = await res.json()
+
+        dispatch(getOneGroupAction(singleGroup))
+        return singleGroup
+    }
+
+}
+
 
 
 const initialState = {}
@@ -129,6 +181,22 @@ const groupReducer = (state = initialState, action) => {
             newState = { ...state }
             delete newState[action.groupId]
             return newState
+        }
+
+        case EDIT_GROUP: {
+
+            const newerState = Object.assign({}, state);
+            newerState.group = action.payload;
+            return newerState;
+        }
+
+        case ONE_GROUP: {
+
+            newState = { ...state };
+            newState[action.payload.id] = action.payload;
+
+            return newState
+
         }
 
 

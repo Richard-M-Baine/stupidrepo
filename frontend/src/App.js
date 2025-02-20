@@ -15,6 +15,9 @@ import NavBar from './components/Navigation/NavBar.js';
 // group stuff
 
 import CreateGroup from './components/Groups/CreateGroup/index.js'
+import EditCharityForm from './components/Groups/EditGroup/index.js'
+import UpdateAddressForm from './components/Groups/EditGroup/updateaddresspractice';
+
 
 function App() {
 
@@ -38,7 +41,7 @@ function App() {
 
   return (
     <BrowserRouter>
-    <NavBar loaded={loaded} />
+      <NavBar loaded={loaded} />
       <Routes>
         <Route path='/about' element={<About />} />
         <Route path='/' element={<LandingPage />} />
@@ -58,6 +61,28 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path='/groups/edit/:id'
+          element={
+            <ProtectedRoute>
+              <EditCharityForm />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/groups/editAddress/:id'
+          element={
+            <ProtectedRoute>
+              <UpdateAddressForm />
+            </ProtectedRoute>
+          }
+        />
+
+
+
+
 
       </Routes>
     </BrowserRouter>
