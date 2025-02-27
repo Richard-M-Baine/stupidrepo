@@ -33,6 +33,48 @@ router.delete('/:id/edit', restoreUser, requireAuth, async (req, res) => {
     }
 });
 
+
+
+router.put('/:id/edit', restoreUser, requireAuth, async (req, res) => {
+    
+
+    const group = await Charities.findByPk(req.params.id)
+
+// better way
+
+if (group){
+  if (group.founder !== req.user.userName) {
+    const err = new Error('You must be the owner to edit this group')
+    err.status = 403
+    return err.status
+  }}
+
+ const { name, about, type, city, state, private } = req.body
+
+
+
+group.set({
+    name: name,
+    about: about,
+    type: type,
+    city: city,
+    state: state,
+    private: private
+  })
+  
+  await group.save()
+  
+  
+  res.json(group)
+
+ 
+
+
+
+})
+
+
+
 router.get('/current', restoreUser, requireAuth, async (req, res) => {
     try {
         console.log('i am in current groups')
@@ -74,5 +116,13 @@ router.post('/create', restoreUser, requireAuth, async (req, res) => {
     })
 res.json({newCharity})
 })
+
+router.get('/:id', restoreUser, requireAuth, async (req, res) => {
+    const id = req.params.id
+    const group = await Charities.findByPk(id)
+    res.json(group)
+})
+
+
 
 module.exports = router

@@ -15,8 +15,9 @@ function EditCharityForm() {
     
     const navigate = useNavigate()
     const { id } = useParams()
+    const groupId = Number(id);
 
-    const group = useSelector((state) => state?.groups);
+    const group = useSelector((state) => state?.group);
 
 
 
@@ -25,22 +26,28 @@ function EditCharityForm() {
 
 
 
-    const [name, setName] = useState(group[id]?.name)
-    const [about, setAbout] = useState(group[id]?.about)
-    const [purpose, setPurpose] = useState(group[id]?.purpose)
-    const [privatee, setPrivatee] = useState(group[id]?.private)
+    const [name, setName] = useState("");
+    const [about, setAbout] = useState("");
+    const [purpose, setPurpose] = useState("");
+    const [privatee, setPrivatee] = useState(false);
     const [loaded, setIsLoaded] = useState(false)
 
-    useEffect(() => {
 
-        dispatch(getOneGroupThunk(id)).then(() => setIsLoaded(true))
-        if (loaded){
-            setName(group[id]?.name)
-            setAbout(group[id]?.about)
-            setPurpose(group[id]?.purpose)
-            setPrivatee(group[id]?.private)
+
+    useEffect(() => {
+        dispatch(getOneGroupThunk(groupId)).then(() => setIsLoaded(true));
+    }, [dispatch, groupId]);
+    
+    useEffect(() => {
+        if (loaded && group && group[groupId]) {
+            setName(group[groupId]?.name || "");
+            setAbout(group[groupId]?.about || "");
+            setPurpose(group[groupId]?.purpose || "");
+            setPrivatee(group[groupId]?.private || false);
         }
-    }, [dispatch, loaded])
+    }, [loaded, group, groupId]);
+
+  
 
     const submit = async (e) => {
         e.preventDefault();
@@ -60,8 +67,7 @@ function EditCharityForm() {
 
 
 
-
-
+    console.log(group)
 
 
 
