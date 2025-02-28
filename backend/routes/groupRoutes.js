@@ -49,6 +49,7 @@ if (group){
     return err.status
   }}
 
+  console.log(req.body, 'i am here look at me')
  const { name, about, type, city, state, private } = req.body
 
 
