@@ -11,28 +11,23 @@ const JWT_SECRET = secret
 
 router.post('/login', async (req, res) => {
   const { userName, password } = req.body;
-  const user = await User.unscoped().findOne({ where: { userName } });
-  
+  console.log(req.body, ' i am req.body ')
+  try {
+    const user = await User.findOne({ where: { userName } });
+    console.log('i am user ', user, 'i am the password now ',password)
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
 
-  if (!user || !(await bcrypt.compare(password, user.password))) {
-    return res.status(401).json({ error: 'Invalid credentials' });
+    req.session.userId = user.id; // Store user ID in session
+    res.json({ message: "Login successful", user: { id: user.id, userName: user.userName, email: user.email } });
+
+  } catch (error) {
+    console.error("Login error:", error);
+    res.status(500).json({ message: "Internal server error" });
   }
-
-  // Generate token
-  const token = jwt.sign({ userId: user.id }, JWT_SECRET, { expiresIn: '1h' }); 
-
-  // Set the token as a cookie
-  setTokenCookie(res, user); 
-
-  // Send user data along with token 
-  res.json({ 
-      token,  // You might not need to send the token in the body now
-      id: user.id,
-      userName: user.userName,
-      email: user.email
-  });
-
 });
+
 
 
 module.exports = router;

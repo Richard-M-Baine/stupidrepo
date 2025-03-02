@@ -26,10 +26,7 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    (async () => {
-      await dispatch(authenticate());
-      setLoaded(true);
-    })();
+    dispatch(authenticate()).then(() => setLoaded(true)); // Restore session on page load
   }, [dispatch]);
 
   if (!loaded) {

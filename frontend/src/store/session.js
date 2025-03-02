@@ -14,28 +14,21 @@ const removeUser = () => ({
 const initialState = { user: null };
 
 export const authenticate = () => async (dispatch) => {
-  const token = localStorage.getItem('token');
-  if (token) { // Only attempt to authenticate if a token exists
-    try {
-      const response = await fetch('/api/authenticate/', { 
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` // Send token in Authorization header
-        },
-        credentials: 'include',
-      });
+  try {
+    const response = await fetch('/api/users/me', {
+      method: 'GET',
+      credentials: 'include' // Ensures cookies are sent
+    });
 
-      if (response.ok) {
-        const data = await response.json();
-        dispatch(setUser(data));
-      } else {
-        console.error("Authentication failed:", response.status);
-        localStorage.removeItem('token'); // Clear invalid token
-      }
-    } catch (error) {
-      console.error("Authentication error:", error);
-      localStorage.removeItem('token');
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(setUser(data));
+    } else {
+      dispatch(removeUser());
     }
+  } catch (error) {
+    console.error("Session restore error:", error);
+    dispatch(removeUser());
   }
 };
 
@@ -44,34 +37,31 @@ export const login = (userName, password) => async (dispatch) => {
   const response = await fetch('/api/authenticate/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userName, password })
+    body: JSON.stringify({ userName, password }),
+    credentials: 'include' // Include cookies
   });
 
   if (response.ok) {
     const data = await response.json();
-    console.log("Login successful:", data); // Debugging log
-
-    localStorage.setItem('token', data.token); // Ensure this works
-    dispatch(setUser({
-      id: data.id,
-      userName: data.userName,
-      email: data.email,
-      token: data.token
-    }));
+    dispatch(setUser(data.user));
     return null;
   } else {
-    console.log("Login failed:", response.status);
-    return response.status < 500 ? await response.json() : ['An error occurred. Please try again.'];
+    return response.status < 500 ? await response.json() : ['An error occurred.'];
   }
 };
 
 
 
+
 export const logout = () => async (dispatch) => {
-  console.log("Logging out, removing token...");
-  localStorage.removeItem('token');
+  await fetch('/api/users/logout', {
+    method: 'POST',
+    credentials: 'include' // Ensures cookies are sent
+  });
+
   dispatch(removeUser());
 };
+
 
 
 

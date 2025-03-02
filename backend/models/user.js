@@ -17,9 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false
     }
   }, { // <-- This is where you should add model options
-    defaultScope: { 
-      attributes: { exclude: ['password'] }
-    },
     scopes: {  
       currentUser: { 
         attributes: { exclude: ['password'] }

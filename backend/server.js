@@ -6,7 +6,9 @@ const authRoutes = require('./routes/loginRoutes');
 const protectedRoutes = require('./routes/userRoutes');
 const { restoreUser } = require('./middleware/authenticate');
 const cookieParser = require('cookie-parser');
-
+const session = require('express-session');
+const SQLiteStore = require('connect-sqlite3')(session);
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -17,6 +19,21 @@ app.use(restoreUser);
 
 app.use(express.json());
 
+app.use(session({
+  store: new SQLiteStore({ 
+    db: 'database.sqlite', // Replace with your actual database filename
+    dir: path.join(__dirname, 'database'), // Ensure this points to the correct directory
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === "production",
+    httpOnly: true,
+    sameSite: 'Lax',
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+}));
 
 
 app.use("/api", routes);
