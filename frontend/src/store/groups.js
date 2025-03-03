@@ -69,7 +69,12 @@ export const fetchMyGroupsThunk = () => async (dispatch) => {
 
 export const deleteGroupThunk = (id) => async dispatch => {
     const response = await fetch(`/api/groups/${id}/edit`, {
-        method: 'DELETE'
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+
+        }
     });
 
     if (response.ok) {
@@ -83,6 +88,7 @@ export const createGroupThunk = (payload) => async dispatch => {
     const response = await fetch('/api/groups/create',
         {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -106,6 +112,7 @@ export const editGroupThunk = (payload, id) => async (dispatch) => {
    
     const response = await fetch(`/api/groups/${id}/edit`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
             "Content-Type": "application/json"
         },
@@ -124,7 +131,13 @@ export const editGroupThunk = (payload, id) => async (dispatch) => {
 
 export const getOneGroupThunk = id => async dispatch => {
 
-    const res = await fetch(`/api/groups/${id}`);
+    const res = await fetch(`/api/groups/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
     if (res.ok) {
 
 

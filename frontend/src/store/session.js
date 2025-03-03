@@ -22,6 +22,7 @@ export const authenticate = () => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
+      console.log('i am data in frontend thunk ',data)
       dispatch(setUser(data));
     } else {
       dispatch(removeUser());

@@ -9,7 +9,7 @@ const ProtectedRoute = ({ children }) => {
   console.log("Protected Route - Current user:", user);
 
   if (!user) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
   return children;

@@ -22,7 +22,13 @@ const getOneLocationAction = payload => {
 
 export const getOneLocationThunk = id => async dispatch => {
     
-    const res = await fetch(`/api/location/${id}`);
+    const res = await fetch(`/api/location/${id}`, {
+        method: 'GET',
+        credentials: 'include', // Ensures cookies are sent with the request
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
     if (res.ok) {
         
         
@@ -40,6 +46,7 @@ export const editLocationThunk = (payload, id) => async (dispatch) => {
     
     const response = await fetch(`/api/location/${id}/edit`, {
         method: 'PUT',
+        credentials: 'include',
         headers: {
             "Content-Type": "application/json"
         },

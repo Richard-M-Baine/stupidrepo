@@ -20,6 +20,7 @@ router.post('/login', async (req, res) => {
 
   req.session.user = { id: user.id, userName: user.userName, email: user.email };
   await req.session.save(); // Ensure session is saved before responding
+  console.log("Session after login:", req.session);
 
   console.log("LOGIN: req.session.user =", req.session.user);
   res.json({ user: req.session.user });

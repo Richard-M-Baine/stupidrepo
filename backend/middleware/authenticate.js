@@ -63,6 +63,7 @@ const restoreUser = async (req, res, next) => {
 
 
   const requireAuth = function (req, _res, next) {
+    console.log("Session in requireAuth:", req.session);
 
     if (req.user) return next();
   

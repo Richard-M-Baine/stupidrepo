@@ -1,64 +1,81 @@
-import React, { useState, useEffect } from 'react'
 const MY_REQUESTS = 'requests/mine'
 const DESTROY_REQUEST = 'requests/destroy'
+const REQUEST_ERROR = "requests/error"
+
+const myRequestsGetAction = (requests) => ({
+    type: MY_REQUESTS,
+    payload: requests
+});
+
+const deleteRequestAction = (requestId) => ({
+    type: DESTROY_REQUEST,
+    requestId
+});
+
+const requestErrorAction = (error) => ({
+    type: REQUEST_ERROR,
+    error
+});
 
 
-const myRequestsGetAction = payload => {
 
-    return {
-        type: MY_REQUESTS,
-        payload: payload
-    }
-}
-
-const deleteRequestAction = (requestId) => {
-    return {
-       type: DESTROY_REQUEST,
-       requestId
-   }
-}
-
-
-export const fetchMyRequestsThunk = () => async (dispatch, getState) => { // Add getState
-    const token = getState().session.user?.token;
-    // or if the token is in local storage:
-    // const token = localStorage.getItem('token')
-    
-    if (!token) {
-        console.error("No token found. User might not be logged in.");
-        return; // Or handle the error as needed
-    }
-
-    const response = await fetch('/api/requests/current', {
-        headers: {
-            'Authorization': `Bearer ${token}` // Add the token to the header
+export const fetchMyRequestsThunk = () => async (dispatch, getState) => {
+    try {
+        const token = getState().session.user?.token;
+        if (!token) {
+            console.error("No token found. User might not be logged in.");
+            return;
         }
-    });
 
-    if (response.ok) {
-        const requests = await response.json();
-        console.log("API Response:", requests);
-        dispatch(myRequestsGetAction(requests));
-        return requests;
-    } else {
-        // Handle error responses, e.g.,
-        const errorData = await response.json(); // If the server sends error details
-        console.error("Error fetching requests:", response.status, errorData);
-        // Dispatch an error action if you have one
-        // dispatch(fetchGroupsError(errorData));
+        const response = await fetch('/api/requests/current', {
+            method: "GET",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            credentials: "include" // Ensures cookies are sent
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error fetching requests:", errorData);
+            dispatch(requestErrorAction(errorData));
+            return;
+        }
+
+        const data = await response.json();
+        console.log("Fetched requests:", data);
+        dispatch(myRequestsGetAction(data.Requests));
+    } catch (error) {
+        console.error("Fetch error:", error);
+        dispatch(requestErrorAction(error.message));
     }
 };
 
-export const deleteRequestThunk = (id) => async dispatch => {
-    const response = await fetch(`/api/requests/${id}/edit`, {
-        method: 'DELETE'
-    });
+export const deleteRequestThunk = (id) => async (dispatch, getState) => {
+    try {
+        const token = getState().session.user?.token;
+        if (!token) return console.error("No token found.");
 
-    if(response.ok){
-        const request = `${id}`
-        dispatch(deleteRequestAction(request));
+        const response = await fetch(`/api/requests/${id}/edit`, {
+            method: 'DELETE',
+            headers: {
+                "Authorization": `Bearer ${token}`
+            },
+            credentials: "include"
+        });
+
+        if (response.ok) {
+            dispatch(deleteRequestAction(id));
+        } else {
+            const errorData = await response.json();
+            console.error("Error deleting request:", errorData);
+        }
+    } catch (error) {
+        console.error("Delete request error:", error);
     }
-}
+};
+
 
 
 // reducerville

@@ -9,9 +9,15 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 const path = require('path');
+const cors = require('cors')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+app.use(cors({
+  origin: "http://localhost:3000", // Adjust if different
+  credentials: true // Allow cookies/sessions to be sent
+}));
 
 app.use(express.json()); // Parse JSON body first
 app.use(cookieParser()); // Parse cookies
