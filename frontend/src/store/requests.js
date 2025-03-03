@@ -21,19 +21,16 @@ const requestErrorAction = (error) => ({
 
 export const fetchMyRequestsThunk = () => async (dispatch, getState) => {
     try {
-        const token = getState().session.user?.token;
-        if (!token) {
-            console.error("No token found. User might not be logged in.");
-            return;
-        }
+       
 
         const response = await fetch('/api/requests/current', {
             method: "GET",
+            credentials: "include" ,
             headers: {
-                "Authorization": `Bearer ${token}`,
+                
                 "Content-Type": "application/json"
             },
-            credentials: "include" // Ensures cookies are sent
+          // Ensures cookies are sent
         });
 
         if (!response.ok) {
@@ -47,22 +44,22 @@ export const fetchMyRequestsThunk = () => async (dispatch, getState) => {
         console.log("Fetched requests:", data);
         dispatch(myRequestsGetAction(data.Requests));
     } catch (error) {
-        console.error("Fetch error:", error);
+        console.error("Fetch error: in requests thunk", error);
         dispatch(requestErrorAction(error.message));
     }
 };
 
 export const deleteRequestThunk = (id) => async (dispatch, getState) => {
     try {
-        const token = getState().session.user?.token;
-        if (!token) return console.error("No token found.");
+ 
 
         const response = await fetch(`/api/requests/${id}/edit`, {
             method: 'DELETE',
+             credentials: "include",
             headers: {
-                "Authorization": `Bearer ${token}`
+                'Content-Type': 'application/json'
             },
-            credentials: "include"
+           
         });
 
         if (response.ok) {

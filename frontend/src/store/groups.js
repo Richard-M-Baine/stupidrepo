@@ -57,12 +57,12 @@ export const fetchMyGroupsThunk = () => async (dispatch) => {
 
     if (response.ok) {
         const groups = await response.json();
-        console.log("API Response:", groups);
+        console.log("API Response in groups thunk:", groups);
         dispatch(myGroupsGetAction(groups));
         return groups;
     } else {
         const errorData = await response.json(); 
-        console.error("Error fetching groups:", response.status, errorData);
+        console.error("Error fetching groups: groups thunk", response.status, errorData);
         // Dispatch an error action if needed
     }
 };

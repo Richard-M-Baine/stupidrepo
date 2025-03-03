@@ -17,6 +17,9 @@ export const authenticate = () => async (dispatch) => {
   try {
     const response = await fetch('/api/users/me', {
       method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+    },
       credentials: 'include' // Ensures cookies are sent
     });
 
@@ -28,7 +31,7 @@ export const authenticate = () => async (dispatch) => {
       dispatch(removeUser());
     }
   } catch (error) {
-    console.error("Session restore error:", error);
+    console.error("Session restore error: authenticate in session.js store", error);
     dispatch(removeUser());
   }
 };
