@@ -6,81 +6,61 @@ const { secret, expiresIn } = jwtConfig;
 const JWT_SECRET = secret
 
 const authenticateToken = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = req.cookies.token;  // Read token from cookies
 
   if (!token) return res.status(401).json({ error: 'No token provided' });
 
-  jwt.verify(token, JWT_SECRET, (err, user) => {
-    if (err) return res.status(403).json({ error: 'Invalid token' });
+  jwt.verify(token, JWT_SECRET, (err, decoded) => {
+      if (err) {
+          console.error("JWT Verification Error:", err);
+          return res.status(403).json({ error: 'Invalid token' });
+      }
 
-    req.user = user;
-    next();
+      req.user = decoded.data; // Store decoded user data in req.user
+      next();
   });
 };
+
 
 // no expires in?
 
 
 // Sends a JWT Cookie
 const setTokenCookie = (res, user) => {
-    // Create the token.
-    const token = jwt.sign(
-      { data: user.toSafeObject() },
+  const token = jwt.sign(
+      { data: user.toSafeObject() }, // Store only necessary user data
       secret,
-      { expiresIn: parseInt(expiresIn) } // 604,800 seconds = 1 week
-    );
-    
-  
-    const isProduction = process.env.NODE_ENV === "production";
-  
-    // Set the token cookie
-    res.cookie('token', token, {
-      maxAge: expiresIn * 1000, // maxAge in milliseconds
-      httpOnly: true,
-      secure: isProduction,
-      sameSite: isProduction && "Lax"
-    });
-  
-    return token;
-  };
+      { expiresIn: parseInt(expiresIn) || "7d" } // Token valid for 7 days
+  );
 
-  const restoreUser = (req, res, next) => {
-    
+  const isProduction = process.env.NODE_ENV === "production";
 
-    const { token } = req.cookies;
-    
+  res.cookie('token', token, {
+      maxAge: expiresIn * 1000, // Convert seconds to milliseconds
+      httpOnly: true,  // Prevent client-side access (security)
+      secure: isProduction, // Only use secure cookies in production
+      sameSite: isProduction ? "Lax" : "Strict" // CSRF protection
+  });
 
-  
-    req.user = null;
-  
-    if (!token) return next(); // If no token, just move on
-  
-    return jwt.verify(token, secret, null, async (err, jwtPayload) => {
-      if (err) {
-        console.error("JWT Verification Error:", err); // Log the error
-        return next();
-      }
-  
-      try {
-        const { id } = jwtPayload.data;
-     
-        req.user = await User.scope('currentUser').findByPk(id);
-    
-      } catch (e) {
+  return token;
+};
 
-        res.clearCookie('token');
-        return next();
-      }
-  
-      if (!req.user) {
+const restoreUser = async (req, res, next) => {
+  if (!req.session.userId) {
+    return next(); // No user session found, move on
+  }
 
-        res.clearCookie('token');
-      }
-  
-      return next();
-    });
-  };
+  try {
+    const user = await User.findByPk(req.session.userId);
+    if (user) req.user = user;
+  } catch (error) {
+    console.error("Session restore error:", error);
+  }
+
+  next();
+};
+
+
 
   const requireAuth = function (req, _res, next) {
 

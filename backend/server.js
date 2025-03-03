@@ -13,30 +13,26 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.use(cookieParser());
-app.use(restoreUser); 
-
-
-app.use(express.json());
-
+app.use(express.json()); // Parse JSON body first
+app.use(cookieParser()); // Parse cookies
 app.use(session({
-  store: new SQLiteStore({ 
-    db: 'database.sqlite', // Replace with your actual database filename
-    dir: path.join(__dirname, 'database'), // Ensure this points to the correct directory
-  }),
+  store: new SQLiteStore({ db: 'database.sqlite', dir: path.join(__dirname, 'database') }),
   secret: process.env.SESSION_SECRET,
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === "production",
+    secure: process.env.NODE_ENV === "production", // Set to `true` in production
     httpOnly: true,
     sameSite: 'Lax',
-    maxAge: 1000 * 60 * 60 * 24 * 7
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
   }
 }));
 
+app.use(restoreUser); // Move this AFTER session & cookieParser
 
 app.use("/api", routes);
+app.use("/auth", authRoutes);
+app.use("/protected", protectedRoutes);
 
 // Global error handler to log full errors
 app.use((err, req, res, next) => {

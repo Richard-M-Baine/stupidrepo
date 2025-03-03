@@ -46,19 +46,12 @@ const EditGroupAction = group => {
 
 
 
-export const fetchMyGroupsThunk = () => async (dispatch, getState) => { // Add getState
-    const token = getState().session.user?.token;
-    // or if the token is in local storage:
-    // const token = localStorage.getItem('token')
-    
-    if (!token) {
-        console.error("No token found. User might not be logged in.");
-        return; // Or handle the error as needed
-    }
-
+export const fetchMyGroupsThunk = () => async (dispatch) => { 
     const response = await fetch('/api/groups/current', {
+        method: 'GET',
+        credentials: 'include', // Ensures cookies are sent with the request
         headers: {
-            'Authorization': `Bearer ${token}` // Add the token to the header
+            'Content-Type': 'application/json'
         }
     });
 
@@ -68,11 +61,9 @@ export const fetchMyGroupsThunk = () => async (dispatch, getState) => { // Add g
         dispatch(myGroupsGetAction(groups));
         return groups;
     } else {
-        // Handle error responses, e.g.,
-        const errorData = await response.json(); // If the server sends error details
+        const errorData = await response.json(); 
         console.error("Error fetching groups:", response.status, errorData);
-        // Dispatch an error action if you have one
-        // dispatch(fetchGroupsError(errorData));
+        // Dispatch an error action if needed
     }
 };
 

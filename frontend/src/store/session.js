@@ -34,21 +34,28 @@ export const authenticate = () => async (dispatch) => {
 
 
 export const login = (userName, password) => async (dispatch) => {
-  const response = await fetch('/api/authenticate/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ userName, password }),
-    credentials: 'include' // Include cookies
-  });
+  try {
+    const response = await fetch('/api/authenticate/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include', // Ensure cookies are sent
+      body: JSON.stringify({ userName, password })
+    });
 
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(setUser(data.user));
-    return null;
-  } else {
-    return response.status < 500 ? await response.json() : ['An error occurred.'];
+    if (!response.ok) {
+      const errorData = await response.json();
+      return [errorData.error || "Login failed"];
+    }
+
+    const user = await response.json();
+    dispatch(setUser(user));
+    return null; // No errors
+  } catch (error) {
+    return ["Network error, please try again"];
   }
 };
+
+
 
 
 

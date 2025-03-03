@@ -37,7 +37,7 @@ const ProfileButton = ({user}) => {
   const logout  = async (e) => {
     e.preventDefault();
     await dispatch(sessionActions.logout());
-    navigate.push('/')
+    navigate('/')
   };
 
   // end menu stuff and logout function

@@ -40,13 +40,8 @@ router.post('/create', async (req,res,next) => {
 });
 
 router.post('/logout', (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.status(500).json({ message: "Logout failed" });
-    }
-    res.clearCookie('connect.sid'); // This clears the session cookie
-    res.json({ message: "Logged out successfully" });
-  });
+  res.clearCookie('token');  // Remove token from cookies
+  res.json({ message: "Logged out successfully" });
 });
 
 

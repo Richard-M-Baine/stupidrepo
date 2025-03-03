@@ -19,13 +19,14 @@ const LoginForm = () => {
   const onLogin = async (e) => {
     e.preventDefault();
     const data = await dispatch(login(userName, password));
-    
-    if (data) {
-      setErrors(data); // If login fails, `data` contains errors
+  
+    if (Array.isArray(data)) {
+      setErrors(data); // If data is an array, store it
     } else {
-      setErrors([]); // Clear errors on successful login
+      setErrors([]); // If login is successful or `data` is not an array, clear errors
     }
   };
+  
   
   
 
