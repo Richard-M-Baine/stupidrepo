@@ -41,7 +41,6 @@ export const fetchMyRequestsThunk = () => async (dispatch, getState) => {
         }
 
         const data = await response.json();
-        console.log("Fetched requests:", data);
         dispatch(myRequestsGetAction(data.Requests));
     } catch (error) {
         console.error("Fetch error: in requests thunk", error);
@@ -88,8 +87,7 @@ const requestReducer = (state = initialState, action) => {
 
 
         case MY_REQUESTS: {
-
-            action.payload.Requests.forEach(request => {
+            action.payload.forEach(request => {
                 newState[request.id] = request
             })
             return newState

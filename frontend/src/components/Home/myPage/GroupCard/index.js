@@ -41,7 +41,6 @@ function MyCharityCard({ group }) {
     const updatedDate = formatUpdatedAt(group.updatedAt)
 
    
-    console.log(updatedDate)
 
 
 

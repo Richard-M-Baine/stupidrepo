@@ -15,7 +15,7 @@ const initialState = { user: null };
 
 export const authenticate = () => async (dispatch) => {
   try {
-    console.log('i am in authentication in the front end store session.js')
+    
     const response = await fetch('/api/users/me', {
       method: 'GET',
       headers: {
@@ -26,7 +26,7 @@ export const authenticate = () => async (dispatch) => {
 
     if (response.ok) {
       const data = await response.json();
-      console.log('i am data in frontend thunk ',data)
+   
       dispatch(setUser(data));
     } else {
       dispatch(removeUser());

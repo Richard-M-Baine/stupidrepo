@@ -17,7 +17,7 @@ router.delete('/:id/edit', requireAuth, async (req, res) => {
             return res.status(404).send('<h1>No such thing Exists</h1>');
         }
 
-        if (oneRequest.founder === req.user.userName) {
+        if (oneRequest.userName === req.user.userName) {
             await oneRequest.destroy();
             return res.json({
                 message: "Successfully deleted",
@@ -34,7 +34,6 @@ router.delete('/:id/edit', requireAuth, async (req, res) => {
 
 router.get('/current', restoreUser, requireAuth, async (req, res) => {
     try {
-        console.log('i am in current requests')
         // Fetch groups where the founder matches the authenticated user
         const myRequests = await Requests.findAll({
             where: { userName: req.user.userName } 
@@ -42,7 +41,6 @@ router.get('/current', restoreUser, requireAuth, async (req, res) => {
 
         // Convert to JSON-friendly format
         const response = { Requests: myRequests.map(request => request.toJSON()) };
-
         return res.status(200).json(response);
     } catch (error) {
         console.error("Error fetching groups:", error);

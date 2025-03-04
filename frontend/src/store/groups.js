@@ -57,7 +57,6 @@ export const fetchMyGroupsThunk = () => async (dispatch) => {
 
     if (response.ok) {
         const groups = await response.json();
-        console.log("API Response in groups thunk:", groups);
         dispatch(myGroupsGetAction(groups));
         return groups;
     } else {
@@ -96,7 +95,6 @@ export const createGroupThunk = (payload) => async dispatch => {
         })
 
     const data = await response.json()
-    console.log('i am data ',data)
 
     if (response.ok) {
         await dispatch(createGroupAction(data))

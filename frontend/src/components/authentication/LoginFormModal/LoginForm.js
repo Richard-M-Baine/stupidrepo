@@ -39,7 +39,6 @@ const LoginForm = () => {
   };
 
   if (user) {
-    console.log('i am user ', user)
     return <Navigate to='/mylistings' />;
   }
   

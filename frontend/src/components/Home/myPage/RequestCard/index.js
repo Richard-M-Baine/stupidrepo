@@ -16,7 +16,7 @@ function MyRequestsCard({request}) {
    
     const destroyRequest = e => {
         e.preventDefault()
-        dispatch(deleteRequestThunk(request?.id)).then(() => navigate.push('/mylistings'))
+        dispatch(deleteRequestThunk(request?.id)).then(() => navigate('/mylistings'))
     }
 
     const editRequest = e => {

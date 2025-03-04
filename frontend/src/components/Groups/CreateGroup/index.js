@@ -29,7 +29,6 @@ function CreateGroupForm() {
     const [about, setAbout] = useState('')
     const [purpose, setPurpose] = useState('')
     const [privatee, setPrivatee] = useState('')
-    console.log('i am',privatee)
 
     // form part
     const [part, setPart] = useState('Part One')

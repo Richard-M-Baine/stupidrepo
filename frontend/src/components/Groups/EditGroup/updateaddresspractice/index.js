@@ -13,7 +13,6 @@ import './updateAddress.css'
 function UpdateAddressForm() {
     const navigate = useNavigate()
     const { id } = useParams()
-    console.log('i am the id ', id)
     const location = useSelector((state) => state?.locations);
     const dispatch = useDispatch()
     

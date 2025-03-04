@@ -20,7 +20,6 @@ function MyCharities() {
 
     useEffect(() => {
         const fetchData = async () => {
-            console.log('i am here inside useeffect')
             await dispatch(fetchMyGroupsThunk());
             await dispatch(fetchMyRequestsThunk());
             setLoaded(true);

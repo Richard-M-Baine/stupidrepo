@@ -67,7 +67,6 @@ function EditCharityForm() {
 
 
 
-    console.log(group)
 
 
 
