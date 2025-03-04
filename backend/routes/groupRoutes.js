@@ -76,7 +76,8 @@ group.set({
 
 
 
-router.get('/current', restoreUser, requireAuth, async (req, res) => {
+router.get('/current',restoreUser, requireAuth, async (req, res) => {
+    console.log('its me  in current')
     try {
         console.log('i am in current groups ', 'i am req.user ',req.user)
         // Fetch groups where the founder matches the authenticated user

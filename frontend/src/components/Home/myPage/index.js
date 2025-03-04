@@ -14,12 +14,13 @@ function MyCharities() {
     
     const session = useSelector(state => state?.session);
     const groups = useSelector(state => state?.group);
-    const requests = useSelector(state => state?.requests.requests); // Fix: access `requests` inside state
+    const requests = useSelector(state => state?.requests); // Fix: access `requests` inside state
 
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
+            console.log('i am here inside useeffect')
             await dispatch(fetchMyGroupsThunk());
             await dispatch(fetchMyRequestsThunk());
             setLoaded(true);
@@ -27,9 +28,18 @@ function MyCharities() {
         fetchData();
     }, [dispatch]);
 
-    if (!session || !groups || !requests) {
-        return <p>wait a bloody minute...</p>; 
+    if (!loaded) {
+        return <p>wait a bloody minute...</p>;
     }
+    
+    // // if (!session || Object.keys(groups).length === 0 || Object.keys(requests).length === 0) {
+    //     return (
+    //         <div className='homePageMainDiv'>
+    //             {/* display loading or empty messages. */}
+    //             <p>loading or no data</p>
+    //         </div>
+    //     )
+    // }
 
     return loaded && (
         <div className='homePageMainDiv'>

@@ -15,6 +15,7 @@ const initialState = { user: null };
 
 export const authenticate = () => async (dispatch) => {
   try {
+    console.log('i am in authentication in the front end store session.js')
     const response = await fetch('/api/users/me', {
       method: 'GET',
       headers: {
