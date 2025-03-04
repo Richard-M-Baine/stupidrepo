@@ -46,7 +46,7 @@ const setTokenCookie = (res, user) => {
 };
 
 const restoreUser = async (req, res, next) => {
-  console.log("req.session.user:", req.session.user);
+  console.log("req.session.user: i am in restore user", req.session.user);
   if (!req.session.user) {
     return next(); // No user session found, move on
   }
@@ -54,7 +54,7 @@ const restoreUser = async (req, res, next) => {
   try {
     
     const user = await User.findByPk(req.session.user.id);
-    console.log('i am user.id ',user.id)
+    console.log('i am user.id in restore user',user.id)
     if (user) req.user = user;
   } catch (error) {
     console.error("Session restore error:", error);

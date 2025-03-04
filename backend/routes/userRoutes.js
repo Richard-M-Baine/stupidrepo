@@ -8,7 +8,7 @@ router.get('/protected', authenticateToken, (req, res) => {
 });
 
 router.get('/me', requireAuth, async (req, res) => {
-  console.log('i am here in /me ' , req.session)
+  console.log('i am here in /me ' , req.session.user, ' i am req.session ',req.session)
   try {
     const user = await User.findByPk(req.session.user.id);
     if (!user) {
