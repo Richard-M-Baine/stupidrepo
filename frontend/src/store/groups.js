@@ -67,7 +67,7 @@ export const fetchMyGroupsThunk = () => async (dispatch) => {
 };
 
 export const deleteGroupThunk = (id) => async dispatch => {
-    const response = await fetch(`/api/groups/${id}/edit`, {
+    const response = await fetch(`/api/groups/${id}/delete`, {
         method: 'DELETE',
         credentials: 'include',
         headers: {

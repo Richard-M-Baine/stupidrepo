@@ -8,7 +8,7 @@ const { setTokenCookie, restoreUser, requireAuth } = require('../middleware/auth
 const router = express.Router();
 
 
-router.delete('/:id/edit', restoreUser, requireAuth, async (req, res) => {
+router.delete('/:id/delete', restoreUser, requireAuth, async (req, res) => {
     const groupId = req.params.id;
 
     try {

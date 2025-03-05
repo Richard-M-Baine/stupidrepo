@@ -1,6 +1,9 @@
 const MY_REQUESTS = 'requests/mine'
 const DESTROY_REQUEST = 'requests/destroy'
 const REQUEST_ERROR = "requests/error"
+const EDIT_REQUEST = 'request/edit'
+const ONE_REQUEST = 'requests/one'
+
 
 const myRequestsGetAction = (requests) => ({
     type: MY_REQUESTS,
@@ -17,20 +20,53 @@ const requestErrorAction = (error) => ({
     error
 });
 
+const editRequestAction = payload => {
+    return {
+        type: EDIT_REQUEST,
+        payload
+    }
+}
 
+const getOneRequestAction = payload => {
+
+    return {
+        type: ONE_REQUEST,
+        payload
+    }
+}
+
+export const getOneRequestThunk = id => async dispatch => {
+
+    const res = await fetch(`/api/requests/${id}`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+    });
+    if (res.ok) {
+
+
+        const singleRequest = await res.json()
+
+        dispatch(getOneRequestAction(singleRequest))
+        return singleRequest
+    }
+
+}
 
 export const fetchMyRequestsThunk = () => async (dispatch, getState) => {
     try {
-       
+
 
         const response = await fetch('/api/requests/current', {
             method: "GET",
-            credentials: "include" ,
+            credentials: "include",
             headers: {
-                
+
                 "Content-Type": "application/json"
             },
-          // Ensures cookies are sent
+            // Ensures cookies are sent
         });
 
         if (!response.ok) {
@@ -48,17 +84,36 @@ export const fetchMyRequestsThunk = () => async (dispatch, getState) => {
     }
 };
 
+export const editRequestThunk = (payload, id) => async (dispatch) => {
+
+
+
+    const response = await fetch(`/api/requests/${id}/edit`, {
+        method: 'PUT',
+        credentials: 'include',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload),
+
+    })
+    const data = await response.json();
+
+    dispatch(editRequestAction(data))
+    return data
+}
+
 export const deleteRequestThunk = (id) => async (dispatch, getState) => {
     try {
- 
 
-        const response = await fetch(`/api/requests/${id}/edit`, {
+
+        const response = await fetch(`/api/requests/${id}/delete`, {
             method: 'DELETE',
-             credentials: "include",
+            credentials: "include",
             headers: {
                 'Content-Type': 'application/json'
             },
-           
+
         });
 
         if (response.ok) {
@@ -93,16 +148,36 @@ const requestReducer = (state = initialState, action) => {
             return newState
         }
 
+        case ONE_REQUEST: {
+
+            newState = {...state };
+            newState[action.payload.id] = action.payload;
+
+            return newState
+            
+        }
+
+
         case DESTROY_REQUEST: {
-            newState = { ...state}
+            newState = { ...state }
             delete newState[action.requestId]
             return newState
-    }
+        }
 
-    default: {
-        return state;
-    }
+        case EDIT_REQUEST: {
+
+            const newerState = Object.assign({}, state);
+            newerState.request = action.payload;
+            return newerState;
+        }
+
+
+
+
+        default: {
+            return state;
+        }
     }
 
 }
-    export default requestReducer
+export default requestReducer

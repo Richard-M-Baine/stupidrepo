@@ -22,7 +22,7 @@ function MyRequestsCard({request}) {
     const editRequest = e => {
         
         e.preventDefault()
-        navigate.push(`/requests/edit/${request?.id}`)
+        navigate(`/requests/edit/${request?.id}`)
         }
 
 

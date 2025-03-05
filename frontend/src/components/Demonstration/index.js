@@ -9,10 +9,10 @@ export default function DemoUser() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const email = 'bilbo@gmail.com';
+        const userName = 'loseRings';
         const password = 'password';
         alert('your going to be logged in as Bilbo Baggins.  Use your power wisely')
-        return dispatch(sessionActions.login(email, password ))
+        return dispatch(sessionActions.login(userName, password ))
     }
     return (
         <form onSubmit={handleSubmit}>

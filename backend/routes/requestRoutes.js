@@ -7,7 +7,7 @@ const { setTokenCookie, requireAuth, restoreUser } = require('../middleware/auth
 const router = express.Router();
 
 
-router.delete('/:id/edit', requireAuth, async (req, res) => {
+router.delete('/:id/delete',restoreUser, requireAuth, async (req, res) => {
     const requestId = req.params.id;
 
     try {
@@ -48,5 +48,38 @@ router.get('/current', restoreUser, requireAuth, async (req, res) => {
     }
 });
 
+router.get('/:id/edit', restoreUser, requireAuth, async (req, res) => {
+    const request = Requests.findByPk(req.params.id)
+
+    if (request){
+        if (group.founder !== req.user.userName) {
+            const err = new Error('You must be the owner to edit this group')
+            err.status = 403
+            return err.status
+          }
+    }
+
+    const {title, startTime, endTime, details, address, city, state} = req.body
+
+    request.set({
+        title: title,
+        startTime: startTime,
+        endTime: endTime,
+        details: details,
+        address: address,
+        city: city,
+        state: state
+
+    })
+
+    await request.save()
+    res.json(request)
+})
+
+router.get('/:id', restoreUser, requireAuth, async (req, res) => {
+    const id = req.params.id
+    const request = await Requests.findByPk(id)
+    res.json(request)
+})
 
 module.exports = router
