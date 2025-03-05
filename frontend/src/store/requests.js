@@ -3,6 +3,7 @@ const DESTROY_REQUEST = 'requests/destroy'
 const REQUEST_ERROR = "requests/error"
 const EDIT_REQUEST = 'request/edit'
 const ONE_REQUEST = 'requests/one'
+const CREATE_REQUEST = 'requests/new'
 
 
 const myRequestsGetAction = (requests) => ({
@@ -32,6 +33,14 @@ const getOneRequestAction = payload => {
     return {
         type: ONE_REQUEST,
         payload
+    }
+}
+
+const createRequestAction = payload => {
+
+    return {
+        type: CREATE_REQUEST,
+        payload: payload
     }
 }
 
@@ -127,6 +136,29 @@ export const deleteRequestThunk = (id) => async (dispatch, getState) => {
     }
 };
 
+export const createRequestThunk = (payload) => async dispatch => {
+
+    const response = await fetch('/api/requests/create',
+        {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+
+    const data = await response.json()
+
+    if (response.ok) {
+        await dispatch(createRequestAction(data))
+        return data
+    } else { // any bad requests and errors
+        return data
+    }
+
+}
+
 
 
 // reducerville
@@ -155,6 +187,13 @@ const requestReducer = (state = initialState, action) => {
 
             return newState
             
+        }
+
+        case CREATE_REQUEST: {
+            newState = { ...state };
+            const request = action.payload.newRequest; // Extract newCharity instead of expecting group
+            newState[request.id] = request;
+            return newState;
         }
 
 

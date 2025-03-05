@@ -1,0 +1,71 @@
+.createRequestForm{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    
+}
+
+#partOneCreaterequest{
+    margin-left: 14vw;
+    width: 100px;
+}
+
+.crfPartTwoParagraph{
+    width: 860px;
+    font-size: 22px;
+    text-indent: 34px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.timeCreateRequestDiv{
+    display: flex;
+    flex-direction: row;
+    margin-top: 100px;
+}
+
+.createRequestStartTimeDiv{
+    
+    margin-left: 160px;
+    margin-right: 100px
+}
+
+.createRequestpartTwoButtons{
+    margin-top: 100px;
+    margin-left: 280px;
+}
+
+.createRequestpartTwosubmit{
+    margin-left: 10px;
+    margin-right: 10px;
+    width: 100px;
+    height: 40px;
+    border-radius: 14px;
+    background-color: beige;
+}
+
+.createRequestpartThreelabel{
+    
+    margin-left: 120px;
+    font-size: 30px;
+}
+
+.partThreeRequestTitleDiv{
+    margin-top: 60px;
+}
+
+.createRequestLastPartButtons{
+    margin-top: 40px;
+    margin-left: 320px;
+}
+.createRequestppartoneconfirm{
+    height: 40px;
+    width: 120px;
+    border-radius: 14px;
+    background-color: blanchedalmond;
+    margin-left: 20px;
+}
+
+[disabled]{
+    cursor: not-allowed;
+}

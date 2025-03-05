@@ -82,4 +82,26 @@ router.get('/:id', restoreUser, requireAuth, async (req, res) => {
     res.json(request)
 })
 
+router.post('/create', restoreUser, requireAuth, async (req, res) => {
+    const { title , start_time, end_time, details, address, city, state } = req.body
+
+    const user = req.user.userName
+
+    const newRequest = await Locations.create({
+        userName: user,
+        title: title,
+        startTime: start_time,
+        endTime: end_time,
+        details: details,
+        address: address,
+        city: city,
+        state: state,
+        lat: '22.220',
+        lon: '22.22'
+    })
+        
+res.json({newRequest})
+})
+
+
 module.exports = router
