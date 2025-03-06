@@ -6,6 +6,21 @@ const {Requests} = require('../models')
 const { setTokenCookie, requireAuth, restoreUser } = require('../middleware/authenticate.js');
 const router = express.Router();
 
+// lets make dates
+
+const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleString('en-US', { 
+        weekday: 'short', 
+        month: 'short', 
+        day: 'numeric', 
+        year: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        hour12: true 
+    });
+};
+
 
 router.delete('/:id/delete',restoreUser, requireAuth, async (req, res) => {
     const requestId = req.params.id;
@@ -48,32 +63,37 @@ router.get('/current', restoreUser, requireAuth, async (req, res) => {
     }
 });
 
-router.get('/:id/edit', restoreUser, requireAuth, async (req, res) => {
-    const request = Requests.findByPk(req.params.id)
+router.put('/:id/edit', restoreUser, requireAuth, async (req, res) => {
+ 
+    const request = await Requests.findByPk(req.params.id);
 
-    if (request){
-        if (group.founder !== req.user.userName) {
-            const err = new Error('You must be the owner to edit this group')
-            err.status = 403
-            return err.status
-          }
+    if (!request) {
+        return res.status(404).json({ error: 'Request not found' });
     }
+    
+    const requestJSON = request.toJSON(); // Convert after confirming it exists
+    console.log(requestJSON);
+    
+    if (requestJSON.userName !== req.user.userName) {
+        return res.status(403).json({ error: 'You must be the owner to edit this request' });
+    }
+    
+    const { title, start_time, end_time, details, address, city, state } = req.body;
+    
+    console.log('Request before update:', requestJSON, 'Request body:', req.body);
+    
+    await request.update({
+        title,
+        startTime: start_time,
+        endTime: end_time,
+        details,
+        address,
+        city,
+        state
+    });
+    
+    res.json(request.toJSON()); // Send updated request as JSON
 
-    const {title, startTime, endTime, details, address, city, state} = req.body
-
-    request.set({
-        title: title,
-        startTime: startTime,
-        endTime: endTime,
-        details: details,
-        address: address,
-        city: city,
-        state: state
-
-    })
-
-    await request.save()
-    res.json(request)
 })
 
 router.get('/:id', restoreUser, requireAuth, async (req, res) => {
@@ -83,11 +103,11 @@ router.get('/:id', restoreUser, requireAuth, async (req, res) => {
 })
 
 router.post('/create', restoreUser, requireAuth, async (req, res) => {
-    const { title , start_time, end_time, details, address, city, state } = req.body
+    const { title, start_time, end_time, details, address, city, state } = req.body;
+    console.log('i am req.body ', req.body);
+    const user = req.user.userName;
 
-    const user = req.user.userName
-
-    const newRequest = await Locations.create({
+    const newRequest = await Requests.create({
         userName: user,
         title: title,
         startTime: start_time,
@@ -98,10 +118,16 @@ router.post('/create', restoreUser, requireAuth, async (req, res) => {
         state: state,
         lat: '22.220',
         lon: '22.22'
-    })
-        
-res.json({newRequest})
-})
+    });
 
+    // Format the response before sending it to the frontend
+    res.json({
+        newRequest: {
+            ...newRequest.toJSON(),
+            startTimeFormatted: formatDate(newRequest.startTime),
+            endTimeFormatted: formatDate(newRequest.endTime)
+        }
+    });
+});
 
 module.exports = router

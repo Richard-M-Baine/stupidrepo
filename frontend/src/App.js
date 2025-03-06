@@ -19,6 +19,11 @@ import EditCharityForm from './components/Groups/EditGroup/index.js'
 import UpdateAddressForm from './components/Groups/EditGroup/updateaddresspractice';
 
 
+// request stuff
+
+import CreateRequestForm from './components/Requests/CreateRequest/index.js';
+import EditRequestForm from './components/Requests/EditRequest/index.js';
+
 function App() {
 
   const [loaded, setLoaded] = useState(false);
@@ -73,6 +78,24 @@ function App() {
           element={
             <ProtectedRoute>
               <UpdateAddressForm />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/requests/create'
+          element={
+            <ProtectedRoute>
+              <CreateRequestForm />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/requests/edit/:id'
+          element={
+            <ProtectedRoute>
+              <EditRequestForm />
             </ProtectedRoute>
           }
         />

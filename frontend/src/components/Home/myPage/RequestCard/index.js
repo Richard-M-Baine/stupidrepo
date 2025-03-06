@@ -26,19 +26,23 @@ function MyRequestsCard({request}) {
         }
 
 
-    let date = request?.start_time?.slice(5,7) || '00'
-    let day = request?.start_time?.slice(0,3) || 'N/A'
-    let month = request?.start_time?.slice(8,11) || 'N/A'
-    let year = request?.start_time?.slice(12,16) || 'N/A'
-    let hour = request?.start_time?.slice(17,19) || 'N/A'
-    let minute = request?.start_time?.slice(20,22) || 'N/A'
-    let zeit
-    if (hour > 12){
-        zeit = `${hour-12}:${minute} PM`
-    }
-    else {
-        zeit = `${hour}:${minute} AM`
-    }
+        const formatDate = (dateString) => {
+            if (!dateString) return "N/A";
+            const date = new Date(dateString);
+            return date.toLocaleString('en-US', { 
+                weekday: 'short', 
+                month: 'short', 
+                day: 'numeric', 
+                year: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                hour12: true 
+            });
+        };
+        
+        let formattedStartTime = formatDate(request?.startTime);
+        
+ 
 
     
   
@@ -49,7 +53,7 @@ function MyRequestsCard({request}) {
         <div className='groupcardtext' id='requestcardtextdiv'>
         <h1 id='requestcardtitle'>{request?.title}</h1>
         <p>{request?.address} {request?.city}</p>
-        <p>Start Time {day} {date} {month} {year} at {zeit}</p>
+        <p>Start Time: {formattedStartTime}</p>
         </div>
         </ NavLink>
         <div className='buttondivgroupcard'>

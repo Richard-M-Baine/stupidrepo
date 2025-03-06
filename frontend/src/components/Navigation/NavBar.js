@@ -40,7 +40,7 @@ const NavBar = ({ loaded }) => {
         </div>
 
         <div className='navigationLogInDiv'>
-          <NavLink to='/newrequest' exact={true} activeClassName='active'>
+          <NavLink to='/requests/create' exact={true} activeClassName='active'>
             Make a Request
           </NavLink>
         </div>
