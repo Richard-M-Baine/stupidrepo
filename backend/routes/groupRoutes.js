@@ -76,7 +76,7 @@ group.set({
 
 
 router.get('/current',restoreUser, requireAuth, async (req, res) => {
-    console.log('its me  in current groups')
+    
     try {
         // Fetch groups where the founder matches the authenticated user
         const myCharities = await Charities.findAll({
