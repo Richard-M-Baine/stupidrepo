@@ -24,6 +24,10 @@ import UpdateAddressForm from './components/Groups/EditGroup/updateaddresspracti
 import CreateRequestForm from './components/Requests/CreateRequest/index.js';
 import EditRequestForm from './components/Requests/EditRequest/index.js';
 
+// messaging and map stuff
+
+import MyMessages from './components/Messages/messageHome/index.js'
+
 function App() {
 
   const [loaded, setLoaded] = useState(false);

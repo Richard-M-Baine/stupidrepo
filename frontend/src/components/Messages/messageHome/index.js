@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import MySentMessageCard from '../sentMessagesCard/index.js'
 import MyReceivedMessageCard from '../receivedMessagesCard/index.js'
 
-import { fetchMyMessagesThunk } from '../../../store/messages.js'
-import { fetchReceivedMessagesThunk } from '../../../store/recmessages.js'
+import { fetchMySentMessagesThunk } from '../../../store/messages.js'
+import { fetchMyReceivedMessagesThunk } from '../../../store/messages.js'
 
 import './homeMessage.css'
 
@@ -21,8 +21,8 @@ function MyMessages() {
     const [loaded, setLoaded] = useState(false)
 
     useEffect(() => {
-        dispatch(fetchMyMessagesThunk())
-            .then(dispatch(fetchReceivedMessagesThunk()))
+        dispatch(fetchMySentMessagesThunk())
+            .then(dispatch(fetchMyReceivedMessagesThunk()))
             .then(() => setLoaded(true))
     }, [dispatch])
 

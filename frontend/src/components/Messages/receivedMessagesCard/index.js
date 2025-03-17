@@ -1,8 +1,8 @@
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import './receivedMessages.css'
+import './recievedMessages.css'
 import RespondToUserMessageModal from './RespondToUserMessageModal/index.js'
 
 // thunks
@@ -10,13 +10,13 @@ import { markReadThunk } from '../../../store/messages'
 
 function MyReceivedMessageCard({ receivedMessage }) {
 
-    const history = useHistory()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const markMessageRead = e => {
         e.preventDefault()
         dispatch(markReadThunk(receivedMessage?.id))
-            .then(() => history.push('/mylistings'))
+            .then(() => navigate('/mylistings'))
     }
 
 

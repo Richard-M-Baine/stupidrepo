@@ -1,4 +1,4 @@
-import { NavLink, useHistory} from 'react-router-dom';
+import { NavLink, useNavigate} from 'react-router-dom';
 import React from 'react'
 import { useDispatch} from 'react-redux'
 
