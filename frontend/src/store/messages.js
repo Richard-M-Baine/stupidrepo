@@ -6,6 +6,7 @@ const MAKE_MESSAGE = 'messages/create'
 const MY_RECEIVED_MESSAGES = 'messages/received'
 
 
+
 const myMessagesRequestAction = (messages) => ({
     type: MY_MESSAGES,
     payload: messages
@@ -26,6 +27,19 @@ const deleteMessageAction = (messageId) => ({
     messageId
 });
 
+const createMessageAction = payload => {
+    return {
+        type: MAKE_MESSAGE,
+        payload: payload
+    }
+}
+
+const MarkReadAction = id  => {
+    return {
+        type: MARK_READ,
+        id
+    }
+}
 
 
 export const fetchMySentMessagesThunk = () => async (dispatch) => {
@@ -82,6 +96,74 @@ export const deleteMessagesThunk = (id) => async (dispatch, getState) => {
 };
 
 
+export const fetchMyReceivedMessagesThunk = () => async (dispatch) => {
+    try {
+
+
+        const response = await fetch('/api/messages/response', {
+            method: "GET",
+            credentials: "include",
+            headers: {
+
+                "Content-Type": "application/json"
+            },
+            // Ensures cookies are sent
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            console.error("Error fetching requests:", errorData);
+            dispatch(myMessagesReceivedAction(errorData));
+            return;
+        }
+
+        const data = await response.json();
+        dispatch(myMessagesReceivedAction(data.Messages));
+    } catch (error) {
+        console.error("Fetch error: in requests thunk", error);
+        dispatch(messageErrorAction(error.message));
+    }
+}
+
+export const createMessageThunk = (payload) => async dispatch => {
+
+    const response = await fetch('/api/messages/create',
+        {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+
+    const data = await response.json()
+
+    if (response.ok) {
+        await dispatch(createMessageAction(data))
+        return data
+    } else { // any bad requests and errors
+        return data
+    }
+
+}
+
+export const markReadThunk = id => async (dispatch) => {
+
+    const response = await fetch(`/api/messages/${id}/edit`, {
+        method: 'PUT',
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+
+    const data = await response.json();
+    console.log(data)
+    dispatch(MarkReadAction(data));
+    return data
+}
+
+
 const initialState = {}
 
 const messageReducer = (state = initialState, action) => {
@@ -103,10 +185,30 @@ const messageReducer = (state = initialState, action) => {
             return newState;
         }
 
+        case MY_RECEIVED_MESSAGES: {
+            if (!action.payload || !Array.isArray(action.payload.Messages)) {
+                console.error("Invalid payload structure:", action.payload);
+                return state; 
+            }
+        
+            newState = {};
+            action.payload.Messages.forEach(message => {  
+                newState[message.id] = message;
+            });
+            return newState;
+        }
+
         case DESTROY_MESSAGE: {
             newState = { ...state }
             delete newState[action.messageId]
             return newState
+        }
+
+        case MAKE_MESSAGE: {
+            newState = { ...state };
+            const message = action.payload.newMessage; 
+            newState[message.id] = message;
+            return newState;
         }
 
         default: {

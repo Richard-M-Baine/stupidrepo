@@ -1,0 +1,32 @@
+.sentMessageCardMainDiv{
+    display: flex;
+    flex-direction: column;
+    border-bottom-width: 1px;
+    border-bottom-color: #61696E;
+    border-bottom-style: solid;
+}
+
+.sentMessageCardRecipient{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 20px;
+    font-family: 'Times New Roman, Times, serif';
+}
+
+.sentMessageCardBody{
+    font-size: 16px;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.sentMessageCardDelete{
+    width: 120px;
+    border-radius: 8px;
+    border-width: 1px;
+    border-color: rgb(178, 206, 253);
+    background-color: rgb(144, 180, 241);
+    color: rgb(1, 15, 41);
+    margin-top: 10px;
+    margin-bottom: 10px;
+
+
+}

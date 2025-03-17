@@ -1,0 +1,4 @@
+.buttonreceivedMessagesFlexDiv{
+    display: flex;
+    flex-direction: row;
+}

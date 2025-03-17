@@ -1,0 +1,21 @@
+.createMessageHeader{
+    height: 400px;
+    width: 500px;
+}
+
+.createMessageSubmitButton{
+    width: 424px;
+    height: 3rem;
+    background-color: rgba(130, 169, 238);
+    color: rgb(0,28,78);
+    border-radius: 8px;
+    border: none;
+    font-weight: 700;
+    font-size: 22px;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    align-self: center;
+    margin-top: 20px;
+}
