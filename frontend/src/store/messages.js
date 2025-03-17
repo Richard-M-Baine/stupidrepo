@@ -3,7 +3,7 @@ const MESSAGE_ERROR = "message/error"
 const DESTROY_MESSAGE = 'message/destroy'
 const MARK_READ = 'messages/edit'
 const MAKE_MESSAGE = 'messages/create'
-const MY_RECEIVED_MESSAGES = 'messages/received'
+
 
 
 
@@ -12,10 +12,7 @@ const myMessagesRequestAction = (messages) => ({
     payload: messages
 })
 
-const myMessagesReceivedAction = (messages) => ({
-    type: MY_RECEIVED_MESSAGES,
-    payload: messages
-})
+
 
 const messageErrorAction = (error) => ({
     type: MESSAGE_ERROR,
@@ -71,7 +68,7 @@ export const fetchMySentMessagesThunk = () => async (dispatch) => {
     }
 }
 
-export const deleteMessagesThunk = (id) => async (dispatch, getState) => {
+export const deleteMessageThunk = (id) => async (dispatch, getState) => {
     try {
 
 
@@ -96,34 +93,7 @@ export const deleteMessagesThunk = (id) => async (dispatch, getState) => {
 };
 
 
-export const fetchMyReceivedMessagesThunk = () => async (dispatch) => {
-    try {
 
-
-        const response = await fetch('/api/messages/response', {
-            method: "GET",
-            credentials: "include",
-            headers: {
-
-                "Content-Type": "application/json"
-            },
-            // Ensures cookies are sent
-        });
-
-        if (!response.ok) {
-            const errorData = await response.json();
-            console.error("Error fetching requests:", errorData);
-            dispatch(myMessagesReceivedAction(errorData));
-            return;
-        }
-
-        const data = await response.json();
-        dispatch(myMessagesReceivedAction(data.Messages));
-    } catch (error) {
-        console.error("Fetch error: in requests thunk", error);
-        dispatch(messageErrorAction(error.message));
-    }
-}
 
 export const createMessageThunk = (payload) => async dispatch => {
 
@@ -173,30 +143,18 @@ const messageReducer = (state = initialState, action) => {
     switch (action.type) {
 
         case MY_MESSAGES: {
-            if (!action.payload || !Array.isArray(action.payload.Messages)) {
+            if (!action.payload || !Array.isArray(action.payload)) {
                 console.error("Invalid payload structure:", action.payload);
                 return state; 
             }
         
             newState = {};
-            action.payload.Messages.forEach(message => {  
+            action.payload.forEach(message => {  
                 newState[message.id] = message;
             });
             return newState;
         }
-
-        case MY_RECEIVED_MESSAGES: {
-            if (!action.payload || !Array.isArray(action.payload.Messages)) {
-                console.error("Invalid payload structure:", action.payload);
-                return state; 
-            }
         
-            newState = {};
-            action.payload.Messages.forEach(message => {  
-                newState[message.id] = message;
-            });
-            return newState;
-        }
 
         case DESTROY_MESSAGE: {
             newState = { ...state }

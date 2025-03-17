@@ -103,6 +103,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+        path='/messages'
+        element={
+          <ProtectedRoute  exact={true}>
+          < MyMessages />
+        </ProtectedRoute>
+        }
+        />
+      
 
 
 

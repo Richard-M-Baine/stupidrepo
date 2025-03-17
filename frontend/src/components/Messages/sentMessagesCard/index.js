@@ -7,13 +7,13 @@ import './sentMessages.css'
 
 function MySentMessageCard({message}){
 
-    const history = useHistory()
+    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const destroyMessage = e => {
         e.preventDefault()
         dispatch(deleteMessageThunk(message?.id))
-        .then(() => history.push('/mylistings'))
+        .then(() => navigate('/mylistings'))
     }
 
 

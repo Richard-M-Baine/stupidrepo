@@ -5,7 +5,7 @@ import MySentMessageCard from '../sentMessagesCard/index.js'
 import MyReceivedMessageCard from '../receivedMessagesCard/index.js'
 
 import { fetchMySentMessagesThunk } from '../../../store/messages.js'
-import { fetchMyReceivedMessagesThunk } from '../../../store/messages.js'
+import { fetchMyReceivedMessagesThunk } from '../../../store/recmessages.js'
 
 import './homeMessage.css'
 
@@ -25,6 +25,10 @@ function MyMessages() {
             .then(dispatch(fetchMyReceivedMessagesThunk()))
             .then(() => setLoaded(true))
     }, [dispatch])
+
+    if (!loaded) {
+        return <p>wait a bloody minute...</p>;
+    }
 
 
     return loaded && (
