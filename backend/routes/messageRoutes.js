@@ -20,7 +20,10 @@ router.get('/sent', restoreUser, requireAuth, async (req, res) => {
 
 router.get('/response', restoreUser, requireAuth, async (req, res) => {
     const myMessages = await Messages.findAll({
-        where: { recipient: req.user.userName }
+        where: { recipient: req.user.userName,
+            
+        hasRead: false 
+         }
     });
 
     const response = { Messages: myMessages.map(message => message.toJSON()) };
@@ -76,15 +79,14 @@ if (message){
     return err.status
   }}
 
- const { sender, body, hasRead, recipient } = req.body
+ const { body } = req.body
 
 
 
 group.set({
-    sender: sender,
-    body: body,
-    hasRead: hasRead,
-    recipient: recipient
+    
+    body: body
+
   })
   
   await group.save()
@@ -92,11 +94,42 @@ group.set({
   
   res.json(group)
 
- 
+
+
+})
+
+router.put('/:id/read', restoreUser, requireAuth, async (req, res) => {
+    
+
+    const message = await Messages.findByPk(req.params.id)
+
+// better way
+
+if (message){
+  if (message.recipient !== req.user.userName) {
+    const err = new Error('You must be the recipient to mark read')
+    err.status = 403
+    return err.status
+  }}
+
+
+
+
+
+message.set({
+    hasRead: true,
+   
+  })
+  
+  await message.save()
+  
+  
+  res.json(message)
 
 
 
 })
+
 
 
 module.exports = router

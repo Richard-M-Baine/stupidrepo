@@ -120,7 +120,7 @@ export const createMessageThunk = (payload) => async dispatch => {
 
 export const markReadThunk = id => async (dispatch) => {
 
-    const response = await fetch(`/api/messages/${id}/edit`, {
+    const response = await fetch(`/api/messages/${id}/read`, {
         method: 'PUT',
         headers: {
             "Content-Type": "application/json"
