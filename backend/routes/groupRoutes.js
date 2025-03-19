@@ -6,6 +6,7 @@ const {Charities} = require('../models')
 const {Locations} = require('../models')
 const { setTokenCookie, restoreUser, requireAuth } = require('../middleware/authenticate.js');
 const router = express.Router();
+const { getCoordinates } = require('../utils/geocode');
 
 
 router.delete('/:id/delete', restoreUser, requireAuth, async (req, res) => {
@@ -94,28 +95,35 @@ router.get('/current',restoreUser, requireAuth, async (req, res) => {
 });
 
 router.post('/create', restoreUser, requireAuth, async (req, res) => {
-    const { founder , name, about, purpose, private, address, city, state } = req.body
+    const { founder, name, about, purpose, private, address, city, state } = req.body;
 
-
-    const newLocation = await Locations.create({
-        address: address,
-        city: city,
-        state: state,
-        lat: '2343.223',
-        lon: '222.222',
+    try {
+        // Get latitude & longitude from OpenStreetMap
+        const coords = await getCoordinates(`${address}, ${city}, ${state}`);
         
-    })
+        const newLocation = await Locations.create({
+            address,
+            city,
+            state,
+            lat: coords.lat,
+            lon: coords.lon
+        });
 
-    const newCharity = await Charities.create({
-        founder: founder,
-        name: name,
-        about: about,
-        purpose: purpose,
-        locationID: newLocation.id,
-        private: private
-    })
-res.json({newCharity})
-})
+        const newCharity = await Charities.create({
+            founder,
+            name,
+            about,
+            purpose,
+            locationID: newLocation.id,
+            private
+        });
+
+        res.json({ newCharity });
+    } catch (error) {
+        console.error("Geocoding error:", error);
+        res.status(500).json({ error: "Failed to get coordinates" });
+    }
+});
 
 router.get('/:id', restoreUser, requireAuth, async (req, res) => {
     const id = req.params.id

@@ -14,7 +14,7 @@ import './createGroup.css'
 function CreateGroupForm() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const sessionUser = useSelector((state) => state.session.user)
+    const sessionUser = useSelector((state) => state.session?.user?.user)
 
     // thunk loading part
  
