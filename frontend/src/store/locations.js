@@ -43,7 +43,7 @@ export const getOneLocationThunk = id => async dispatch => {
 }
 
 export const editLocationThunk = (payload, id) => async (dispatch) => {
-    console.log('i am here in edit location thunk')
+   
     const response = await fetch(`/api/locations/edit/${id}`, {
         method: 'PUT',
         credentials: 'include',
@@ -72,10 +72,9 @@ const locationReducer = ( state = initialState, action) => {
        
 
         case EDIT_LOCATION: {
-
-            const newerState = Object.assign({}, state);
-            newerState.locations = action.payload;
-            return newerState;
+            newState = { ...state };
+            newState[action.payload.id] = action.payload; // Update the location by its ID
+            return newState;
         }
 
        

@@ -15,23 +15,21 @@ router.get('/:id', restoreUser, requireAuth, async (req, res) => {
 })
 
 router.put('/edit/:id', restoreUser, requireAuth, async (req, res) => {
-
+    console.log('i am in the backend')
     const id = req.params.id
-    const location = await Locations.findByPk(id)
+    const locationGrab = await Locations.findByPk(id)
+    const location = locationGrab.toJSON()
+    console.log(location, 'i am location')
+   
 
-    if (location){
-        if (location.founder !== req.user.userName) {
-          const err = new Error('You must be the owner to edit this group')
-          err.status = 403
-          return err.status
-        }}
-      
 
     const {address, city, state} = req.body
-   
-    const coords = await getCoordinates(`${address}, ${city}, ${state}`);
 
-    location.set({
+    console.log(req.body, 'i am req.body')
+
+    const coords = await getCoordinates(address, city, state);
+
+    locationGrab.set({
         address: address,
         city: city,
         state: state,
@@ -39,10 +37,11 @@ router.put('/edit/:id', restoreUser, requireAuth, async (req, res) => {
         lon: coords.lon
     })
 
-    await location.save()
+    await locationGrab.save()
 
+    const updatedLocation = await Locations.findByPk(id)
 
-    res.json(location)
+    res.json(updatedLocation)
 })
 
 

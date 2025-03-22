@@ -17,6 +17,7 @@ function UpdateAddressForm() {
     const [city, setCity] = useState('');
     const [statee, setStatee] = useState('');
     const [loaded, setIsLoaded] = useState(false);
+ 
 
     useEffect(() => {
         dispatch(getOneLocationThunk(id)).then(() => setIsLoaded(true));
@@ -44,7 +45,7 @@ function UpdateAddressForm() {
         e.preventDefault();
 
         const payload = { address, city, state: statee };
-        await dispatch(editLocationThunk(payload, id));
+        dispatch(editLocationThunk(payload, id));
 
         navigate(`/mylistings`);
     };
