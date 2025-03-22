@@ -1,7 +1,5 @@
-const fetch = require('node-fetch');
-
-async function getCoordinates(address) {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`;
+async function getCoordinates(address, city, state) {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&countrycodes=us&street=${encodeURIComponent(address)}&city=${encodeURIComponent(city)}&state=${encodeURIComponent(state)}`;
 
     try {
         const response = await fetch(url);

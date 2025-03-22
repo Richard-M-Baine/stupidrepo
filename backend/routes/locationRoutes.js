@@ -15,24 +15,26 @@ router.get('/:id', restoreUser, requireAuth, async (req, res) => {
 })
 
 router.put('/edit/:id', restoreUser, requireAuth, async (req, res) => {
-    console.log('i am in the backend')
+
     const id = req.params.id
     const locationGrab = await Locations.findByPk(id)
     const location = locationGrab.toJSON()
-    console.log(location, 'i am location')
+
    
 
 
-    const {address, city, state} = req.body
+    const {address, city, county, state, country, postalCode} = req.body
 
     console.log(req.body, 'i am req.body')
 
-    const coords = await getCoordinates(address, city, state);
+    const coords = await getCoordinates(address, city, county, state);
 
     locationGrab.set({
         address: address,
         city: city,
+        county: county,
         state: state,
+        country: country,
         lat: coords.lat,
         lon: coords.lon
     })

@@ -15,7 +15,10 @@ function UpdateAddressForm() {
 
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
+    const [county, setCounty] = useState('');
     const [statee, setStatee] = useState('');
+    const [country, setCountry] = useState('us')
+    const [postalCode, setPostalCode] = useState('')
     const [loaded, setIsLoaded] = useState(false);
  
 
@@ -28,7 +31,9 @@ function UpdateAddressForm() {
         if (location[id]) {
             setAddress(location[id].address || '');
             setCity(location[id].city || '');
+            setCounty(location[id].county || '');
             setStatee(location[id].state || '');
+            setPostalCode(location[id].postalCode || '');
         }
     }, [location, id]);
 
@@ -44,7 +49,7 @@ function UpdateAddressForm() {
     const submit = async (e) => {
         e.preventDefault();
 
-        const payload = { address, city, state: statee };
+        const payload = { address, city, county, state: statee, country, postalCode };
         dispatch(editLocationThunk(payload, id));
 
         navigate(`/mylistings`);
@@ -83,6 +88,18 @@ function UpdateAddressForm() {
                 </div>
 
                 <div className='editGroupEditDiv'>
+                    <label className='editGroupLabel'>County</label>
+                    <input
+                        type='text'
+                        value={county}
+                        className='editgroupinput'
+                        onChange={e => setCounty(e.target.value)}
+                        required
+                        maxLength='70'
+                    />
+                </div>
+
+                <div className='editGroupEditDiv'>
                     <label className='editGroupLabel'>State</label>
                     <input
                         type='text'
@@ -90,6 +107,18 @@ function UpdateAddressForm() {
                         maxLength='2'
                         className='editLocationStateinput'
                         onChange={e => setStatee(e.target.value)}
+                        required
+                    />
+                </div>
+
+                <div className='editGroupEditDiv'>
+                    <label className='editGroupLabel'>Postal / Zip Code</label>
+                    <input
+                        type='text'
+                        value={postalCode}
+                        maxLength='2'
+                        className='editLocationStateinput'
+                        onChange={e => setPostalCode(e.target.value)}
                         required
                     />
                 </div>

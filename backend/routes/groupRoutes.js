@@ -95,7 +95,7 @@ router.get('/current',restoreUser, requireAuth, async (req, res) => {
 });
 
 router.post('/create', restoreUser, requireAuth, async (req, res) => {
-    const { founder, name, about, purpose, private, address, city, state } = req.body;
+    const { founder, name, about, purpose, private, address, city, county, state, country, postalCode } = req.body;
 
     try {
         // Get latitude & longitude from OpenStreetMap
@@ -104,7 +104,10 @@ router.post('/create', restoreUser, requireAuth, async (req, res) => {
         const newLocation = await Locations.create({
             address,
             city,
+            county,
             state,
+            country,
+            postalCode,
             lat: coords.lat,
             lon: coords.lon
         });

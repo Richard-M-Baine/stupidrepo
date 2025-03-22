@@ -23,6 +23,9 @@ function CreateGroupForm() {
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
+    const [county, setCounty] = useState('')
+    const [country, setCountry] = useState('us')
+    const [postalCode, setPostalCode] = useState('')
 
     //group part
     const [name, setName] = useState('')
@@ -63,7 +66,10 @@ function CreateGroupForm() {
             private: privatee,
             address: address,
             city: city,
-            state: state
+            county: county,
+            state: state,
+            country: country,
+            postalCode: postalCode
         }
 
 
@@ -122,6 +128,19 @@ function CreateGroupForm() {
                         </div>
 
                         <div className='createGroupPartOneDiv'>
+                            <label className='createGrouppartonelabel'>County</label>
+                            <input
+                                className='createGroupPartOneInput'
+                                id='cgpoinputtwo'
+                                type='text'
+                                maxLength='70'
+                                onChange={text => setCounty(text.target.value)}
+                                placeholder='please enter between 2 and 70 characters'
+                                value={county}
+                            />
+                        </div>
+
+                        <div className='createGroupPartOneDiv'>
                             <label className='createGrouppartonelabel'>State</label>
                             <input
                                 className='createGroupPartOneInput'
@@ -130,6 +149,19 @@ function CreateGroupForm() {
                                 maxLength='2'
                                 onChange={text => setState(text.target.value)}
                                 value={state}
+                                placeholder='enter the proper state abbreviation'
+                            />
+                        </div>
+
+                        <div className='createGroupPartOneDiv'>
+                            <label className='createGrouppartonelabel'>Postal / Zip Code</label>
+                            <input
+                                className='createGroupPartOneInput'
+                                type='text'
+                                id='cgpoinputthree'
+                                maxLength='2'
+                                onChange={text => setPostalCode(text.target.value)}
+                                value={postalCode}
                                 placeholder='enter the proper state abbreviation'
                             />
                         </div>

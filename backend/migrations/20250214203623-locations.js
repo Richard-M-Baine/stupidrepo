@@ -17,7 +17,19 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      county: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       state: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      country: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      postalCode: {
         type: Sequelize.STRING,
         allowNull: false
       },

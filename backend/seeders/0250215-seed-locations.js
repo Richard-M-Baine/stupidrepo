@@ -15,14 +15,20 @@ module.exports = {
             {
                 address: '123 cedar street',
                 city: 'Montclair',
+                county: 'Essex',
                 state: 'NJ',
+                country: 'us',
+                postalCode: '08742',
                 lat: 60.23,
                 lon: 13.22
             },
             {
                 address: '123 maple street',
                 city: 'Lakewood',
+                county: 'Ocean',
                 state: 'NJ',
+                country: 'us',
+                postalCode: '08742',
                 lat: 57.23,
                 lon: 13.98
             },
@@ -30,7 +36,10 @@ module.exports = {
         
                 address: '123 oak street',
                 city: 'Cherry Hill',
+                county: 'Camden',
                 state: 'NJ',
+                country: 'us',
+                postalCode: '08742',
                 lat: 60.23,
                 lon: 19.22
             
