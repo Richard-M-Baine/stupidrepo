@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Redirect, useHistory, useParams } from 'react-router-dom';
+import { Redirect, useNavigate, useParams } from 'react-router-dom';
 import '../createMessageModal/createMessage.css'
 
 import { getOneGroupThunk } from '../../../store/groups'
@@ -9,7 +9,7 @@ import { createMessageThunk } from '../../../store/messages';
 
 const GroupMessageForm = () => {
   const dispatch = useDispatch();
-  const history = useHistory()
+  const navigate = useNavigate()
   const user = useSelector(state => state.session.user)
 
   const { id } = useParams()
@@ -34,7 +34,7 @@ const GroupMessageForm = () => {
     
     await dispatch(createMessageThunk(payload))
 
-    history.push('/groups')
+    navigate('/groups')
   }
 
   return loaded && (

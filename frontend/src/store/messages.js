@@ -164,7 +164,7 @@ const messageReducer = (state = initialState, action) => {
 
         case MAKE_MESSAGE: {
             newState = { ...state };
-            const message = action.payload.newMessage; 
+            const message = action.payload; 
             newState[message.id] = message;
             return newState;
         }

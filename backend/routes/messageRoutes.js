@@ -11,10 +11,10 @@ router.get('/sent', restoreUser, requireAuth, async (req, res) => {
     const myMessages = await Messages.findAll({
         where: { sender: req.user.userName }
     });
-    console.log('i am here here are the messages ',myMessages)
+
 
     const response = { Messages: myMessages.map(message => message.toJSON()) };
-    console.log('its me the response ',response)
+
     return res.status(200).json(response);
 });
 
@@ -31,8 +31,9 @@ router.get('/response', restoreUser, requireAuth, async (req, res) => {
 });
 
 router.post('/create', restoreUser, requireAuth, async (req, res) => {
-    const {sender, body, recipient} = req.body
-
+    const {body, recipient} = req.body
+    const sender = req.user.userName
+    
     const newMessage = await Messages.create ({
         sender: sender,
         body: body,

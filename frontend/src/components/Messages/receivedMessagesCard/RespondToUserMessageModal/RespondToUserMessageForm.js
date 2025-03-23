@@ -30,7 +30,7 @@ const RespondToUserMessageForm = ({receivedMessage}) => {
     
     await dispatch(createMessageThunk(payload))
 
-    history.push('/mylistings')
+    navigate('/mylistings')
   }
 
   return (
