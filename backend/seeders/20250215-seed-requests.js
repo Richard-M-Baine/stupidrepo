@@ -20,7 +20,9 @@ module.exports = {
                 details: 'i need food and the pantry is short on supplies',
                 address: '233 Brick Blvd',
                 city: 'Brick Township',
+                county: 'ocean',
                 state: 'NJ',
+                country: 'us',
                 lat: '60.3',
                 lon: '2.53'
                }

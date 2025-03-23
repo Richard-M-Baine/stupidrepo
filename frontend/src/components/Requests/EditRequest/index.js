@@ -17,10 +17,13 @@ function EditRequestForm() {
 
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
+    const [county, setCounty] = useState('')
     const [details, setDetails] = useState('');
     const [endTime, setEndTime] = useState('');
     const [startTime, setStartTime] = useState('');
-    const [statee, setStatee] = useState('');
+    const [state, setState] = useState('');
+    const [postalCode, setPostalCode] = useState('')
+    const [country, setCountry] = useState('us')
     const [title, setTitle] = useState('');
     const [loaded, setLoaded] = useState(false);
     const [newSTime, setNewSTime] = useState('');
@@ -34,17 +37,20 @@ function EditRequestForm() {
         if (loaded && request) {
             setAddress(request.address || '');
             setCity(request.city || '');
+            setCounty(request.county || '')
+            setState(request.state || '')
+            setPostalCode(request.postalCode || '')
             setDetails(request.details || '');
             setEndTime(request.endTime || '');
             setStartTime(request.startTime || '');
-            setStatee(request.state || '');
+            setState(request.state || '');
             setTitle(request.title || '');
         }
     }, [loaded, request]);
 
     useEffect(() => {
         if (!sessionUser) {
-            navigate('/login');
+            navigate('/');
         }
     }, [sessionUser, navigate]);
 
@@ -73,7 +79,9 @@ function EditRequestForm() {
             details,
             address,
             city,
-            state: statee,
+            county,
+            postalCode,
+            state: state,
         };
 
         await dispatch(editRequestThunk(payload, id));

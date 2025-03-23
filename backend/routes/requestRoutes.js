@@ -78,7 +78,7 @@ router.put('/:id/edit', restoreUser, requireAuth, async (req, res) => {
         return res.status(403).json({ error: 'You must be the owner to edit this request' });
     }
     
-    const { title, start_time, end_time, details, address, city, state } = req.body;
+    const { title, start_time, end_time, details, address, city, postalCode, state } = req.body;
     
     console.log('Request before update:', requestJSON, 'Request body:', req.body);
     
@@ -89,7 +89,9 @@ router.put('/:id/edit', restoreUser, requireAuth, async (req, res) => {
         details,
         address,
         city,
-        state
+        county,
+        state,
+        postalCode
     });
     
     res.json(request.toJSON()); // Send updated request as JSON
@@ -103,7 +105,7 @@ router.get('/:id', restoreUser, requireAuth, async (req, res) => {
 })
 
 router.post('/create', restoreUser, requireAuth, async (req, res) => {
-    const { title, start_time, end_time, details, address, city, state } = req.body;
+    const { title, start_time, end_time, details, address, city, county, state, postalCode } = req.body;
     console.log('i am req.body ', req.body);
     const user = req.user.userName;
 
@@ -115,7 +117,9 @@ router.post('/create', restoreUser, requireAuth, async (req, res) => {
         details: details,
         address: address,
         city: city,
+        county: county,
         state: state,
+        postalCode: postalCode,
         lat: '22.220',
         lon: '22.22'
     });
