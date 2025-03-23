@@ -5,6 +5,7 @@ const { User } = require('../models');
 const {Requests} = require('../models') 
 const { setTokenCookie, requireAuth, restoreUser } = require('../middleware/authenticate.js');
 const router = express.Router();
+const { getCoordinates } = require('../utils/geocode');
 
 // lets make dates
 
@@ -77,10 +78,19 @@ router.put('/:id/edit', restoreUser, requireAuth, async (req, res) => {
     if (requestJSON.userName !== req.user.userName) {
         return res.status(403).json({ error: 'You must be the owner to edit this request' });
     }
+
+    let coords = { lat: '50', lon: '50' };
     
     const { title, start_time, end_time, details, address, city, county, postalCode, state } = req.body;
     
-    console.log('Request before update:', requestJSON, 'Request body:', req.body);
+    
+    try {
+        coords = await getCoordinates(address, city, county, state, postalCode);
+    } catch (error) {
+        console.error("Geocoding failed:", error);
+    }
+    
+    console.log("Final coordinates used:", coords); 
     
     await request.update({
         title,
@@ -91,7 +101,9 @@ router.put('/:id/edit', restoreUser, requireAuth, async (req, res) => {
         city,
         county,
         state,
-        postalCode
+        postalCode,
+        lat: coords.lat,  // Now guaranteed to exist
+        lon: coords.lon   // Now guaranteed to exist
     });
     
     res.json(request.toJSON()); // Send updated request as JSON
@@ -106,8 +118,11 @@ router.get('/:id', restoreUser, requireAuth, async (req, res) => {
 
 router.post('/create', restoreUser, requireAuth, async (req, res) => {
     const { title, start_time, end_time, details, address, city, county, state, country, postalCode } = req.body;
-    console.log('i am req.body ', req.body);
+   
     const user = req.user.userName;
+
+    let coords = { lat: '50', lon: '50' };
+    coords = await getCoordinates(address, city, county, state, postalCode);
 
     const newRequest = await Requests.create({
         userName: user,
@@ -121,8 +136,8 @@ router.post('/create', restoreUser, requireAuth, async (req, res) => {
         state: state,
         country: country,
         postalCode: postalCode,
-        lat: '22.220',
-        lon: '22.22'
+        lat: coords.lat,
+        lon: coords.lon
     });
 
     // Format the response before sending it to the frontend
