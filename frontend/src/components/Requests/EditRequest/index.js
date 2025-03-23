@@ -82,6 +82,7 @@ function EditRequestForm() {
             county,
             postalCode,
             state: state,
+            country
         };
 
         await dispatch(editRequestThunk(payload, id));
@@ -120,8 +121,19 @@ function EditRequestForm() {
                     </div>
 
                     <div className="editGroupEditDiv">
+                        <label className="editGroupLabel">County</label>
+                        <input
+                            type="text"
+                            value={county}
+                            className="editgroupinput"
+                            onChange={(e) => setCounty(e.target.value)}
+                            required
+                        />
+                    </div>
+
+                    <div className="editGroupEditDiv">
                         <label className="editGroupLabel">State</label>
-                        <select value={statee} onChange={(e) => setStatee(e.target.value)} required>
+                        <select value={state} onChange={(e) => setState(e.target.value)} required>
                             {['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
                                 .map((state) => (
                                     <option key={state} value={state}>
@@ -129,6 +141,17 @@ function EditRequestForm() {
                                     </option>
                                 ))}
                         </select>
+                    </div>
+
+                    <div className="editGroupEditDiv">
+                        <label className="editGroupLabel">Postal / Zip code</label>
+                        <input
+                            type="text"
+                            value={postalCode}
+                            className="editgroupinput"
+                            onChange={(e) => setPostalCode(e.target.value)}
+                            required
+                        />
                     </div>
 
                     <div className="editGroupEditDiv">

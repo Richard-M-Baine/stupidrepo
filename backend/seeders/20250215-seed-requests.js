@@ -23,8 +23,9 @@ module.exports = {
                 county: 'ocean',
                 state: 'NJ',
                 country: 'us',
-                lat: '60.3',
-                lon: '2.53'
+                postalCode: '08742',
+                lat: 50.3,
+                lon: 50.3
                }
         ], );
 

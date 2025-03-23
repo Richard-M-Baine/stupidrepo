@@ -58,7 +58,7 @@ module.exports = {
         allowNull: false
       },
       lon: {
-        type: Sequelize.STRING,
+        type: Sequelize.FLOAT,
         allowNull: false
       },
       createdAt: {
