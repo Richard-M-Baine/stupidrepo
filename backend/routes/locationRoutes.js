@@ -25,21 +25,30 @@ router.put('/edit/:id', restoreUser, requireAuth, async (req, res) => {
 
     const {address, city, county, state, country, postalCode} = req.body
 
-    console.log(req.body, 'i am req.body')
 
-    const coords = await getCoordinates(address, city, county, state);
+    let coords = { lat: '50', lon: '50' };
 
+    try {
+        coords = await getCoordinates(address, city, county, state, postalCode);
+    } catch (error) {
+        console.error("Geocoding failed:", error);
+    }
+    
+    console.log("Final coordinates used:", coords); // Debugging
+    
     locationGrab.set({
-        address: address,
-        city: city,
-        county: county,
-        state: state,
-        country: country,
-        lat: coords.lat,
-        lon: coords.lon
-    })
-
-    await locationGrab.save()
+        address,
+        city,
+        county,
+        state,
+        country,
+        postalCode,
+        lat: coords.lat,  // Now guaranteed to exist
+        lon: coords.lon   // Now guaranteed to exist
+    });
+    
+    await locationGrab.save();
+    
 
     const updatedLocation = await Locations.findByPk(id)
 
