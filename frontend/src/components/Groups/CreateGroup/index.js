@@ -159,7 +159,7 @@ function CreateGroupForm() {
                                 className='createGroupPartOneInput'
                                 type='text'
                                 id='cgpoinputthree'
-                                maxLength='2'
+                                maxLength='10'
                                 onChange={text => setPostalCode(text.target.value)}
                                 value={postalCode}
                                 placeholder='enter the proper state abbreviation'

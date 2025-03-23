@@ -96,10 +96,15 @@ router.get('/current',restoreUser, requireAuth, async (req, res) => {
 
 router.post('/create', restoreUser, requireAuth, async (req, res) => {
     const { founder, name, about, purpose, private, address, city, county, state, country, postalCode } = req.body;
-
+    let coords = { lat: '50', lon: '50' };
     try {
         // Get latitude & longitude from OpenStreetMap
-        const coords = await getCoordinates(`${address}, ${city}, ${state}`);
+       
+
+        coords = await getCoordinates(address, city, county, state, postalCode);
+   
+    
+    console.log("Final coordinates used:", coords);
         
         const newLocation = await Locations.create({
             address,
