@@ -2,8 +2,16 @@ import React, { useState, useEffect } from 'react'
 
 const EDIT_LOCATION = 'location/edit'
 const ONE_LOCATION = 'locations/one'
+const ALL_LOCATIONS ='locations/all'
 
 
+const getAllLocationsAction = payload => {
+
+    return {
+        type: ALL_LOCATIONS,
+        payload
+    }
+}
 
 const editLocationAction = payload => {
     return {
@@ -18,6 +26,22 @@ const getOneLocationAction = payload => {
         type: ONE_LOCATION,
         payload
     }
+}
+
+
+export const fetchAllLocationsThunk = () => async dispatch => {
+
+    const response = await fetch('/api/location/all')
+
+    if (response.ok) {
+
+        const locations = await response.json()
+
+        dispatch(getAllLocationsAction(locations))
+
+        return locations
+    }
+
 }
 
 export const getOneLocationThunk = id => async dispatch => {
@@ -70,6 +94,12 @@ const locationReducer = ( state = initialState, action) => {
     switch (action.type) {
 
        
+        case ALL_LOCATIONS: {
+            action.payload.locations.forEach(location => {
+                newState[location.id] = location
+            })
+            return newState
+        }
 
         case EDIT_LOCATION: {
             newState = { ...state };

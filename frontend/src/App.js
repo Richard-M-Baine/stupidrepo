@@ -17,6 +17,7 @@ import NavBar from './components/Navigation/NavBar.js';
 import CreateGroup from './components/Groups/CreateGroup/index.js'
 import EditCharityForm from './components/Groups/EditGroup/index.js'
 import UpdateAddressForm from './components/Groups/EditGroup/updateaddresspractice';
+import AllCharities from './components/Groups/AllGroups/index.js';
 
 
 // request stuff
