@@ -133,11 +133,21 @@ router.post('/create', restoreUser, requireAuth, async (req, res) => {
     }
 });
 
+router.get('/all', restoreUser, requireAuth, async (req, res) => {
+ 
+     const group = await Charities.findAll()
+     
+     res.json(group)
+ })
+
 router.get('/:id', restoreUser, requireAuth, async (req, res) => {
     const id = req.params.id
     const group = await Charities.findByPk(id)
     res.json(group)
 })
+
+
+
 
 
 

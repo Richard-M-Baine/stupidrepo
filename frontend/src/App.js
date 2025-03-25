@@ -60,6 +60,15 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+<Route
+          path='/groups'
+          element={
+            <ProtectedRoute>
+              <AllCharities />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path='/groups/create'
           element={

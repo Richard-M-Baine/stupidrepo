@@ -8,6 +8,7 @@ import requests from './requests'
 import locations from './locations'
 import messages from './messages'
 import recmessages from './recmessages'
+import maps from './maps'
 
 const rootReducer = combineReducers({
   session,
@@ -15,7 +16,8 @@ const rootReducer = combineReducers({
   requests,
   locations,
   messages,
-  recmessages
+  recmessages,
+  maps
 });
 
 const store = configureStore({

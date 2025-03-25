@@ -56,11 +56,17 @@ const EditGroupAction = group => {
 
 // all groups
 export const fetchAllGroupsThunk = () => async dispatch => {
-
-    const response = await fetch('/api/groups/all')
-
+console.log('i am in the all groups thunk')
+    const response = await fetch('/api/groups/all',{
+     method: 'GET',
+        credentials: 'include', // Ensures cookies are sent with the request
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+console.log('i am after')
     if (response.ok) {
-
+console.log('i am response.ok')
         const groups = await response.json()
 
         dispatch(getAllGroupsAction(groups))
@@ -185,10 +191,16 @@ const groupReducer = (state = initialState, action) => {
 
 
         case ALL_GROUPS: {
-            action.payload.groups.forEach(group => {
-                newState[group.id] = group
-            })
-            return newState
+            if (!action.payload || !Array.isArray(action.payload.Charities)) {
+                console.error("Invalid payload structure:", action.payload);
+                return state; 
+            }
+        
+            newState = {};
+            action.payload.Charities.forEach(group => {  // Use Charities instead of groups
+                newState[group.id] = group;
+            });
+            return newState;
         }
 
         case CREATE_GROUP: {

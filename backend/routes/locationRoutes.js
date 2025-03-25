@@ -55,6 +55,12 @@ router.put('/edit/:id', restoreUser, requireAuth, async (req, res) => {
     res.json(updatedLocation)
 })
 
+router.get('/all', restoreUser, requireAuth, async (req, res) => {
+   
+    const location = await Locations.findAll()
+    res.json(location)
+})
+
 
 
 module.exports = router

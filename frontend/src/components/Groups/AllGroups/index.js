@@ -7,16 +7,18 @@ import './allGroups.css'
 
 
 import { fetchAllGroupsThunk } from '../../../store/groups.js'
-import MapStuff from '../../maps/GroupMap/index.js'
+import MapStuff from '../../Maps/GroupMap/index.js'
 
 
 function AllCharities() {
     const dispatch = useDispatch()
-    const groups = useSelector(state => state.groups)
+    const groups = useSelector(state => state?.groups ?? {});
 
 
 
-    const groupsList = Object.values(groups)
+
+    const groupsList = groups ? Object.values(groups) : [];
+
 
 
 
@@ -25,13 +27,19 @@ function AllCharities() {
 
     const [loaded, setLoaded] = useState(false)
 
+  
+    
+
     useEffect(() => {
         dispatch(fetchAllGroupsThunk())
             .then(() => setLoaded(true))
     }, [dispatch])
+    
+  if (!loaded) {
+        return <p>wait a bloody minute...</p>;
+    }
 
-
-    return loaded && (
+    return (
         <div className='mainAllGroups'>
 
             <div className='groupAllPart'>
