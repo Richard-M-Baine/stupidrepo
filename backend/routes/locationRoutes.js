@@ -58,7 +58,8 @@ router.put('/edit/:id', restoreUser, requireAuth, async (req, res) => {
 router.get('/all', restoreUser, requireAuth, async (req, res) => {
    
     const location = await Locations.findAll()
-    res.json(location)
+    const newLocation = location.map(loc => loc.toJSON())
+    res.json(newLocation)
 })
 
 

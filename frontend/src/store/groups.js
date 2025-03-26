@@ -191,13 +191,12 @@ const groupReducer = (state = initialState, action) => {
 
 
         case ALL_GROUPS: {
-            if (!action.payload || !Array.isArray(action.payload.Charities)) {
-                console.error("Invalid payload structure:", action.payload);
-                return state; 
+            if (!action.payload || !Array.isArray(action.payload)) {
+                console.error("Invalid payload structure for ALL_GROUPS:", action.payload);
+                return state;
             }
-        
             newState = {};
-            action.payload.Charities.forEach(group => {  // Use Charities instead of groups
+            action.payload.forEach(group => {
                 newState[group.id] = group;
             });
             return newState;

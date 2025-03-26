@@ -134,10 +134,11 @@ router.post('/create', restoreUser, requireAuth, async (req, res) => {
 });
 
 router.get('/all', restoreUser, requireAuth, async (req, res) => {
- 
+    console.log('i am in all')
      const group = await Charities.findAll()
-     
-     res.json(group)
+     const newGroup = group.map(charity => charity.toJSON());
+
+    res.json(newGroup)
  })
 
 router.get('/:id', restoreUser, requireAuth, async (req, res) => {

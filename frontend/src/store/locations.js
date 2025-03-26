@@ -95,10 +95,15 @@ const locationReducer = ( state = initialState, action) => {
 
        
         case ALL_LOCATIONS: {
-            action.payload.locations.forEach(location => {
-                newState[location.id] = location
-            })
-            return newState
+            if (!action.payload || !Array.isArray(action.payload)) {
+                console.error("Invalid payload structure for ALL_Locations:", action.payload);
+                return state;
+            }
+            newState = {};
+            action.payload.forEach(group => {
+                newState[group.id] = group;
+            });
+            return newState;
         }
 
         case EDIT_LOCATION: {
