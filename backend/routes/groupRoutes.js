@@ -133,13 +133,15 @@ router.post('/create', restoreUser, requireAuth, async (req, res) => {
     }
 });
 
-router.get('/all', restoreUser, requireAuth, async (req, res) => {
-    console.log('i am in all')
-     const group = await Charities.findAll()
-     const newGroup = group.map(charity => charity.toJSON());
 
-    res.json(newGroup)
- })
+    
+router.get('/all', restoreUser, requireAuth, async (req, res) => {
+    const groups = await Charities.findAll()
+    const newGroups = groups.map(loc => loc.toJSON())
+    res.json(newGroups)
+    });
+    
+ 
 
 router.get('/:id', restoreUser, requireAuth, async (req, res) => {
     const id = req.params.id

@@ -7,6 +7,13 @@ const { getCoordinates } = require('../utils/geocode');
 const { setTokenCookie, restoreUser, requireAuth } = require('../middleware/authenticate.js');
 const router = express.Router();
 
+router.get('/all', restoreUser, requireAuth, async (req, res) => {
+    console.log('i am in locations!')
+     const location = await Locations.findAll()
+     const newLocation = location.map(loc => loc.toJSON())
+     res.json(newLocation)
+ })
+
 
 router.get('/:id', restoreUser, requireAuth, async (req, res) => {
     const id = req.params.id
@@ -34,7 +41,7 @@ router.put('/edit/:id', restoreUser, requireAuth, async (req, res) => {
         console.error("Geocoding failed:", error);
     }
     
-    console.log("Final coordinates used:", coords); // Debugging
+    
     
     locationGrab.set({
         address,
@@ -55,12 +62,7 @@ router.put('/edit/:id', restoreUser, requireAuth, async (req, res) => {
     res.json(updatedLocation)
 })
 
-router.get('/all', restoreUser, requireAuth, async (req, res) => {
-   
-    const location = await Locations.findAll()
-    const newLocation = location.map(loc => loc.toJSON())
-    res.json(newLocation)
-})
+
 
 
 

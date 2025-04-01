@@ -31,7 +31,7 @@ const getOneLocationAction = payload => {
 
 export const fetchAllLocationsThunk = () => async dispatch => {
 
-    const response = await fetch('/api/location/all')
+    const response = await fetch('/api/locations/all')
 
     if (response.ok) {
 
@@ -100,8 +100,8 @@ const locationReducer = ( state = initialState, action) => {
                 return state;
             }
             newState = {};
-            action.payload.forEach(group => {
-                newState[group.id] = group;
+            action.payload.forEach(location => {
+                newState[location.id] = location;
             });
             return newState;
         }

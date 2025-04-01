@@ -116,7 +116,7 @@ function UpdateAddressForm() {
                     <input
                         type='text'
                         value={postalCode}
-                        maxLength='2'
+                        maxLength='10'
                         className='editLocationStateinput'
                         onChange={e => setPostalCode(e.target.value)}
                         required

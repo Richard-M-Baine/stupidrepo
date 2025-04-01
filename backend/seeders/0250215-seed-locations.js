@@ -12,26 +12,7 @@ module.exports = {
     up: async (queryInterface, Sequelize) => {
         options.tableName = 'Locations';
         return await queryInterface.bulkInsert(options, [
-            {
-                address: '123 cedar street',
-                city: 'Montclair',
-                county: 'Essex',
-                state: 'NJ',
-                country: 'us',
-                postalCode: '08742',
-                lat: 60.23,
-                lon: 13.22
-            },
-            {
-                address: '123 maple street',
-                city: 'Lakewood',
-                county: 'Ocean',
-                state: 'NJ',
-                country: 'us',
-                postalCode: '08742',
-                lat: 57.23,
-                lon: 13.98
-            },
+           
             {
         
                 address: '123 oak street',
