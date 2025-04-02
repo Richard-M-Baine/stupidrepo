@@ -28,7 +28,7 @@ function MapStuff({ apiKey, locations = [] }) {
                 <Marker 
                     key={location.id} 
                     position={{ lat: location.lat, lng: location.lon }} 
-                    title={location.address} 
+                    title={location.name} 
                 />
             ))}
         </GoogleMap>

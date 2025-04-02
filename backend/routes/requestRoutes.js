@@ -110,6 +110,14 @@ router.put('/:id/edit', restoreUser, requireAuth, async (req, res) => {
 
 })
 
+router.get('/all', restoreUser, requireAuth, async (req, res) => {
+    const requests = await Requests.findAll()
+    const newRequests = requests.map(loc => loc.toJSON())
+    res.json(newRequests)
+    });
+
+
+
 router.get('/:id', restoreUser, requireAuth, async (req, res) => {
     const id = req.params.id
     const request = await Requests.findByPk(id)

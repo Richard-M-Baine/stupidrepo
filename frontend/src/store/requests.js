@@ -4,6 +4,16 @@ const REQUEST_ERROR = "requests/error"
 const EDIT_REQUEST = 'request/edit'
 const ONE_REQUEST = 'requests/one'
 const CREATE_REQUEST = 'requests/new'
+const ALL_REQUESTS = 'requests/all'
+
+
+const getAllRequestsAction = payload => {
+
+    return {
+        type: ALL_REQUESTS,
+        payload
+    }
+}
 
 
 const myRequestsGetAction = (requests) => ({
@@ -43,6 +53,29 @@ const createRequestAction = payload => {
         payload: payload
     }
 }
+
+
+
+export const fetchAllRequestsThunk = () => async dispatch => {
+    console.log('i am in the all requests thunk')
+        const response = await fetch('/api/requests/all',{
+         method: 'GET',
+            credentials: 'include', // Ensures cookies are sent with the request
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    console.log('i am after')
+        if (response.ok) {
+    console.log('i am response.ok')
+            const requests = await response.json()
+    
+            dispatch(getAllRequestsAction(requests))
+    
+            return requests
+        }
+    
+    }
 
 export const getOneRequestThunk = id => async dispatch => {
 
@@ -171,7 +204,17 @@ const requestReducer = (state = initialState, action) => {
 
     switch (action.type) {
 
-
+        case ALL_REQUESTS: {
+            if (!action.payload || !Array.isArray(action.payload)) {
+                console.error("Invalid payload structure for ALL_REQUESTS:", action.payload);
+                return state;
+            }
+            newState = {};
+            action.payload.forEach(request => {
+                newState[request.id] = request;
+            });
+            return newState;
+        }
 
         case MY_REQUESTS: {
             action.payload.forEach(request => {

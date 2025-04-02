@@ -13,6 +13,7 @@ function UpdateAddressForm() {
     const location = useSelector((state) => state?.locations);
     const dispatch = useDispatch();
 
+    const [name, setName] = useState('')
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [county, setCounty] = useState('');
@@ -34,6 +35,7 @@ function UpdateAddressForm() {
             setCounty(location[id].county || '');
             setStatee(location[id].state || '');
             setPostalCode(location[id].postalCode || '');
+            setName(location[id].name || '')
         }
     }, [location, id]);
 
@@ -49,7 +51,7 @@ function UpdateAddressForm() {
     const submit = async (e) => {
         e.preventDefault();
 
-        const payload = { address, city, county, state: statee, country, postalCode };
+        const payload = { name, address, city, county, state: statee, country, postalCode };
         dispatch(editLocationThunk(payload, id));
 
         navigate(`/mylistings`);
@@ -58,7 +60,7 @@ function UpdateAddressForm() {
     return loaded && (
         <div className='editGroupMainDiv'>
             <div className='editGroupTextBox'>
-                <h1>Welcome, feel free to update your group's address</h1>
+                <h1>Welcome, feel free to update {name}'s address</h1>
                 <h3>To aid in searching, please enter <a href='https://www.faa.gov/air_traffic/publications/atpubs/cnt_html/appendix_a.html'>the appropriate state abbreviation.</a></h3>
             </div>
 

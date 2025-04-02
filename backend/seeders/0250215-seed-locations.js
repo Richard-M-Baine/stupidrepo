@@ -14,7 +14,7 @@ module.exports = {
         return await queryInterface.bulkInsert(options, [
            
             {
-        
+                name: 'Seeds of Service',
                 address: '123 oak street',
                 city: 'Cherry Hill',
                 county: 'Camden',

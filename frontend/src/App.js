@@ -24,6 +24,7 @@ import AllCharities from './components/Groups/AllGroups/index.js';
 
 import CreateRequestForm from './components/Requests/CreateRequest/index.js';
 import EditRequestForm from './components/Requests/EditRequest/index.js';
+import AllRequests from './components/Requests/AllRequests/index.js'
 
 // messaging and map stuff
 
@@ -61,7 +62,7 @@ function App() {
           }
         />
 
-<Route
+        <Route
           path='/groups'
           element={
             <ProtectedRoute>
@@ -97,6 +98,15 @@ function App() {
         />
 
         <Route
+          path='/requests'
+          element={
+            <ProtectedRoute>
+              <AllRequests />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path='/requests/create'
           element={
             <ProtectedRoute>
@@ -114,14 +124,14 @@ function App() {
           }
         />
         <Route
-        path='/messages'
-        element={
-          <ProtectedRoute  exact={true}>
-          < MyMessages />
-        </ProtectedRoute>
-        }
+          path='/messages'
+          element={
+            <ProtectedRoute exact={true}>
+              < MyMessages />
+            </ProtectedRoute>
+          }
         />
-      
+
 
 
 

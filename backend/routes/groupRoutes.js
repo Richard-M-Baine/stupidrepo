@@ -107,6 +107,7 @@ router.post('/create', restoreUser, requireAuth, async (req, res) => {
     console.log("Final coordinates used:", coords);
         
         const newLocation = await Locations.create({
+            name,
             address,
             city,
             county,

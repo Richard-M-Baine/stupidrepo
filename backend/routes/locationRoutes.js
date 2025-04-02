@@ -22,7 +22,7 @@ router.get('/:id', restoreUser, requireAuth, async (req, res) => {
 })
 
 router.put('/edit/:id', restoreUser, requireAuth, async (req, res) => {
-
+   
     const id = req.params.id
     const locationGrab = await Locations.findByPk(id)
     const location = locationGrab.toJSON()
@@ -30,7 +30,7 @@ router.put('/edit/:id', restoreUser, requireAuth, async (req, res) => {
    
 
 
-    const {address, city, county, state, country, postalCode} = req.body
+    const {name, address, city, county, state, country, postalCode} = req.body
 
 
     let coords = { lat: '50', lon: '50' };
@@ -44,6 +44,7 @@ router.put('/edit/:id', restoreUser, requireAuth, async (req, res) => {
     
     
     locationGrab.set({
+        name,
         address,
         city,
         county,
