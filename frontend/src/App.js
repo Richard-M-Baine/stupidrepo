@@ -18,6 +18,7 @@ import CreateGroup from './components/Groups/CreateGroup/index.js'
 import EditCharityForm from './components/Groups/EditGroup/index.js'
 import UpdateAddressForm from './components/Groups/EditGroup/updateaddresspractice';
 import AllCharities from './components/Groups/AllGroups/index.js';
+import CharityDetails from './components/Groups/GroupDetails/index.js';
 
 
 // request stuff
@@ -25,6 +26,7 @@ import AllCharities from './components/Groups/AllGroups/index.js';
 import CreateRequestForm from './components/Requests/CreateRequest/index.js';
 import EditRequestForm from './components/Requests/EditRequest/index.js';
 import AllRequests from './components/Requests/AllRequests/index.js'
+import RequestDetails from './components/Requests/RequestDetails/index.js'
 
 // messaging and map stuff
 
@@ -80,6 +82,15 @@ function App() {
         />
 
         <Route
+          path='/groups/:id'
+          element={
+            <ProtectedRoute>
+              <CharityDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path='/groups/edit/:id'
           element={
             <ProtectedRoute>
@@ -102,6 +113,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AllRequests />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path='/requests/:id'
+          element={
+            <ProtectedRoute>
+              <RequestDetails />
             </ProtectedRoute>
           }
         />

@@ -121,7 +121,9 @@ router.get('/all', restoreUser, requireAuth, async (req, res) => {
 router.get('/:id', restoreUser, requireAuth, async (req, res) => {
     const id = req.params.id
     const request = await Requests.findByPk(id)
-    res.json(request)
+    const returnRequest = request.toJSON()
+    console.log(returnRequest)
+    res.json(returnRequest)
 })
 
 router.post('/create', restoreUser, requireAuth, async (req, res) => {

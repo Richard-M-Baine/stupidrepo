@@ -90,6 +90,7 @@ export const getOneRequestThunk = id => async dispatch => {
 
 
         const singleRequest = await res.json()
+        console.log("Fetched Request Data:", singleRequest);
 
         dispatch(getOneRequestAction(singleRequest))
         return singleRequest

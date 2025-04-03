@@ -30,7 +30,7 @@ function AllCharities() {
     }, [dispatch]);
 
     const groupsList = groups ? Object.values(groups) : [];
-    console.log(groupsList)
+    
     const locationsList = locations ? Object.values(locations) : [];
 
     if (!loaded) {
