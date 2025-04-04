@@ -30,13 +30,13 @@ function AllCharities() {
     }, [dispatch]);
 
     const groupsList = groups ? Object.values(groups) : [];
-    
+   
     const locationsList = locations ? Object.values(locations) : [];
 
     if (!loaded) {
         return <p>wait a bloody minute...</p>;
     }
-
+    console.log(groupsList)
     return (
         <div className='mainAllGroups'>
             <div className='groupAllPart'>

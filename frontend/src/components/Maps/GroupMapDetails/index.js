@@ -1,66 +1,38 @@
-import React, { useState, useEffect, useMemo  } from 'react';
-import { GoogleMap, useLoadScript, Marker} from "@react-google-maps/api";
+import React, { useMemo } from 'react';
+import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
+import './mapStuff.css';
 
+function GroupMapDetails({ apiKey, locations = [] }) {
+    const { isLoaded } = useLoadScript({
+        googleMapsApiKey: apiKey || "", // Only pass API key when available
+        libraries: ['places'],
+    });
 
+    const center = useMemo(() => {
+        if (locations.length > 0) {
+            return { lat: locations[0].lat, lng: locations[0].lon };
+        }
+        return { lat: 40.05047, lng: -74.12218 }; // Default fallback
+    }, [locations]);
 
+    const options = useMemo(() => ({
+        disableDefaultUI: false,
+        clickableIcons: true
+    }), []);
 
+    if (!isLoaded) return <p>Loading map...</p>;
 
-
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-
-import {fetchAPIKeyThunk} from '../../../store/maps'
-import './groupMapDetails.css'
-
-
-
-
-// Ryan Login Modal
-
-function GroupMapDetails() {
-  
-  
-
-  const keyy = useSelector(state => state?.maps?.key)
-  const [loaded , setLoaded] = useState(false)
-  const [stateKey, setStateKey] = useState('')
-  
-  const dispatch = useDispatch()
-  useEffect(() => {
-      dispatch(fetchAPIKeyThunk())
-      .then(() => setLoaded(true))
-      if (loaded){
-        setStateKey(keyy)
-      }
-
-  }, [dispatch])
-
-  const { id } = useParams();
-  const charityId = parseInt(id)
-  const locations = useSelector(state =>state?.locations)
-  
-
-  // {locationList.map(location => (
-    //<Marker position={useMemo(() => ({ lat: location?.lat, lng: location?.}), [])} />
-    //))}
-  
-  let { isLoaded } = useLoadScript({
-    googleMapsApiKey: keyy,
-    libraries: ['places'],
-  });
-
- // the markers are what you want
-
-// groups
- const groupDetail = useMemo(() => ({ lat: locations[charityId]?.lat, lng: locations[charityId]?.lng}), []);
- const options = useMemo(() => ({ disableDefaultUI: false, clickableIcons: true}), []);
-   
-  return isLoaded &&(
-    
-    <GoogleMap zoom={10} center={groupDetail} mapContainerClassName="mapContainerMain" options={options}>
-    <Marker position={groupDetail} />
-  </GoogleMap>
-)
+    return (
+        <GoogleMap zoom={10} center={center} mapContainerClassName="mapContainerMain" options={options}>
+           
+                <Marker 
+                    key={location.id} 
+                    position={{ lat: location[8], lng: location[9] }} 
+                    title={location.name} 
+                />
+           
+        </GoogleMap>
+    );
 }
 
 export default GroupMapDetails;

@@ -24,8 +24,8 @@ module.exports = {
                 state: 'NJ',
                 country: 'us',
                 postalCode: '08742',
-                lat: 50.3,
-                lon: 50.3
+                lat: 40.05047,
+                lon: -74.12218
                }
         ], );
 

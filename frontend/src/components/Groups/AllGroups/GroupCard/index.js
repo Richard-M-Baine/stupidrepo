@@ -7,6 +7,7 @@ import { fetchAllLocationsThunk } from '../../../../store/locations.js'
 import './groupCard.css'
 
 function CharityCard({ group }) {
+    
     const dispatch = useDispatch()
     const [loaded, setLoaded] = useState(false)
 

@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import MapStuff from '../../Maps/GroupMap/index.js'
+import RequestMapStuff from '../../Maps/GroupMap/index.js'
 
 import { fetchAPIKeyThunk } from '../../../store/maps.js'
 import { getOneRequestThunk } from '../../../store/requests';
@@ -76,7 +76,7 @@ export default function RequestDetails() {
 
             <div className='mapContainerMain'>
                 {/* Pass API key down as prop */}
-                <MapStuff apiKey={apiKey} locations={[]} />
+                <RequestMapStuff apiKey={apiKey} locations={[]} />
 
             </div>
         </div>

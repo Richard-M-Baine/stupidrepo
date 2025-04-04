@@ -8,7 +8,7 @@ import CreateGroupMessageModal from '../../Messages/groupMessageModal'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import MapStuff from '../../Maps/GroupMap/index.js'
+import GroupMapDetails from '../../Maps/GroupMap/index.js'
 
 import { fetchAPIKeyThunk } from '../../../store/maps.js'
 import { getOneGroupThunk } from '../../../store/groups';
@@ -49,6 +49,7 @@ export default function CharityDetails() {
     const group = useSelector(state => state?.group?.[charityId] ?? {});
 
     const location = useSelector(state => state?.locations?.[charityId] ?? {});
+    const locationsList = location ? Object.values(location) : [];
    
     console.log(group, location)
 
@@ -57,7 +58,7 @@ export default function CharityDetails() {
         return <p>wait a bloody minute...</p>;
     }
 
-
+    console.log('i am locationlist ',locationsList)
     return (
         <div className='groupdetailsoutmostDiv'>
             <h1>All about {group.name}</h1>
@@ -71,7 +72,8 @@ export default function CharityDetails() {
 
             <div className='mapContainerMain'>
                 {/* Pass API key down as prop */}
-                <MapStuff apiKey={apiKey} locations={[]} />
+                <GroupMapDetails apiKey={apiKey} locations={locationsList} />
+
 
             </div>
         </div>

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import './RequestMap.css';
 
-function RequestMapStuff({ apiKey, locations = [] }) {
+function RequestMap({ apiKey, locations = [] }) {
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: apiKey || "", // Only pass API key when available
         libraries: ['places'],
@@ -20,19 +20,19 @@ function RequestMapStuff({ apiKey, locations = [] }) {
         clickableIcons: true
     }), []);
 
-    if (!isLoaded) return <p>Loading map... Wait a bloody minute</p>;
-    console.log('i am locations ',locations)
+    if (!isLoaded) return <p>Loading map...</p>;
+
     return (
         <GoogleMap zoom={10} center={center} mapContainerClassName="mapContainerMain" options={options}>
-            {locations.map(request => (
+            {locations.map(location => (
                 <Marker 
-                    key={request.id} 
-                    position={{ lat: request.lat, lng: request.lon }} 
-                    title={request.title} 
+                    key={location.id} 
+                    position={{ lat: location.lat, lng: location.lon }} 
+                    title={location.name} 
                 />
             ))}
         </GoogleMap>
     );
 }
 
-export default RequestMapStuff;
+export default RequestMap;
