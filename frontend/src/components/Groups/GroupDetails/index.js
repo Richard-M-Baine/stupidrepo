@@ -61,6 +61,7 @@ export default function CharityDetails() {
                 {/* Pass API key down as prop */}
                 <GroupMapDetails apiKey={apiKey} locations={locationsList} />
             </div>
+            <div><CreateGroupMessageModal /></div>
         </div>
     )
 }
