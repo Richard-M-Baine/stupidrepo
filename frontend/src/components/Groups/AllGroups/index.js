@@ -15,7 +15,7 @@ function AllCharities() {
     const dispatch = useDispatch();
     const apiKey = useSelector(state => state?.maps?.key); // Fetch API Key here
 
-    const groups = useSelector(state => state?.groups ?? {});
+    const groups = useSelector(state => state?.group ?? {});
     const locations = useSelector(state => state?.locations ?? {});
 
   
@@ -46,7 +46,7 @@ function AllCharities() {
                 <div className='secondaryGroupAllDiv'>
                     <div className='groupsAllPart'>
                         {groupsList.map(group => (
-                            <CharityCard group={groups} key={group.id} />
+                            <CharityCard group={group} key={group.id} />
                         ))}
                     </div>
                     <div className='mapContainerMain'>

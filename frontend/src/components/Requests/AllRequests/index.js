@@ -29,7 +29,7 @@ function AllRequests() {
     }, [dispatch]);
 
     const requestList = requests ? Object.values(requests) : [];
-    console.log(requestList)
+   
 
 
     if (!loaded) {
