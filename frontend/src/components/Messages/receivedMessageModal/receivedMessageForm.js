@@ -3,24 +3,24 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Redirect, useNavigate, useParams } from 'react-router-dom';
 import '../createMessageModal/createMessage.css'
 
-import { getOneGroupThunk } from '../../../store/groups'
+import { getOneRequestThunk } from '../../../store/requests'
 import { createMessageThunk } from '../../../store/messages';
 
 
-const GroupMessageForm = () => {
+const ReceivedMessageForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const user = useSelector(state => state.session.user)
 
   const { id } = useParams()
-  const groupId = parseInt(id)
-  const group = useSelector(state => state?.group)
+  const requestId = parseInt(id)
+  const request = useSelector(state => state?.requests)
   const [body, setBody] = useState('')
   const [loaded, setLoaded] = useState(false)
 
 
   useEffect(() => {
-    dispatch(getOneGroupThunk(id))
+    dispatch(getOneRequestThunk(id))
       .then(() => setLoaded(true))
   }, [dispatch])
 
@@ -29,12 +29,12 @@ const GroupMessageForm = () => {
 
     const payload = {
       body,
-      recipient: group[groupId]?.founder
+      recipient: request[requestId]?.userName
     }
     
     await dispatch(createMessageThunk(payload))
 
-    navigate('/groups')
+    navigate('/requests')
   }
 
   return loaded && (
@@ -58,4 +58,4 @@ const GroupMessageForm = () => {
   );
 };
 
-export default GroupMessageForm;
+export default ReceivedMessageForm;

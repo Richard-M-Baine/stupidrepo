@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react';
 
 
-import CreateGroupMessageModal from '../../Messages/groupMessageModal'
+import CreateRequestMessageModal from '../../Messages/receivedMessageModal'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
@@ -74,7 +74,7 @@ export default function RequestDetails() {
         <h2>address</h2>
          <h3>{request.address}  </h3>
          <h3>{request.city} {request.state} {request.postalCode}</h3>
-         <div className='requestDetailsOfferHelpModal'><CreateGroupMessageModal /></div>
+         <div className='requestDetailsOfferHelpModal'><CreateRequestMessageModal /></div>
             <div className='mapContainerMain'>
                 {/* Pass API key down as prop */}
                 <RequestMapStuff apiKey={apiKey} locations={requestList} />
