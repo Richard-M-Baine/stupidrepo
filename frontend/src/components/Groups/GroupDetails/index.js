@@ -18,41 +18,28 @@ import './groupDetails.css'
 
 
 export default function CharityDetails() {
-
     const dispatch = useDispatch();
     const apiKey = useSelector(state => state?.maps?.key)
     const { id } = useParams();
 
-
-
     const charityId = parseInt(id)
 
-
-
-
     const [loaded, setLoaded] = useState(false)
-
-
-
-
-
-
 
     useEffect(() => {
         dispatch(getOneGroupThunk(id))
             .then(() => dispatch(getOneLocationThunk(id)))
             .then(() => dispatch(fetchAPIKeyThunk()))
             .then(() => setLoaded(true));
-    }, [dispatch, id])  // ← Add id so it know when change!
-
+    }, [dispatch, id])
 
     const group = useSelector(state => state?.group?.[charityId] ?? {});
 
     const location = useSelector(state => state?.locations?.[charityId] ?? {});
-    const locationsList = location ? Object.values(location) : [];
-   
-    console.log(group, location)
+    const locationsList = location ? [location] : []; // Changed this line
 
+    console.log('locationsList in CharityDetails: ', locationsList);
+    console.log(group, location)
 
     if (!loaded) {
         return <p>wait a bloody minute...</p>;
@@ -73,15 +60,7 @@ export default function CharityDetails() {
             <div className='mapContainerMain'>
                 {/* Pass API key down as prop */}
                 <GroupMapDetails apiKey={apiKey} locations={locationsList} />
-
-
             </div>
         </div>
-
-
-
-
     )
-
-
 }

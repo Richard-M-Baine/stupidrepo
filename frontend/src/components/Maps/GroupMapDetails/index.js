@@ -2,15 +2,16 @@ import React, { useMemo } from 'react';
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
 import './mapStuff.css';
 
-function GroupMapDetails({ apiKey, locations = [] }) {
+function GroupMapDetails({ apiKey, locations}) {
+    console.log('i am group map details and locations ',locations)
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: apiKey || "", // Only pass API key when available
         libraries: ['places'],
     });
 
     const center = useMemo(() => {
-        if (locations.length > 0) {
-            return { lat: locations[0].lat, lng: locations[0].lon };
+        if (locations && locations.length > 0) { // Ensure locations exist before accessing
+            return { lat: locations[0].lat, lng: locations[0].lng };
         }
         return { lat: 40.05047, lng: -74.12218 }; // Default fallback
     }, [locations]);
@@ -24,13 +25,13 @@ function GroupMapDetails({ apiKey, locations = [] }) {
 
     return (
         <GoogleMap zoom={10} center={center} mapContainerClassName="mapContainerMain" options={options}>
-           
-                <Marker 
-                    key={location.id} 
-                    position={{ lat: location[8], lng: location[9] }} 
-                    title={location.name} 
+            {locations && locations.map(location => ( // Iterate over the locations array
+                <Marker
+                    key={location.id}
+                    position={{ lat: location.lat, lng: location.lng }}
+                    title={location.name}
                 />
-           
+            ))}
         </GoogleMap>
     );
 }

@@ -20,11 +20,11 @@ export default function RequestDetails() {
     const dispatch = useDispatch();
     const apiKey = useSelector(state => state?.maps?.key)
     const { id } = useParams();
-
+     const requests = useSelector(state => state?.requests ?? {});
 
 
     const requestId = parseInt(id)
-
+    const request = useSelector(state => state?.requests?.[requestId]);
 
 
 
@@ -44,8 +44,9 @@ export default function RequestDetails() {
     }, [dispatch, id])  // ← Add id so it know when change!
 
 
-    const request = useSelector(state => state?.requests?.[requestId]);
-
+    
+    const requestList = requests ? Object.values(requests) : [];
+    console.log(requestList)
 
 
 
@@ -76,7 +77,7 @@ export default function RequestDetails() {
 
             <div className='mapContainerMain'>
                 {/* Pass API key down as prop */}
-                <RequestMapStuff apiKey={apiKey} locations={[]} />
+                <RequestMapStuff apiKey={apiKey} locations={requestList} />
 
             </div>
         </div>

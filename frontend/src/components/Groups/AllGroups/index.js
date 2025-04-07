@@ -29,14 +29,14 @@ function AllCharities() {
             .then(() => setLoaded(true));
     }, [dispatch]);
 
-    const groupsList = groups ? Object.values(groups) : [];
+    const groupsList = groups ? Object.values(groups)  : []
    
     const locationsList = locations ? Object.values(locations) : [];
 
     if (!loaded) {
         return <p>wait a bloody minute...</p>;
     }
-    console.log(groupsList)
+    console.log('i am groups list pay attentiont to me ',groupsList)
     return (
         <div className='mainAllGroups'>
             <div className='groupAllPart'>
@@ -46,7 +46,7 @@ function AllCharities() {
                 <div className='secondaryGroupAllDiv'>
                     <div className='groupsAllPart'>
                         {groupsList.map(group => (
-                            <CharityCard group={group} key={group.id} />
+                            <CharityCard group={groups} key={group.id} />
                         ))}
                     </div>
                     <div className='mapContainerMain'>
