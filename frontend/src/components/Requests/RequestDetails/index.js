@@ -31,7 +31,18 @@ export default function RequestDetails() {
     const [loaded, setLoaded] = useState(false)
 
 
-
+    function formatTime(timeStr) {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+            timeZone: 'America/New_York'
+        };
+        return new Date(timeStr).toLocaleString('en-US', options);
+    }
 
 
 
@@ -69,8 +80,8 @@ export default function RequestDetails() {
          <h3>synopsis</h3>
          <p>{request.details}</p>
 
-         <h3>start time {request.startTime}</h3>
-         <h3>end time {request.endTime}</h3>
+         <h3>start time {formatTime(request.startTime)}</h3>
+         <h3>end time {formatTime(request.endTime)}</h3>
         <h2>address</h2>
          <h3>{request.address}  </h3>
          <h3>{request.city} {request.state} {request.postalCode}</h3>

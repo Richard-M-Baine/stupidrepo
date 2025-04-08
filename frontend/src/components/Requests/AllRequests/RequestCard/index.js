@@ -12,7 +12,19 @@ function RequestCard({ request }) {
 
     const requests = useSelector(statee => statee?.requests ?? {})
 
-  
+    function formatTime(timeStr) {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true,
+            timeZone: 'America/New_York'
+        };
+        return new Date(timeStr).toLocaleString('en-US', options);
+    }
+    
 
 
     useEffect(() => {
@@ -24,7 +36,8 @@ function RequestCard({ request }) {
         <NavLink className='navGroupCardAllGroups' to={`/requests/${request.id}`}>
 
             <h1 className='navGroupCardName'>{request.title}</h1>
-            <h2 className='navGroupCardAbout'>{request.startTime}</h2>
+            <h2 className='navGroupCardAbout'>{formatTime(request.startTime)}</h2>
+
             <h3 className='navGroupCardAddress'>{request.address || "Unknown Address"}</h3>
             <h3 className='navGroupCardCity'>{request.city || "Unknown City"} {request?.state || "Unknown State"}</h3>
 
