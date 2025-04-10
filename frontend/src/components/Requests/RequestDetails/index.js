@@ -56,7 +56,8 @@ export default function RequestDetails() {
 
 
     
-    const requestList = requests ? Object.values(requests) : [];
+    const requestList = request ? [request] : [];
+
     console.log(requestList)
 
 

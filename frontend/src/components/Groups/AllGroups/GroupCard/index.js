@@ -23,7 +23,7 @@ function CharityCard({ group }) {
             .then(() => setLoaded(true))
     }, [dispatch])
 
-   console.log('look at me I am the charity card pay attention to me.')
+   
 
     return loaded && (
         <NavLink className='navGroupCardAllGroups' to={`/groups/${group.id}`}>

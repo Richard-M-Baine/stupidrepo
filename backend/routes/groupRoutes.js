@@ -11,27 +11,37 @@ const { getCoordinates } = require('../utils/geocode');
 
 router.delete('/:id/delete', restoreUser, requireAuth, async (req, res) => {
     const groupId = req.params.id;
-
-    try {
+    console.log('i am in the delete route')
+   
         const oneGroup = await Charities.findByPk(groupId);
-
-        if (!oneGroup) {
+        
+        if (!oneGroup ) {
             return res.status(404).send('<h1>No such thing Exists</h1>');
         }
 
         if (oneGroup.founder === req.user.userName) {
+            const locationID = oneGroup.locationID;
+        
             await oneGroup.destroy();
+        
+            // Check if any other charities still use that location
+            const otherCharitiesUsingLocation = await Charities.findAll({
+                where: { locationID }
+            });
+        
+            if (otherCharitiesUsingLocation.length === 0) {
+                const locationToDelete = await Locations.findByPk(locationID);
+                if (locationToDelete) {
+                    await locationToDelete.destroy();
+                }
+            }
+        
             return res.json({
                 message: "Successfully deleted",
                 statusCode: 200
             });
-        } else {
-            return res.status(403).json({ message: "Unauthorized" });
         }
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: "Internal Server Error" });
-    }
+        
 });
 
 

@@ -14,7 +14,7 @@ import './createGroup.css'
 function CreateGroupForm() {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const sessionUser = useSelector((state) => state.session?.user?.user)
+    const sessionUser = useSelector((state) => state.session?.user?.userName)
 
     // thunk loading part
  
@@ -58,7 +58,7 @@ function CreateGroupForm() {
 
 
         const newGroup = {
-            founder: sessionUser.userName,
+            founder: sessionUser,
             name: name,
             about: about,
             purpose: purpose,

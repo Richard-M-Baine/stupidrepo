@@ -49,7 +49,7 @@ function MyCharities() {
                 </div>
                 {Object.values(groups).length === 0 && (
                     <h2 className='hpgroupsAllPart'>
-                        When you create an organization you will be considered its "go-to person." Messages regarding the group will appear next to it. Buttons will also populate allowing you to edit its data or delete it. This message will then disappear.
+                        When you create an organization you will be considered its "go-to person." Messages regarding the group will appear in messages. Buttons will also populate allowing you to edit its data or delete it. This message will then disappear.
                     </h2>
                 )}
                 <div className='hpgroupsAllPart'>
@@ -66,7 +66,7 @@ function MyCharities() {
                 </div>
                 {Object.values(requests).length === 0 && (
                     <h2 className='hpgroupsAllPart'>
-                        When you create a request it will appear here. Messages regarding the request will populate next to it. This message will also disappear once a request is present.
+                        When you create a request it will appear here. Messages regarding the request will populate in messages. This message will then dissapear.
                     </h2>
                 )}
                 <div className='hpgroupsAllPart'>
