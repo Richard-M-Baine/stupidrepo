@@ -99,7 +99,8 @@ function CreateGroupForm() {
                         <div className='createGroupPartOneFlavorText'>
                             <h1 id='cfponeheader'>Enter The Organization's Address</h1>
                             <p className='cfponeParagraph'>If this charity / organization meets and / or serves various locations it is usually best to enter an individual listing for each one. This way the information can be tailored to the location.  This also helps with searching in a geographical area.  If this group has no fixed address please enter some place where someone can physically contact someone.  We also suggest that you explain that you have no fixed address in the about section (Part 3) along with a phone number / email you can be contacted with etc.</p>
-                            <p className='cfponeParagraph'>Furthermore, the address does not have to be an address feel free to enter the nearest street corner in the address section or describe the area. "Lakewood Town Square" or "Clifton Ave and 3rd Street" are good examples.  To help with searching please enter <a target="_blank"  rel="noreferrer" className='stateabbreviationlink' href='https://www.faa.gov/air_traffic/publications/atpubs/cnt_html/appendix_a.html'>the appropriate state abbreviation.</a></p>
+                            <p className='cfponeParagraph'>Furthermore, the address does not have to be a valid address and uses google maps api for mapping / geocoding. Feel free to enter the nearest street corner in the address section or describe the area. "Lakewood Town Square" or "Clifton Ave and 3rd Street" are good examples.  To help with searching please enter <a target="_blank"  rel="noreferrer" className='stateabbreviationlink' href='https://www.faa.gov/air_traffic/publications/atpubs/cnt_html/appendix_a.html'>the appropriate state abbreviation.</a></p>
+                            <p className='cfponeParagraph'>You can always alter the address later.  For security / privacy reasons the 'your location' in google maps has been disabled.</p>
                         </div>
                         <div className='createGroupPartOneDiv'>
                             <label className='createGrouppartonelabel'>Address</label>
@@ -168,7 +169,17 @@ function CreateGroupForm() {
 
                         <div className='createGroupPartOneButtons'>
                             <button className='return' style={{ visibility: 'hidden' }}></button>
-                            <button className="creategrouppartonesubmit" disabled={city.length < 3 || (!USstates.includes(state.toUpperCase()))} onClick={e => setPart('Part Two')}>Next</button>
+                            <button
+  className="creategrouppartonesubmit"
+  disabled={city.length < 3 || (!USstates.includes(state.toUpperCase()))}
+  onClick={e => {
+    setPart('Part Two');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }}
+>
+  Next
+</button>
+
                         </div>
                     </div>
                 )
@@ -210,8 +221,27 @@ function CreateGroupForm() {
                             </div>
                         </div>
                         <div className='createGroupPartOneButtons'>
-                            <button className="creategrouppartonesubmit" onClick={e => setPart('Part One')}>Back </button>
-                            <button className="creategrouppartonesubmit" disabled={purpose.length < 2 || purpose.length > 70 || name.length > 30 || name.length < 2} onClick={e => setPart('Part Three')}>Next</button>
+                        <button
+  className="creategrouppartonesubmit"
+  onClick={e => {
+    setPart('Part One');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }}
+>
+  Back
+</button>
+
+                            <button
+  className="creategrouppartonesubmit"
+  disabled={purpose.length < 2 || purpose.length > 70 || name.length > 30 || name.length < 2}
+  onClick={e => {
+    setPart('Part Three');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }}
+>
+  Next
+</button>
+
                         </div>
                     </div>
                 )
@@ -252,7 +282,15 @@ function CreateGroupForm() {
                                     <option value={true}>Yes </option>
                                 </select>
 
-                                <button className="creategrouppartonesubmit" onClick={e => setPart('Part Two')}>Back</button>
+                                <button
+  className="creategrouppartonesubmit"
+  onClick={e => {
+    setPart('Part Two');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }}
+>
+  Back
+</button>
                                 <button className="creategrouppartoneconfirm" disabled={about.length < 2 || about.length > 2000 || privatee === 'Are Barriers Present' || privatee === ''} type="submit">{'Add Listing!'}</button>
                             </div>
                         </div>
