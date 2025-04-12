@@ -109,7 +109,7 @@ const SignUpForm = () => {
 
           {/* If you want to capture address fields upfront, you can include them here as well */}
           <div className='signupFormDiv'>
-            <label className='signupFormLabel'>Street Address (optional)</label>
+            <label className='signupFormLabel'>Street Address (very optional)</label>
             <input
               className='signupformInputBox'
               type='text'
@@ -139,7 +139,7 @@ const SignUpForm = () => {
             />
           </div>
           <div className='signupFormDiv'>
-            <label className='signupFormLabel'>Postal Code (optional)</label>
+            <label className='signupFormLabel'>Postal Code (kind of preferred but still optional)</label>
             <input
               className='signupformInputBox'
               type='text'
@@ -157,7 +157,10 @@ const SignUpForm = () => {
         <div className="locationStep">
           <h2>Select Your General Location</h2>
           <p>
-            Drag the marker on the map to your general area. We’ll use a default 15 mile radius for nearby searches.
+            Drag the marker on the map to your general area. We’ll use a default 15 mile radius for nearby searches. 
+          </p>
+          <p>
+          For privacy reasons the your location feature on google maps is disabled.  Just drag it near where you live or wish to lend or receive aid.
           </p>
           <LocationSelector 
             setLatitude={setLatitude}
