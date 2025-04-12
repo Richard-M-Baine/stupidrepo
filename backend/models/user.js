@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 
-module.exports = (sequelize, DataTypes) => { 
+module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     userName: {
       type: DataTypes.STRING,
@@ -16,15 +16,22 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    latitude: DataTypes.FLOAT,
-  longitude: DataTypes.FLOAT,
-  searchRadiusMiles: {
-    type: DataTypes.INTEGER,
-    defaultValue: 15
-  }
+    latitude: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+    },
+    longitude: {
+      type: DataTypes.FLOAT,
+      allowNull: false
+
+    },
+    searchRadiusMiles: {
+      type: DataTypes.INTEGER,
+      defaultValue: 15
+    }
   }, { // <-- This is where you should add model options
-    scopes: {  
-      currentUser: { 
+    scopes: {
+      currentUser: {
         attributes: { exclude: ['password'] }
       }
     }
