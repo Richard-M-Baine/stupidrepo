@@ -15,7 +15,13 @@ module.exports = (sequelize, DataTypes) => {
     password: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    latitude: DataTypes.FLOAT,
+  longitude: DataTypes.FLOAT,
+  searchRadiusMiles: {
+    type: DataTypes.INTEGER,
+    defaultValue: 15
+  }
   }, { // <-- This is where you should add model options
     scopes: {  
       currentUser: { 
