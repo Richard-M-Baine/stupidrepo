@@ -13,11 +13,11 @@ const initialCenter = {
   lng: -98.5795,
 };
 
-const LocationSelector = ({ setLatitude, setLongitude }) => {
+const LocationSelector = ({ apiKey, setLatitude, setLongitude }) => {
   const [markerPosition, setMarkerPosition] = useState(initialCenter);
 
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY, // Ensure you have this set
+    googleMapsApiKey: apiKey, // Use the prop instead of process.env
   });
 
   const onMarkerDragEnd = useCallback((e) => {

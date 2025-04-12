@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 85vh;
-    width: 85vw;
+    height: 50vh;
+    width: 40vw;
 }
 
 .signupFormLabel{
@@ -17,6 +17,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    padding-left: 50px;
 }
 
 .signupformInputBox{
@@ -26,19 +27,33 @@
     background-color: whitesmoke;
 }
 
-.submitSignupButton{
+
+
+.locationStep {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    align-content: center;
+    justify-content: center;
+    padding: 40px;
+}
+.signupH2Div {
+    text-align: center;
+    align-self: center;
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+.submitSignupButton {
     width: 424px;
     height: 3rem;
     background-color: rgba(130, 169, 238);
-    color: rgb(0,28,78);
+    color: rgb(0, 28, 78);
     border-radius: 8px;
     border: none;
     font-weight: 700;
     font-size: 22px;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
     cursor: pointer;
-    margin-left: 80px;
     margin-top: 30px;
+    align-self: center; /* this is key */
 }

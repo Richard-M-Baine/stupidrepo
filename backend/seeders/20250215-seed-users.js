@@ -18,16 +18,25 @@ module.exports = {
 
                 username: 'loseRings',
                 email: 'bilbo@gmail.com',
-                password: bcrypt.hashSync('password')
+                password: bcrypt.hashSync('password'),
+                latitude: 74.20,
+                longitude: -70.24,
+                searchRadiusMiles: 15
             },
             {
                 username: 'walktomordor',
                 email: 'mordor@gmail.com',
-                password: bcrypt.hashSync('password1')
+                password: bcrypt.hashSync('password1'),
+                latitude: 74.20,
+                longitude: -70.24,
+                searchRadiusMiles: 15
             }, {
                 username: 'cthulhu',
                 email: 'cthulhu@gmail.com',
-                password: bcrypt.hashSync('password3')
+                password: bcrypt.hashSync('password3'),
+                latitude: 74.20,
+                longitude: -70.24,
+                searchRadiusMiles: 15
             },
            
 

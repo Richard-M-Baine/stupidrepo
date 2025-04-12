@@ -1,9 +1,10 @@
 // SignUpForm.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import { Navigate } from 'react-router-dom';
 import { signUp } from '../../../store/session';
 import LocationSelector from '../LocationSelector/LocationSelector.js';
+import { fetchAPIKeyThunk } from '../../../store/maps.js'
 
 const SignUpForm = () => {
   // step 1: basic credentials; step 2: location selection
@@ -15,22 +16,24 @@ const SignUpForm = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
-
-  // Location state fields (we also pass address details in case you want to geocode further)
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [stateVal, setStateVal] = useState(''); // named stateVal to avoid conflict with React "state"
-  const [postalCode, setPostalCode] = useState('');
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
+  const [loaded, setLoaded] = useState(false)
 
   const user = useSelector(state => state.session.user);
+  const apiKey = useSelector(state => state?.maps?.key); // Fetch API Key here
   const dispatch = useDispatch();
 
+
+
+  useEffect(() => {
+    dispatch(fetchAPIKeyThunk())// Fetch API key in parent
+      .then(() => setLoaded(true));
+  }, [dispatch]);
   // Step 1 handler: validate basic info then move to location selection
   const onCredentialsSubmit = (e) => {
     e.preventDefault();
-    
+
     if (password !== repeatPassword || !email.includes('@')) {
       return setErrors([{ password: 'Ensure that your passwords match and your email is valid.' }]);
     }
@@ -44,7 +47,7 @@ const SignUpForm = () => {
 
     // You could optionally validate that latitude/longitude are not null here.
     const data = await dispatch(
-      signUp(userName, email, password, address, city, stateVal, postalCode, latitude, longitude)
+      signUp(userName, email, password, latitude, longitude)
     );
     if (data) {
       setErrors(data);
@@ -54,6 +57,10 @@ const SignUpForm = () => {
   if (user) {
     return <Navigate to='/mylistings' />;
   }
+
+  if (!loaded) {
+    return <p>wait a bloody minute...</p>;
+}
 
   return (
     <div className="signupContainer">
@@ -107,47 +114,6 @@ const SignUpForm = () => {
             />
           </div>
 
-          {/* If you want to capture address fields upfront, you can include them here as well */}
-          <div className='signupFormDiv'>
-            <label className='signupFormLabel'>Street Address (very optional)</label>
-            <input
-              className='signupformInputBox'
-              type='text'
-              name='address'
-              onChange={(e) => setAddress(e.target.value)}
-              value={address}
-            />
-          </div>
-          <div className='signupFormDiv'>
-            <label className='signupFormLabel'>City (optional)</label>
-            <input
-              className='signupformInputBox'
-              type='text'
-              name='city'
-              onChange={(e) => setCity(e.target.value)}
-              value={city}
-            />
-          </div>
-          <div className='signupFormDiv'>
-            <label className='signupFormLabel'>State (optional)</label>
-            <input
-              className='signupformInputBox'
-              type='text'
-              name='state'
-              onChange={(e) => setStateVal(e.target.value)}
-              value={stateVal}
-            />
-          </div>
-          <div className='signupFormDiv'>
-            <label className='signupFormLabel'>Postal Code (kind of preferred but still optional)</label>
-            <input
-              className='signupformInputBox'
-              type='text'
-              name='postalCode'
-              onChange={(e) => setPostalCode(e.target.value)}
-              value={postalCode}
-            />
-          </div>
 
           <button className='submitSignupButton' type='submit'>Next</button>
         </form>
@@ -155,14 +121,16 @@ const SignUpForm = () => {
 
       {step === 2 && (
         <div className="locationStep">
-          <h2>Select Your General Location</h2>
+          <h2 className='signupH2Div'>Select Your General Location</h2>
           <p>
-            Drag the marker on the map to your general area. We’ll use a default 15 mile radius for nearby searches. 
+            Drag the marker on the map to your general area. We’ll use a default 15 mile radius for nearby searches.
           </p>
           <p>
-          For privacy reasons the your location feature on google maps is disabled.  Just drag it near where you live or wish to lend or receive aid.
+            For privacy reasons the your location feature on google maps is disabled and we do not store your personal info on our servers besides email address.
           </p>
-          <LocationSelector 
+
+          <p>Just drag it near where you live or wish to lend or receive aid.. you can always alter the region or distance later</p>
+          <LocationSelector apiKey={apiKey}
             setLatitude={setLatitude}
             setLongitude={setLongitude}
           />
