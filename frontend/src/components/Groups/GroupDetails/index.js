@@ -47,21 +47,33 @@ export default function CharityDetails() {
 
     console.log('i am locationlist ',locationsList)
     return (
-        <div className='groupdetailsoutmostDiv'>
-            <h1>All about {group.name}</h1>
-            <h2>purpose {group.purpose}</h2>
-            <p>{group.about}</p>
-            <p>last updated {group.updatedAt}</p>
-
-            <h2>located at</h2>
-            <h3>{location.address}</h3>
-            <h3>{location.city} {location.state} {location.postalCode}</h3>
-
-            <div className='mapContainerMain'>
-                {/* Pass API key down as prop */}
-                <GroupMapDetails apiKey={apiKey} locations={locationsList} />
+        <div className="charityDetailsLayout">
+            <div className="topContent">
+                <div className="groupdetailsoutmostDiv">
+                    <div>
+                    <h1>All about {group.name}</h1>
+                    <h2>purpose {group.purpose}</h2>
+                    <p>{group.about}</p>
+                    <p>last updated {group.updatedAt}</p>
+    
+                    <h2>located at</h2>
+                    <h3>{location.address}</h3>
+                    <h3>{location.city} {location.state} {location.postalCode}</h3>
+                    <CreateGroupMessageModal />
+                    </div>
+                </div>
+    
+                <div className="spacerDiv"></div>
+    
+                <div className="mapContainerMain">
+                    <GroupMapDetails apiKey={apiKey} locations={locationsList} />
+                </div>
             </div>
-            <div><CreateGroupMessageModal /></div>
+    
+            <div className="bottomContent">
+                
+            </div>
         </div>
     )
+    
 }

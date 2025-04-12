@@ -20,7 +20,7 @@ export default function RequestDetails() {
     const dispatch = useDispatch();
     const apiKey = useSelector(state => state?.maps?.key)
     const { id } = useParams();
-     const requests = useSelector(state => state?.requests ?? {});
+    const requests = useSelector(state => state?.requests ?? {});
 
 
     const requestId = parseInt(id)
@@ -55,7 +55,7 @@ export default function RequestDetails() {
     }, [dispatch, id])  // ← Add id so it know when change!
 
 
-    
+
     const requestList = request ? [request] : [];
 
     console.log(requestList)
@@ -73,24 +73,33 @@ export default function RequestDetails() {
 
 
     return (
-        <div className='groupdetailsoutmostDiv'>
-         
-         <h1> {request.title}</h1>
+        <div className="charityDetailsLayout">
+            <div className="topContent">
+                <div className="groupdetailsoutmostDiv">
+                    <div>
 
-         <h2>{request.userName}</h2>
-         <h3>synopsis</h3>
-         <p>{request.details}</p>
+                        <h1> {request.title}</h1>
 
-         <h3>start time {formatTime(request.startTime)}</h3>
-         <h3>end time {formatTime(request.endTime)}</h3>
-        <h2>address</h2>
-         <h3>{request.address}  </h3>
-         <h3>{request.city} {request.state} {request.postalCode}</h3>
-         <div className='requestDetailsOfferHelpModal'><CreateRequestMessageModal /></div>
-            <div className='mapContainerMain'>
-                {/* Pass API key down as prop */}
-                <RequestMapStuff apiKey={apiKey} locations={requestList} />
+                        <h2>{request.userName}</h2>
+                        <h3>synopsis</h3>
+                        <p>{request.details}</p>
 
+                        <h3>start time {formatTime(request.startTime)}</h3>
+                        <h3>end time {formatTime(request.endTime)}</h3>
+                        <h2>address</h2>
+                        <h3>{request.address}  </h3>
+                        <h3>{request.city} {request.state} {request.postalCode}</h3>
+                        <CreateRequestMessageModal />
+                    </div>
+                </div>
+                <div className="spacerDiv"></div>
+
+                <div className='mapContainerMain'>
+                    {/* Pass API key down as prop */}
+                    <RequestMapStuff apiKey={apiKey} locations={requestList} />
+                    <div className='requestDetailsOfferHelpModal'></div>
+                </div>
+                <div className='bottomContent'></div>
             </div>
         </div>
 
