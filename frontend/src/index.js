@@ -1,19 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import './index.css';
+import { BrowserRouter } from 'react-router-dom';
 import App from './App';
-
-import { ModalProvider } from './context/Modal';
 import store from './store';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <ModalProvider>
-    <Provider store={store}>
-        <App />
-      </Provider>
-      </ ModalProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+const container = document.getElementById('root');
+const root = createRoot(container); // for React 18+
+
+root.render(
+  <Provider store={store}>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Provider>
 );

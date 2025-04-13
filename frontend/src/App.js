@@ -1,5 +1,5 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { authenticate } from './store/session';
 import ProtectedRoute from './components/authentication/ProtectedRoute';
@@ -13,48 +13,45 @@ import MyCharities from './components/Home/myPage';
 import NavBar from './components/Navigation/NavBar.js';
 
 // group stuff
-
-import CreateGroup from './components/Groups/CreateGroup/index.js'
-import EditCharityForm from './components/Groups/EditGroup/index.js'
+import CreateGroup from './components/Groups/CreateGroup/index.js';
+import EditCharityForm from './components/Groups/EditGroup/index.js';
 import UpdateAddressForm from './components/Groups/EditGroup/updateaddresspractice';
 import AllCharities from './components/Groups/AllGroups/index.js';
 import CharityDetails from './components/Groups/GroupDetails/index.js';
 
-
 // request stuff
-
 import CreateRequestForm from './components/Requests/CreateRequest/index.js';
 import EditRequestForm from './components/Requests/EditRequest/index.js';
-import AllRequests from './components/Requests/AllRequests/index.js'
-import RequestDetails from './components/Requests/RequestDetails/index.js'
+import AllRequests from './components/Requests/AllRequests/index.js';
+import RequestDetails from './components/Requests/RequestDetails/index.js';
 
 // messaging and map stuff
-
-import MyMessages from './components/Messages/messageHome/index.js'
+import MyMessages from './components/Messages/messageHome/index.js';
 
 function App() {
-
+  const location = useLocation();
   const [loaded, setLoaded] = useState(false);
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(authenticate()).then(() => setLoaded(true)); // Restore session on page load
+    dispatch(authenticate()).then(() => setLoaded(true));
   }, [dispatch]);
 
   if (!loaded) {
     return null;
   }
 
-
-
+  const hideNavbarPaths = ['/', '/login', '/signup', '/about'];
+  const shouldShowNavbar = !hideNavbarPaths.some(path => location.pathname === path);
+  console.log("Current path:", location.pathname);
 
   return (
-    <BrowserRouter>
-      <NavBar loaded={loaded} />
+    <>
+      {shouldShowNavbar && <NavBar />}
       <Routes>
-        <Route path='/about' element={<About />} />
         <Route path='/' element={<LandingPage />} />
+        <Route path='/about' element={<About />} />
+
         <Route
           path='/mylistings'
           element={
@@ -80,7 +77,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path='/groups/:id'
           element={
@@ -89,7 +85,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path='/groups/edit/:id'
           element={
@@ -98,7 +93,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path='/groups/editAddress/:id'
           element={
@@ -116,7 +110,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path='/requests/:id'
           element={
@@ -125,7 +118,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path='/requests/create'
           element={
@@ -134,7 +126,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path='/requests/edit/:id'
           element={
@@ -143,22 +134,17 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path='/messages'
           element={
-            <ProtectedRoute exact={true}>
-              < MyMessages />
+            <ProtectedRoute>
+              <MyMessages />
             </ProtectedRoute>
           }
         />
-
-
-
-
-
-
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 
