@@ -36,26 +36,36 @@ const setTokenCookie = (res, user) => {
   const isProduction = process.env.NODE_ENV === "production";
 
   res.cookie('token', token, {
-      maxAge: expiresIn * 1000, // Convert seconds to milliseconds
-      httpOnly: true,  // Prevent client-side access (security)
-      secure: isProduction, // Only use secure cookies in production
-      sameSite: isProduction ? "Lax" : "Strict" // CSRF protection
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: isProduction ? "Lax" : "Strict"
   });
+  
 
   return token;
 };
 
 const restoreUser = async (req, res, next) => {
-  if (!req.session.user) {
-    return next(); // No user session found, move on
-  }
+  const token = req.cookies.token;
+  console.log("Token in restoreUser:", token);
+  if (!token) return next();
 
   try {
-    
-    const user = await User.findByPk(req.session.user.id);
-    if (user) req.user = user;
-  } catch (error) {
-    console.error("Session restore error:", error);
+    const decoded = jwt.verify(token, JWT_SECRET);
+    console.log("Decoded JWT:", decoded);
+
+    const { id } = decoded.data;
+    const user = await User.findByPk(id);
+
+    if (user) {
+      console.log("User found:", user.username);
+      req.user = user;
+    } else {
+      console.log("User not found");
+    }
+  } catch (err) {
+    console.error("restoreUser JWT verification error:", err);
   }
 
   next();
@@ -63,7 +73,10 @@ const restoreUser = async (req, res, next) => {
 
 
 
+
+
   const requireAuth = function (req, _res, next) {
+    console.log('req.user',req.user)
     if (req.user) return next();
   
     const err = new Error('Forbidden');

@@ -30,22 +30,22 @@ const SignUpForm = () => {
     dispatch(fetchAPIKeyThunk())// Fetch API key in parent
       .then(() => setLoaded(true));
   }, [dispatch]);
-  // Step 1 handler: validate basic info then move to location selection
+  // Step 1 handler
   const onCredentialsSubmit = (e) => {
     e.preventDefault();
 
     if (password !== repeatPassword || !email.includes('@')) {
-      return setErrors([{ password: 'Ensure that your passwords match and your email is valid.' }]);
+      return setErrors([{ password: 'Ensure that your passwords match and your email is valid.  For the love of crumbcake!' }]);
     }
-    // Proceed to step two
+
     setStep(2);
   };
 
-  // Step 2 handler: finalize sign-up submission with location data
+  // Step 2 handler
   const onLocationSubmit = async (e) => {
     e.preventDefault();
 
-    // You could optionally validate that latitude/longitude are not null here.
+    
     const data = await dispatch(
       signUp(userName, email, password, latitude, longitude)
     );

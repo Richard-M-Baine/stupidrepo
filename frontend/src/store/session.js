@@ -15,7 +15,7 @@ const initialState = { user: null };
 
 export const authenticate = () => async (dispatch) => {
   try {
-    
+    console.log('look at me I am in the frontend authenticate')
     const response = await fetch('/api/users/me', {
       method: 'GET',
       headers: {
@@ -25,6 +25,7 @@ export const authenticate = () => async (dispatch) => {
     });
 
     if (response.ok) {
+      console.log('look at me I am response.ok')
       const data = await response.json();
    
       dispatch(setUser(data));

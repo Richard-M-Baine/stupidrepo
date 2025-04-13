@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react'
 import { useSelector} from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 
@@ -19,9 +19,13 @@ const LandingPage = () => {
     function aboutclick() {
         navigate('/about')
     }
-    if (sessionUser) {
-        navigate('/mylistings')
-    }
+    useEffect(() => {
+        if (sessionUser && sessionUser.user) {
+          navigate('/mylistings');
+        }
+      }, [sessionUser, navigate]);
+      
+      
 
 
     return (

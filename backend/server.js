@@ -21,18 +21,7 @@ app.use(cors({
 
 app.use(express.json()); // Parse JSON body first
 app.use(cookieParser()); // Parse cookies
-app.use(session({
-  store: new SQLiteStore({ db: 'database.sqlite', dir: path.join(__dirname, 'database') }),
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: false, // Set to `true` in production
-    httpOnly: true,
-    sameSite: 'Lax',
-    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
-  }
-}));
+
 
 app.use(restoreUser); // Move this AFTER session & cookieParser
 

@@ -1,23 +1,29 @@
 const express = require('express');
 const { User } = require('../models');
 const router = express.Router();
-const { authenticateToken, requireAuth } = require('../middleware/authenticate');
+const { authenticateToken, restoreUser, requireAuth } = require('../middleware/authenticate');
 const { getCoordinates } = require('../utils/enrollGeocode');
 
 router.get('/protected', authenticateToken, (req, res) => {
   res.json({ message: 'You have access to this route! Huzzah!', user: req.user });
 });
 
-router.get('/me', requireAuth, async (req, res) => {
+router.get('/me', restoreUser, async (req, res) => { // Removed requireAuth here
   try {
-    const user = await User.findByPk(req.session.user.id);
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
+    if (req.user) {
+      const user = await User.findByPk(req.user.id);
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      return res.json({ id: user.id, userName: user.userName, email: user.email });
+    } else {
+      // No user found in cookies, respond accordingly (e.g., null or an empty object)
+      return res.json(null);
     }
-    res.json({ id: user.id, userName: user.userName, email: user.email });
   } catch (error) {
     console.error("Error fetching user:", error);
-    res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -59,18 +65,10 @@ router.post('/signup', async (req, res) => {
 
 
 router.post('/logout', (req, res) => {
-
-  req.session.destroy(err => {
-    if (err) {
-      console.error('Error destroying session:', err);
-      return res.status(500).json({ message: "Logout failed" });
-    }
-
-    res.clearCookie('connect.sid'); // Use the session cookie name (default: 'connect.sid')
-    
-    res.json({ message: "Logged out successfully" });
-  });
+  res.clearCookie('token'); // Name of the cookie you set for JWT
+  res.json({ message: "Logged out successfully" });
 });
+
 
 
 
