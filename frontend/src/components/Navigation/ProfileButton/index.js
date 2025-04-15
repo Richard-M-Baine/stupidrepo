@@ -1,4 +1,5 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+
 import { useDispatch } from 'react-redux';
 
 import {useNavigate} from 'react-router-dom'
@@ -8,30 +9,30 @@ import './profile.css'
 
 import profileImage from './profileImage.png'
 
-const ProfileButton = ({user}) => {
-
-  const navigate = useNavigate()
-  const dispatch = useDispatch()
-
+const ProfileButton = ({ user }) => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [showMenu, setShowMenu] = useState(false);
-
-  // open close menu stuff
+  const dropdownRef = useRef(null);
 
   const openMenu = () => {
-    if (showMenu) return;
-    setShowMenu(true);
+    setShowMenu((prev) => !prev);
   };
 
   useEffect(() => {
-    if (!showMenu) return;
-
-    const closeMenu = () => {
-      setShowMenu(false);
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowMenu(false);
+      }
     };
 
-    document.addEventListener('click', closeMenu);
-  
-    return () => document.removeEventListener("click", closeMenu);
+    if (showMenu) {
+      document.addEventListener('click', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
   }, [showMenu]);
 
   const logout  = async (e) => {

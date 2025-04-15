@@ -41,13 +41,14 @@ function App() {
     return null;
   }
 
-  const hideNavbarPaths = ['/', '/login', '/signup', '/about'];
-  const shouldShowNavbar = !hideNavbarPaths.some(path => location.pathname === path);
+  const hideNavbarPaths = ['/about'];
+
   console.log("Current path:", location.pathname);
 
   return (
     <>
-      {shouldShowNavbar && <NavBar />}
+      <NavBar loaded={loaded} />
+
       <Routes>
         <Route path='/' element={<LandingPage />} />
         <Route path='/about' element={<About />} />
