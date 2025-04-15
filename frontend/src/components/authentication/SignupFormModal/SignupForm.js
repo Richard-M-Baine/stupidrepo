@@ -19,6 +19,7 @@ const SignUpForm = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [loaded, setLoaded] = useState(false)
+  console.log('latitude',latitude)
 
   const user = useSelector(state => state.session.user);
   const apiKey = useSelector(state => state?.maps?.key); // Fetch API Key here
@@ -45,7 +46,7 @@ const SignUpForm = () => {
   const onLocationSubmit = async (e) => {
     e.preventDefault();
 
-    
+    console.log('look at me in the signup! ',userName, email, password,latitude,longitude)
     const data = await dispatch(
       signUp(userName, email, password, latitude, longitude)
     );
@@ -123,7 +124,7 @@ const SignUpForm = () => {
         <div className="locationStep">
           <h2 className='signupH2Div'>Select Your General Location</h2>
           <p>
-            Drag the marker on the map to your general area. We’ll use a default 15 mile radius for nearby searches.
+            Drag the marker on the map to your general area. We’ll use a default 25 km radius for nearby searches.
           </p>
           <p>
             For privacy reasons the your location feature on google maps is disabled and we do not store your personal info on our servers besides email address.

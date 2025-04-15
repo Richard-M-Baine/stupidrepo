@@ -79,8 +79,10 @@ export const logout = () => async (dispatch) => {
 
 
 
-export const signUp = (userName, email, password) => async (dispatch) => {
-  const response = await fetch('/api/users/create', {
+export const signUp = (userName, email, password, latitude, longitude) => async (dispatch) => {
+  console.log('look at me in the signup thunk')
+  const response = await fetch('/api/users/signup', {
+    
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -89,6 +91,8 @@ export const signUp = (userName, email, password) => async (dispatch) => {
       userName,
       email,
       password,
+      latitude,
+      longitude
     }),
   });
   

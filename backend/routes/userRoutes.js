@@ -35,24 +35,18 @@ router.get('/me', restoreUser, async (req, res) => { // Removed requireAuth here
 
 
 router.post('/signup', async (req, res) => {
-  const { userName, email, password, address, city, state, postalCode } = req.body;
+  const { userName, email, password, latitude, longitude } = req.body;
+  console.log(req.body)
 
-  // Get coordinates from your geocode function
-  const { lat, lon } = await getCoordinates(address, city, state, postalCode);
-
-  // Check if valid coordinates are returned; you might want to do further validation
-  if (lat === null || lon === null) {
-    return res.status(400).json({ error: 'Unable to validate location. Please check your address details.' });
-  }
   
   try {
     const newUser = await User.create({
       userName,
       email,
       password,
-      latitude: lat,
-      longitude: lon,
-      searchRadiusMiles: 15 // default as defined on the model
+      latitude,
+      longitude,
+      searchRadiusMiles: 25 // default as defined on the model
     });
     return res.json(newUser.toSafeObject());
   } catch (error) {
