@@ -41,9 +41,6 @@ function App() {
     return null;
   }
 
-  const hideNavbarPaths = ['/about'];
-
-  console.log("Current path:", location.pathname);
 
   return (
     <>
