@@ -44,7 +44,7 @@ const ProfileButton = ({ user }) => {
   // end menu stuff and logout function
 
 
-
+console.log('look at me I am user ',user)
 
 
   
@@ -57,8 +57,10 @@ const ProfileButton = ({ user }) => {
 
       {showMenu && (
         <ul className="profile-dropdown">
-          <li className='profileNavName'>Welcome {user.userName}</li>
-          <li className='profileNavName'>logged in with {user.email}</li>
+          <li className='profileNavName'>Welcome {user.user.userName}</li>
+          <li className='profileNavName'>logged in with {user.user.email}</li>
+          <li className='profileNavName'>default latitude {user.user.latitude}</li>
+          <li className='profileNavName'>default longitude {user.user.longitude}</li>
          
           <li className='profileNavName'>
             <button className="profileButtonp" onClick={logout}>Log Out</button>
