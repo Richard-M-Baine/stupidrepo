@@ -1,82 +1,66 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import ProfileButton from './ProfileButton/index.js';
 import { useSelector } from 'react-redux';
 
-import './navigation.css'
+import './navigation.css';
 
 const NavBar = ({ loaded }) => {
+  const sessionUser = useSelector(state => state.session.user);
 
-  const sessionUser = useSelector(state => state?.session?.user);
+  if (!loaded) return null;
 
-  let sessionLinks;
-
-  if (sessionUser) {
-    sessionLinks = (
-      <nav className='navigationOuterDiv'>
-        <div className='navigationLogInDiv'>
-          <NavLink to='/mylistings' exact={true} activeClassName='active'>
-            My Home Page
-          </NavLink>
-        </div>
-
-        <div className='navigationLogInDiv'>
-          <NavLink to='/groups/create' exact={true} activeClassName='active'>
-            Add Organization
-          </NavLink>
-        </div>
-
-        <div className='navigationLogInDiv'>
-          <NavLink to='/groups' exact={true} activeClassName='active'>
-            Nearby Organizations
-          </NavLink>
-        </div>
-
-        <div className='navigationLogInDiv'>
-          <NavLink to='/requests' exact={true} activeClassName='active'>
-            Nearby Requests
-          </NavLink>
-        </div>
-
-        <div className='navigationLogInDiv'>
-          <NavLink to='/requests/create' exact={true} activeClassName='active'>
-            Make a Request
-          </NavLink>
-        </div>
-
-        <div className='navigationLogInDiv'>
-          <NavLink to='/messages' exact={true} activeClassName='active'>
-            My Messages
-          </NavLink>
-        </div>
-
-        <div >
-          <ProfileButton user={sessionUser}/>
-        </div>
+  if (!sessionUser) {
+    return (
+      <nav className='navigationSignoutOuterDiv'>
+        {/* You could add login/signup links here later */}
       </nav>
-
-    )
-  }
-
-
-  else {
-
-    sessionLinks=(
-    <nav className='navigationSignoutOuterDiv'>
-
-    
-  </nav>
-    )
-
-
+    );
   }
 
   return (
-    <div>
-    {loaded && sessionLinks}
-    </div>
+    <nav className='navigationOuterDiv'>
+      <div className='navigationLogInDiv'>
+        <NavLink to='/mylistings' exact='true' activeclassname='active'>
+          My Home Page
+        </NavLink>
+      </div>
+
+      <div className='navigationLogInDiv'>
+        <NavLink to='/groups/create' exact='true' activeclassname='active'>
+          Add Organization
+        </NavLink>
+      </div>
+
+      <div className='navigationLogInDiv'>
+        <NavLink to='/groups' exact='true' activeclassname='active'>
+          Nearby Organizations
+        </NavLink>
+      </div>
+
+      <div className='navigationLogInDiv'>
+        <NavLink to='/requests' exact='true' activeclassname='active'>
+          Nearby Requests
+        </NavLink>
+      </div>
+
+      <div className='navigationLogInDiv'>
+        <NavLink to='/requests/create' exact='true' activeclassname='active'>
+          Make a Request
+        </NavLink>
+      </div>
+
+      <div className='navigationLogInDiv'>
+        <NavLink to='/messages' exact='true' activeclassname='active'>
+          My Messages
+        </NavLink>
+      </div>
+
+      <div>
+        <ProfileButton />
+      </div>
+    </nav>
   );
-}
+};
 
 export default NavBar;

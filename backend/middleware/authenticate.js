@@ -77,6 +77,8 @@ const restoreUser = async (req, res, next) => {
 
   const requireAuth = function (req, _res, next) {
     console.log('req.user',req.user)
+    console.log('Cookies received:', req.cookies);
+
     if (req.user) return next();
   
     const err = new Error('Forbidden');
