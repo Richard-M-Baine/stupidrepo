@@ -97,7 +97,7 @@ export const signUp = (userName, email, password, latitude, longitude) => async 
   }
 };
 
-// ---------------- Reducer ----------------
+// ---------------- Reducerville  ----------------
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:

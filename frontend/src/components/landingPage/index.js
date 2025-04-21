@@ -20,7 +20,7 @@ const LandingPage = () => {
         navigate('/about')
     }
     useEffect(() => {
-        if (sessionUser && sessionUser.user) {
+        if (sessionUser && sessionUser.userName) {
           navigate('/mylistings');
         }
       }, [sessionUser, navigate]);

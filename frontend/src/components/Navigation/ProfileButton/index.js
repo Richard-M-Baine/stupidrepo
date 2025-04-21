@@ -46,26 +46,31 @@ const ProfileButton = () => {
     navigate('/'); // Replace this with your settings route if needed
   };
 
-  if (!user || !user.user) {
-    return <div className="profile-logged-out">Not logged in</div>;
+  if (!user || !user.userName) {
+    return <div className="profile-logged-out">Not logged in you have an error mr web developer</div>;
   }
 
+  console.log("showMenu", showMenu);
+
   return (
-    <div>
+    <div ref={dropdownRef} className="profile-wrapper"> {/* NEW WRAPPER */}
       <button className='buttonprofilegood' onClick={openMenu}>
         <img src={profileImage} alt='the letter a but with holding hands' />
       </button>
 
       {showMenu && (
-        <ul className="profile-dropdown" ref={dropdownRef}>
-          <li className='profileNavName'>Welcome {user.user.userName}</li>
-          <li className='profileNavName'>Logged in with {user.user.email}</li>
-          <li className='profileNavName'>Default latitude: {user.user.latitude}</li>
-          <li className='profileNavName'>Default longitude: {user.user.longitude}</li>
+        <ul className="profile-dropdown">
+          <li className='profileNavName'>Welcome {user.userName}</li>
+          <li className='profileNavName'>Logged in with {user.email}</li>
+          <li className='profileNavName'>Default latitude: {user.latitude}</li>
+          <li className='profileNavName'>Default longitude: {user.longitude}</li>
           <li className='profileNavName'>
-            <button className='profileButtonp' onClick={goToSettings}>
-              Change Settings
-            </button>
+            <div className='profileButtonContainer'>
+              <span className='profileButtonLabel'>Change Settings</span>
+              <button className='profileButtonp' onClick={goToSettings}>
+              click
+              </button>
+            </div>
           </li>
           <li className='profileNavName'>
             <button className="profileButtonp" onClick={logout}>
@@ -76,6 +81,7 @@ const ProfileButton = () => {
       )}
     </div>
   );
+
 };
 
 export default ProfileButton;
