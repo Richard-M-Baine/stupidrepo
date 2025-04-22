@@ -19,8 +19,8 @@ module.exports = {
                 username: 'loseRings',
                 email: 'bilbo@gmail.com',
                 password: bcrypt.hashSync('password'),
-                latitude: 74.20,
-                longitude: -70.24,
+                latitude: 41.5,
+                longitude: -81.7,
                 searchRadiusMiles: 15
             },
             {
