@@ -16,7 +16,7 @@ router.get('/me', restoreUser, async (req, res) => { // Removed requireAuth here
       if (!user) {
         return res.status(404).json({ message: "User not found" });
       }
-      return res.json({ id: user.id, userName: user.userName, email: user.email });
+      return res.json({ id: user.id, userName: user.userName, email: user.email, latitude: user.latitude, longitude: user.longitude, searchRadiusMiles: user.searchRadiusMiles });
     } else {
       // No user found in cookies, respond accordingly (e.g., null or an empty object)
       return res.json(null);
