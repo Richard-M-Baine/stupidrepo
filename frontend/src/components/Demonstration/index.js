@@ -1,23 +1,26 @@
-import React from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import * as sessionActions from '../../store/session.js';
-import { useDispatch} from 'react-redux';
-
-import './Demonstration.css';
 
 export default function DemoUser() {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        const userName = 'loseRings';
-        const password = 'password';
-        alert('your going to be logged in as Bilbo Baggins.  Use your power wisely')
-        return dispatch(sessionActions.login(userName, password ))
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    alert('you are going to be logged in as Bilbo Baggins. Use your power wisely');
+    const userName = 'loseRings';
+    const password = 'password';
+
+    const res = await dispatch(sessionActions.login(userName, password));
+    if (res) { // tweak this based on what your thunk returns
+      navigate('/mylistings');
     }
-    return (
-        <form onSubmit={handleSubmit}>
-             
-            <button className = 'buttonsplash'type='submit'>Demo User</button>
-        </form>
-    )
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <button className='buttonsplash' type='submit'>Demo User</button>
+    </form>
+  );
 }

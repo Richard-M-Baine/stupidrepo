@@ -18,6 +18,7 @@ router.post('/login', async (req, res) => {
   setTokenCookie(res, user);
 
   // Send back a proper user payload (using toSafeObject)
+  console.log('i am res.json ', { user: user.toSafeObject() } )
   res.json({ user: user.toSafeObject() });
 });
 

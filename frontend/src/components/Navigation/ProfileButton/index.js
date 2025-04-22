@@ -8,11 +8,22 @@ import './profile.css';
 import profileImage from './profileImage.png';
 
 const ProfileButton = () => {
+
+ 
+
   const user = useSelector(state => state.session.user);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const [isLoaded, setIsLoaded] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+
+  useEffect(() => {
+    dispatch(sessionActions.authenticate()).then(() => setIsLoaded(true));
+  }, [dispatch]);
+
+
   const dropdownRef = useRef(null);
 
   const openMenu = () => {
@@ -43,10 +54,12 @@ const ProfileButton = () => {
 
   const goToSettings = (e) => {
     e.preventDefault();
-    navigate('/'); // Replace this with your settings route if needed
+    navigate('/settings'); 
   };
 
-  if (!user || !user.userName) {
+
+
+  if (!user?.userName) {
     return <div className="profile-logged-out">Not logged in you have an error mr web developer</div>;
   }
 
