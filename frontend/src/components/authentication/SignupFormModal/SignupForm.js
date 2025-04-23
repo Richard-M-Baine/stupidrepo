@@ -21,7 +21,7 @@ const SignUpForm = () => {
   const [loaded, setLoaded] = useState(false)
   console.log('latitude',latitude)
 
-  const user = useSelector(state => state.session.user);
+  const user = useSelector(state => state?.session?.user);
   const apiKey = useSelector(state => state?.maps?.key); // Fetch API Key here
   const dispatch = useDispatch();
 

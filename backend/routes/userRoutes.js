@@ -1,7 +1,7 @@
 const express = require('express');
 const { User } = require('../models');
 const router = express.Router();
-const { authenticateToken, restoreUser, requireAuth } = require('../middleware/authenticate');
+const { authenticateToken, restoreUser, requireAuth, setTokenCookie } = require('../middleware/authenticate');
 const { getCoordinates } = require('../utils/enrollGeocode');
 
 router.get('/protected', authenticateToken, (req, res) => {
@@ -36,7 +36,7 @@ router.get('/me', restoreUser, async (req, res) => { // Removed requireAuth here
 
 router.post('/signup', async (req, res) => {
   const { userName, email, password, latitude, longitude } = req.body;
-  console.log(req.body)
+  console.log(req.body, 'the aforementioned crap is req.body')
 
   
   try {
@@ -48,7 +48,11 @@ router.post('/signup', async (req, res) => {
       longitude,
       searchRadiusMiles: 25 // default as defined on the model
     });
+    console.log('we are on line 51')
+    await setTokenCookie(res, newUser);
+    console.log('setTokenCookie set')
     return res.json(newUser.toSafeObject());
+    
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: 'An error occurred during sign-up.' });

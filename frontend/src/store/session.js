@@ -78,6 +78,7 @@ export const signUp = (userName, email, password, latitude, longitude) => async 
     const res = await fetch('/api/users/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include', 
       body: JSON.stringify({ userName, email, password, latitude, longitude }),
     });
 
@@ -89,13 +90,14 @@ export const signUp = (userName, email, password, latitude, longitude) => async 
       const data = await res.json();
       return data?.errors || ['Something went wrong.'];
     } else {
-      return ['An error occurred. Please try again.'];
+      return ['An error occurred in the bloody sign up one. Please try again.'];
     }
   } catch (err) {
     console.error("Signup error:", err);
     return ['A network error occurred. Please try again.'];
   }
 };
+
 
 // ---------------- Reducerville  ----------------
 export default function reducer(state = initialState, action) {
