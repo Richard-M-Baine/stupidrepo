@@ -68,6 +68,33 @@ router.post('/logout', (req, res) => {
 });
 
 
+router.put('/update', restoreUser, requireAuth, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found /update you are not logged in or thee is an error mr web developer.  ' });
+    }
+
+    const { email, password, latitude, longitude, searchRadiusMiles } = req.body;
+
+    if (email) user.email = email;
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      user.password = hashedPassword;
+    }
+    if (latitude !== undefined) user.latitude = latitude;
+    if (longitude !== undefined) user.longitude = longitude;
+    if (searchRadiusMiles !== undefined) user.searchRadiusMiles = searchRadiusMiles;
+
+    await user.save();
+
+    return res.json(user.toSafeObject());
+  } catch (error) {
+    console.error('Error updating user:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+});
+
 
 
 
