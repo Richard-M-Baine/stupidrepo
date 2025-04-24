@@ -6,7 +6,7 @@ import CreateRequestMessageModal from '../../Messages/receivedMessageModal'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import RequestMapStuff from '../../Maps/GroupMap/index.js'
+import RequestMapDetails from '../../Maps/RequestMapDetails/index.js'
 
 import { fetchAPIKeyThunk } from '../../../store/maps.js'
 import { getOneRequestThunk } from '../../../store/requests';
@@ -96,7 +96,7 @@ export default function RequestDetails() {
 
                 <div className='mapContainerMain'>
                     {/* Pass API key down as prop */}
-                    <RequestMapStuff apiKey={apiKey} locations={requestList} />
+                    <RequestMapDetails apiKey={apiKey} locations={requestList} />
                     <div className='requestDetailsOfferHelpModal'></div>
                 </div>
                 <div className='bottomContent'></div>

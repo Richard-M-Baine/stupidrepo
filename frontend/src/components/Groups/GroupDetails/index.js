@@ -8,7 +8,7 @@ import CreateGroupMessageModal from '../../Messages/groupMessageModal'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
-import GroupMapDetails from '../../Maps/GroupMap/index.js'
+import GroupMapDetails from '../../Maps/GroupMapDetails/index.js'
 
 import { fetchAPIKeyThunk } from '../../../store/maps.js'
 import { getOneGroupThunk } from '../../../store/groups';

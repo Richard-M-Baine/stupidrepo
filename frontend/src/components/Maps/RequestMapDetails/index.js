@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import './mapStuff.css';
+import './requestMapDetails.css';
 
 function RequestMapDetails({ apiKey, locations = []}) {
     const { isLoaded } = useLoadScript({
@@ -10,6 +10,7 @@ function RequestMapDetails({ apiKey, locations = []}) {
 
     const center = useMemo(() => {
         if (locations.length > 0) {
+            console.log('i am here in locations')
             return { lat: locations[0].lat, lng: locations[0].lon };
         }
         return { lat: 40.05047, lng: -74.12218 }; // Default fallback
@@ -27,7 +28,7 @@ function RequestMapDetails({ apiKey, locations = []}) {
                     {locations && locations.map(location => ( // Iterate over the locations array
                         <Marker
                             key={location.id}
-                            position={{ lat: location.lat, lng: location.lng }}
+                            position={{ lat: location.lat, lng: location.lon }}
                             title={location.name}
                         />
                     ))}

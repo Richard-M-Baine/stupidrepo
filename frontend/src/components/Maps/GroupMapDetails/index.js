@@ -1,18 +1,22 @@
 import React, { useMemo } from 'react';
 import { GoogleMap, useLoadScript, Marker } from "@react-google-maps/api";
-import './mapStuff.css';
+import './GroupMapDetails.css';
 
-function GroupMapDetails({ apiKey, locations}) {
-    console.log('i am group map details and locations ',locations)
+const libraries = ['places'];
+
+function GroupMapDetails({ apiKey, locations }) {
     const { isLoaded } = useLoadScript({
-        googleMapsApiKey: apiKey || "", // Only pass API key when available
-        libraries: ['places'],
+        googleMapsApiKey: apiKey || "",
+        libraries,
     });
 
     const center = useMemo(() => {
-        if (locations && locations.length > 0) { // Ensure locations exist before accessing
-            return { lat: locations[0].lat, lng: locations[0].lng };
+        if (locations && locations.length > 0) {
+            console.log('i am locations ', locations)
+            return { lat: locations[0].lat, lng: locations[0].lon };
+
         }
+        console.log('there is no location')
         return { lat: 40.05047, lng: -74.12218 }; // Default fallback
     }, [locations]);
 
@@ -28,7 +32,8 @@ function GroupMapDetails({ apiKey, locations}) {
             {locations && locations.map(location => ( // Iterate over the locations array
                 <Marker
                     key={location.id}
-                    position={{ lat: location.lat, lng: location.lng }}
+                    position={{ lat: location.lat, lng: location.lon }}
+
                     title={location.name}
                 />
             ))}
