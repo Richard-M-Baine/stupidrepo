@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const { sequelize } = require('../models');
 const { User } = require('../models');
 const {Requests} = require('../models') 
 const { setTokenCookie, requireAuth, restoreUser } = require('../middleware/authenticate.js');
@@ -22,6 +23,19 @@ const formatDate = (dateString) => {
     });
 };
 
+// math crap
+const toRad = degrees => degrees * (Math.PI / 180);
+const distanceMiles = (lat1, lon1, lat2, lon2) => {
+  const R = 3959; // earth radius in miles
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
 
 router.delete('/:id/delete',restoreUser, requireAuth, async (req, res) => {
     const requestId = req.params.id;
@@ -111,10 +125,26 @@ router.put('/:id/edit', restoreUser, requireAuth, async (req, res) => {
 })
 
 router.get('/all', restoreUser, requireAuth, async (req, res) => {
-    const requests = await Requests.findAll()
-    const newRequests = requests.map(loc => loc.toJSON())
-    res.json(newRequests)
-    });
+    // 1) Get the user’s location & radius
+    const user = await User.findByPk(req.user.id, { attributes: ['latitude','longitude','searchRadiusMiles'] });
+    const { latitude, longitude, searchRadiusMiles = 15 } = user.toJSON();
+  
+    // 2) Pull all requests
+    const allRequests = await Requests.findAll();
+    
+    const locs = allRequests.map(r => r.toJSON());
+  
+    // 3) Filter in JS
+    const withinRadius = locs
+      .map(loc => ({
+        ...loc,
+        distance: distanceMiles(latitude, longitude, loc.lat, loc.lon)
+      }))
+      .filter(loc => loc.distance <= searchRadiusMiles)
+      .sort((a, b) => a.distance - b.distance);
+  
+    res.json(withinRadius);
+  });
 
 
 

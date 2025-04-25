@@ -9,8 +9,9 @@ import LandingPage from './components/landingPage';
 import About from './components/about';
 import MyCharities from './components/Home/myPage';
 
-// navbar stuff
+// navbar and user stuff
 import NavBar from './components/Navigation/NavBar.js';
+import SettingsForm from './components/authentication/Settings/index.js';
 
 // group stuff
 import CreateGroup from './components/Groups/CreateGroup/index.js';
@@ -141,7 +142,18 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        <Route
+          path='/settings'
+          element={
+            <ProtectedRoute>
+              <SettingsForm />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
+
+
     </>
   );
 }

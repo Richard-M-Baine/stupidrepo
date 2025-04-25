@@ -2,13 +2,14 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUser } from '../../../store/session';
+import { fetchAPIKeyThunk } from '../../../store/maps.js'
 import { Navigate } from 'react-router-dom';
-import LocationSelector from '../LocationSelector/LocationSelector';
+import SettingsMapStuff from '../../Maps/SettingsMapStuff/index.js'
 
 export default function SettingsForm() {
   const dispatch = useDispatch();
-  const user = useSelector(s => s.session.user);
-
+  const user = useSelector(state => state?.session.user);
+  const apiKey = useSelector(state => state?.maps.key)
   const [loaded, setLoaded] = useState(false);
   const [errors, setErrors] = useState([]);
 
@@ -22,6 +23,7 @@ export default function SettingsForm() {
 
   useEffect(() => {
     if (user) {
+      dispatch(fetchAPIKeyThunk())
       setEmail(user.email);
       setLatitude(user.latitude);
       setLongitude(user.longitude);
@@ -31,7 +33,7 @@ export default function SettingsForm() {
   }, [user]);
 
   if (!loaded) return <p>Loading settings…</p>;
-  if (!user)   return <Navigate to="/login" />;
+  if (!user) return <Navigate to="/" />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,6 +62,7 @@ export default function SettingsForm() {
     } else {
       setErrors([]);
       alert('Settings updated successfully!');
+      
     }
   };
 
@@ -83,7 +86,7 @@ export default function SettingsForm() {
 
         {/* password */}
         <div className="formRow">
-          <label>New Password</label>
+          <label>New Password Skip if not needed</label>
           <input
             type="password"
             value={password}
@@ -91,23 +94,11 @@ export default function SettingsForm() {
           />
         </div>
         <div className="formRow">
-          <label>Confirm Password</label>
+          <label>Confirm Password Skip if not needed</label>
           <input
             type="password"
             value={repeatPassword}
             onChange={e => setRepeatPassword(e.target.value)}
-          />
-        </div>
-
-        {/* location */}
-        <div className="formRow fullWidth">
-          <label>General Location</label>
-          <LocationSelector
-            apiKey={useSelector(s => s.maps.key)}
-            setLatitude={setLatitude}
-            setLongitude={setLongitude}
-            initialLat={latitude}
-            initialLng={longitude}
           />
         </div>
 
@@ -121,6 +112,25 @@ export default function SettingsForm() {
             onChange={e => setSearchRadiusMiles(+e.target.value)}
           />
         </div>
+
+        {/* location */}
+        <div className="formRow fullWidth">
+          <label>General Location</label>
+          {apiKey && (
+            <SettingsMapStuff
+              apiKey={apiKey}
+              initialLat={latitude}
+              initialLng={longitude}
+              setLatitude={setLatitude}
+              setLongitude={setLongitude}
+            />
+          )}
+        <p>new latitude {latitude}</p>
+        <p>new longitude {longitude}</p>
+
+        </div>
+
+
 
         <button type="submit" className="saveSettingsButton">
           Save Changes

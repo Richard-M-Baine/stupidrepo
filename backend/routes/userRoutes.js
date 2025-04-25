@@ -3,6 +3,7 @@ const { User } = require('../models');
 const router = express.Router();
 const { authenticateToken, restoreUser, requireAuth, setTokenCookie } = require('../middleware/authenticate');
 const { getCoordinates } = require('../utils/enrollGeocode');
+const bcrypt = require('bcryptjs');
 
 router.get('/protected', authenticateToken, (req, res) => {
   res.json({ message: 'You have access to this route! Huzzah!', user: req.user });
