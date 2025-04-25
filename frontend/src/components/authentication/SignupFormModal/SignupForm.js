@@ -127,10 +127,10 @@ const SignUpForm = () => {
             Drag the marker on the map to your general area. We’ll use a default 25 km radius for nearby searches.
           </p>
           <p>
-            For privacy reasons the your location feature on google maps is disabled and we do not store your personal info on our servers besides email address.
+            For privacy reasons the your location feature on google maps is disabled and we do not store your personal info on our servers besides your email address. Your location just shows up as a longtidue / latitude.
           </p>
 
-          <p>Just drag it near where you live or wish to lend or receive aid.. you can always alter the region or distance later</p>
+          <p>Just drag it near where you live or wish to lend or receive aid.. you can always alter the region or distance later.  If super security conscious / paranoid ust put the marker a block or so away from where you live.</p>
           <LocationSelector apiKey={apiKey}
             setLatitude={setLatitude}
             setLongitude={setLongitude}
