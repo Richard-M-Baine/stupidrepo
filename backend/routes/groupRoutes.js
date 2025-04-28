@@ -8,6 +8,21 @@ const { setTokenCookie, restoreUser, requireAuth } = require('../middleware/auth
 const router = express.Router();
 const { getCoordinates } = require('../utils/geocode');
 
+// scary math
+
+
+const toRad = degrees => degrees * (Math.PI / 180);
+const distanceMiles = (lat1, lon1, lat2, lon2) => {
+  const R = 3959; // earth radius in miles
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  return R * c;
+};
 
 router.delete('/:id/delete', restoreUser, requireAuth, async (req, res) => {
     const groupId = req.params.id;
@@ -147,10 +162,43 @@ router.post('/create', restoreUser, requireAuth, async (req, res) => {
 
     
 router.get('/all', restoreUser, requireAuth, async (req, res) => {
-    const groups = await Charities.findAll()
-    const newGroups = groups.map(loc => loc.toJSON())
-    res.json(newGroups)
-    });
+    try {
+        // 1) Get the user's location and radius
+        const user = await User.findByPk(req.user.id, {
+            attributes: ['latitude', 'longitude', 'searchRadiusMiles']
+        });
+        const { latitude, longitude, searchRadiusMiles = 15 } = user.toJSON();
+
+        // 2) Pull all groups + their locations
+        const groups = await Charities.findAll({
+            include: {
+                model: Locations,
+                attributes: ['lat', 'lon', 'address', 'city', 'state']
+            }
+        });
+
+        // 3) Filter based on distance
+        const groupsWithDistance = groups.map(group => {
+            const g = group.toJSON();
+            const loc = g.Location;
+            const distance = distanceMiles(latitude, longitude, loc.lat, loc.lon);
+            return {
+                ...g,
+                distance
+            };
+        });
+
+        const filteredGroups = groupsWithDistance
+            .filter(group => group.distance <= searchRadiusMiles)
+            .sort((a, b) => a.distance - b.distance);
+
+        res.json(filteredGroups);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Something went wrong.' });
+    }
+});
     
  
 
