@@ -28,10 +28,12 @@ function CharityCard({ group }) {
     return loaded && (
         <NavLink className='navGroupCardAllGroups' to={`/groups/${group.id}`}>
 
-            <h1 className='navGroupCardName'>{group.name}</h1>
-            <h2 className='navGroupCardAbout'>{group.purpose}</h2>
+            <h1 className='navGroupCardName'>{group?.name}</h1>
+            <h2 className='navGroupCardAbout'>{group?.purpose}</h2>
             <h3 className='navGroupCardAddress'>{charityLocation?.address || "Unknown Address"}</h3>
+            <h3 className='navGroupCardAbout'>Distance in miles {group.distance}</h3>
             <h3 className='navGroupCardCity'>{charityLocation?.city || "Unknown City"} {charityLocation?.state || "Unknown State"}</h3>
+            
 
 
 

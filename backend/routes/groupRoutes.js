@@ -173,6 +173,7 @@ router.get('/all', restoreUser, requireAuth, async (req, res) => {
         const groups = await Charities.findAll({
             include: {
                 model: Locations,
+                as: 'location', // <-- required because of the alias
                 attributes: ['lat', 'lon', 'address', 'city', 'state']
             }
         });
@@ -180,7 +181,7 @@ router.get('/all', restoreUser, requireAuth, async (req, res) => {
         // 3) Filter based on distance
         const groupsWithDistance = groups.map(group => {
             const g = group.toJSON();
-            const loc = g.Location;
+            const loc = g.location;
             const distance = distanceMiles(latitude, longitude, loc.lat, loc.lon);
             return {
                 ...g,
@@ -192,6 +193,7 @@ router.get('/all', restoreUser, requireAuth, async (req, res) => {
             .filter(group => group.distance <= searchRadiusMiles)
             .sort((a, b) => a.distance - b.distance);
 
+            console.log('i am filtered groups .', filteredGroups)
         res.json(filteredGroups);
 
     } catch (error) {
