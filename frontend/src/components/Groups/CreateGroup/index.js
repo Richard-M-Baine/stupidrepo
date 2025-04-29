@@ -277,7 +277,7 @@ function CreateGroupForm() {
                             <div className="createGroupLastPartButtons">
 
                                 <select className='cgfselect' name='type' value={privatee} onChange={e => setPrivatee(e.target.value)} >
-                                    <option >Are Barriers Present</option>
+                                    <option >Is an appointment / interview necessary?</option>
                                     <option value={false}>No</option>
                                     <option value={true}>Yes </option>
                                 </select>
