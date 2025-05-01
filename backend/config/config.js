@@ -19,9 +19,8 @@ module.exports = {
     dialect: "postgres"
   },
   production: {
-    use_env_variable: "DATABASE_URL", // Railway or Render gives you this
+    use_env_variable: "DATABASE_URL",
     dialect: "postgres",
-    protocol: "postgres",
     dialectOptions: {
       ssl: {
         require: true,
