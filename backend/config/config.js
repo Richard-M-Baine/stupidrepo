@@ -1,29 +1,32 @@
 require("dotenv").config();
-const path = require("path"); // Add this line
+const path = require("path");
 
 module.exports = {
   development: {
-    username: process.env.DB_USER || "default_user",
-    password: process.env.DB_PASSWORD || "default_password",
-    database: process.env.DB_NAME || "default_db",
+    username: process.env.DB_USER || "postgres",
+    password: process.env.DB_PASSWORD || null,
+    database: process.env.DB_NAME || "your_db_name",
     host: process.env.DB_HOST || "127.0.0.1",
-    dialect: process.env.DB_DIALECT || "sqlite",
-    storage: path.join(__dirname, "../database/database.sqlite") // Define storage path for SQLite
+    port: process.env.DB_PORT || 5432,
+    dialect: "postgres"
   },
   test: {
-    username: "root",
+    username: "postgres",
     password: null,
-    database: "database_test",
+    database: "test_db",
     host: "127.0.0.1",
-    dialect: "sqlite",
-    storage: ":memory:" // In-memory database for testing
+    port: 5432,
+    dialect: "postgres"
   },
   production: {
-    username: "root",
-    password: null,
-    database: "database_production",
-    host: "127.0.0.1",
-    dialect: "sqlite",
-    storage: path.join(__dirname, "../database.sqlite") // Define storage for production
+    use_env_variable: "DATABASE_URL", // Railway or Render gives you this
+    dialect: "postgres",
+    protocol: "postgres",
+    dialectOptions: {
+      ssl: {
+        require: true,
+        rejectUnauthorized: false
+      }
+    }
   }
 };
