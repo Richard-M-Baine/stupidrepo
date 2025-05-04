@@ -1,7 +1,5 @@
 {
   "build": {
-    "builder": "NIXPACKS",
-    "buildCommand": "",
     "root": "backend"
   }
 }
