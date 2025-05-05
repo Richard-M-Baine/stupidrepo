@@ -107,3 +107,57 @@
     margin-right: 8px;
     color: blue;
 }
+
+/* Media Query for screens with a maximum width of 600px (typical for smartphones) */
+@media (max-width: 600px) {
+    .sppictureDiv {
+      margin-top: 0; /* Adjust top margin for mobile */
+    }
+  
+    .sptitleDiv {
+      padding-top: 60px; /* Adjust padding */
+    }
+  
+    .spheaderone {
+      font-size: 28px;
+    }
+  
+    .spheadertwo {
+      font-size: 22px;
+      margin-top: 10px;
+    }
+  
+    .sppictureHumanDiv {
+      margin-top: 20px; /* Add some spacing */
+    }
+  
+    .sphumanDiv {
+      padding-top: 30px;
+    }
+  
+    .spheaderThree {
+      font-size: 20px;
+    }
+  
+    .spheaderFour {
+      font-size: 30px;
+    }
+  
+    .enlistsplashpage {
+      margin-top: 30px;
+    }
+  
+    /* You might need to adjust or hide the LoginFormModal, SignupFormModal, and DemoUser components for smaller screens depending on your design */
+    .enlistsplashpage > div {
+      width: 100%; /* Make modal containers full width */
+      margin-bottom: 10px; /* Add spacing between elements */
+    }
+  
+    .buttonsplash {
+      width: 100%;
+    }
+  
+    .personalInfo {
+      font-size: 12px; /* Adjust font size inside personal info */
+    }
+  }
