@@ -17,8 +17,10 @@ function AllCharities() {
 
     const groups = useSelector(state => state?.group ?? {});
     const locations = useSelector(state => state?.locations ?? {});
-
-  
+    const users = useSelector(state => state?.session?.user ?? {})
+    
+    const lat = users?.latitude.toFixed(2)
+    const lon = users?.longitude.toFixed(2)
 
     const [loaded, setLoaded] = useState(false);
 
@@ -41,7 +43,7 @@ function AllCharities() {
         <div className='mainAllGroups'>
             <div className='groupAllPart'>
                 <div className='groupAllTextDiv'>
-                    <h1>Nearby Organizations</h1>
+                    <h1>Nearby Organizations - {users?.searchRadiusMiles} km of {lat} {lon} </h1>
                 </div>
                 <div className='secondaryGroupAllDiv'>
                     <div className='groupsAllPart'>

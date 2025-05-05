@@ -10,8 +10,8 @@ function RequestCard({ request }) {
     const dispatch = useDispatch()
     const [loaded, setLoaded] = useState(false)
 
-    const requests = useSelector(statee => statee?.requests ?? {})
-
+    
+    const walking = request.distance.toFixed(2)
     function formatTime(timeStr) {
         const options = {
             year: 'numeric',
@@ -39,6 +39,7 @@ function RequestCard({ request }) {
             <h2 className='navGroupCardAbout'>{formatTime(request.startTime)}</h2>
 
             <h3 className='navGroupCardAddress'>{request.address || "Unknown Address"}</h3>
+            <h3 className='navGroupCardAbout'>Distance in miles {walking}</h3>
             <h3 className='navGroupCardCity'>{request.city || "Unknown City"} {request?.state || "Unknown State"}</h3>
 
 

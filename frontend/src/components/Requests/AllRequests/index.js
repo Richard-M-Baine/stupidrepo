@@ -15,6 +15,9 @@ function AllRequests() {
     const dispatch = useDispatch();
     const apiKey = useSelector(state => state?.maps?.key); // Fetch API Key here
 
+    const users = useSelector(state => state.session.user ?? {})
+    const lat = users?.latitude.toFixed(2)
+    const lon = users?.longitude.toFixed(2)
     const requests = useSelector(state => state?.requests ?? {});
    
    
@@ -40,7 +43,7 @@ function AllRequests() {
         <div className='mainAllGroups'>
             <div className='groupAllPart'>
                 <div className='groupAllTextDiv'>
-                    <h1>Nearby Requests</h1>
+                    <h1>Nearby Requests - {users?.searchRadiusMiles} km of {lat} {lon}</h1>
                 </div>
                 <div className='secondaryGroupAllDiv'>
                     <div className='groupsAllPart'>
