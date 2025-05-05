@@ -1,5 +1,4 @@
 require("dotenv").config();
-const path = require("path");
 
 module.exports = {
   development: {
@@ -19,12 +18,13 @@ module.exports = {
     dialect: "postgres"
   },
   production: {
+    // Railway injects DATABASE_URL, no need to parse each value
     use_env_variable: "DATABASE_URL",
     dialect: "postgres",
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false
+        rejectUnauthorized: false // Required for some cloud platforms like Railway
       }
     }
   }
