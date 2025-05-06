@@ -2,13 +2,13 @@
   "name": "mutualaid",
   "version": "1.0.0",
   "main": "index.js",
-  "scripts": {
-"start": "npx sequelize-cli db:migrate && node server.js",
-  "heroku-postbuild": "cd frontend && npm install && npm run build",
-
+"scripts": {
+  "start": "npx sequelize-cli db:migrate && node server.js",
+  "build": "cd frontend && npm install && npm run build",
   "dev": "nodemon server.js",
   "migrate": "sequelize db:migrate"
 },
+
   "keywords": [],
   "author": "",
   "license": "ISC",
