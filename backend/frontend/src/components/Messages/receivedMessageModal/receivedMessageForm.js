@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import { Redirect, useNavigate, useParams } from 'react-router-dom';
+import {  useNavigate, useParams } from 'react-router-dom';
 import '../createMessageModal/createMessage.css'
 
 import { getOneRequestThunk } from '../../../store/requests'
@@ -10,7 +10,7 @@ import { createMessageThunk } from '../../../store/messages';
 const ReceivedMessageForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const user = useSelector(state => state.session.user)
+
 
   const { id } = useParams()
   const requestId = parseInt(id)
@@ -22,7 +22,7 @@ const ReceivedMessageForm = () => {
   useEffect(() => {
     dispatch(getOneRequestThunk(id))
       .then(() => setLoaded(true))
-  }, [dispatch])
+  }, [dispatch, id])
 
   const submit = async e => {
     e.preventDefault()

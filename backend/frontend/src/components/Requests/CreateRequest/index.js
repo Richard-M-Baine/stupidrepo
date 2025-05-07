@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import * as sessionActions from '../../../store/session';
+import React, { useState} from 'react';
+
 import { useDispatch, useSelector } from 'react-redux';
-import { Redirect, useNavigate } from 'react-router-dom';
-import { Link, NavLink } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
+
 
 // thunk imports
 import { createRequestThunk } from '../../../store/requests.js'
@@ -15,7 +15,7 @@ function CreateRequestForm() {
     const dispatch = useDispatch()
     const sessionUser = useSelector((state) => state.session.user)
 
-    const [loaded, setLoaded] = useState(false)
+
     const [title, setTitle] = useState('')
     const [startDate, setStartDate] = useState('')
     const [endDate, setEndDate] = useState('')
@@ -24,7 +24,7 @@ function CreateRequestForm() {
     const [city, setCity] = useState('')
     const [county, setCounty] = useState('')
     const [state, setState] = useState('')
-    const [country, setCountry] = useState('us')
+    const [country] = useState('us')
     const [postalCode, setPostalCode] = useState('')
     const [part, setPart] = useState('Part One')
 
@@ -73,10 +73,7 @@ function CreateRequestForm() {
 
     }
 
-    let current = new Date();
-let cDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate();
-let cTime = current.getHours() + ":" + current.getMinutes()
-let CurrentdateTime = cDate + 'T' + cTime;
+
 
 
     return (
