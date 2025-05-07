@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 import { fetchAllLocationsThunk } from '../../../../store/locations.js'
 
@@ -10,7 +10,7 @@ function RequestCard({ request }) {
     const dispatch = useDispatch()
     const [loaded, setLoaded] = useState(false)
 
-    const requests = useSelector(statee => statee?.requests ?? {})
+
 
     function formatTime(timeStr) {
         const options = {

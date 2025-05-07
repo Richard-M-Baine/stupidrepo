@@ -23,7 +23,7 @@ function EditRequestForm() {
     const [startTime, setStartTime] = useState('');
     const [state, setState] = useState('');
     const [postalCode, setPostalCode] = useState('')
-    const [country, setCountry] = useState('us')
+    const [country] = useState('us')
     const [title, setTitle] = useState('');
     const [loaded, setLoaded] = useState(false);
     const [newSTime, setNewSTime] = useState('');
@@ -54,14 +54,7 @@ function EditRequestForm() {
         }
     }, [sessionUser, navigate]);
 
-    const monthConverter = (month) => {
-        const months = {
-            Jan: '01', Feb: '02', Mar: '03', Apr: '04',
-            May: '05', Jun: '06', Jul: '07', Aug: '08',
-            Sep: '09', Oct: '10', Nov: '11', Dec: '12'
-        };
-        return months[month] || '01';
-    };
+
 
     const formatDateTime = (dateString) => {
         if (!dateString) return '';

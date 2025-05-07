@@ -20,7 +20,7 @@ export default function RequestDetails() {
     const dispatch = useDispatch();
     const apiKey = useSelector(state => state?.maps?.key)
     const { id } = useParams();
-    const requests = useSelector(state => state?.requests ?? {});
+
 
 
     const requestId = parseInt(id)

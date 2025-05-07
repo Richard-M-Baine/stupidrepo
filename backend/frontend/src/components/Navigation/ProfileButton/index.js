@@ -65,7 +65,7 @@ const ProfileButton = () => {
 
   console.log("showMenu", showMenu);
 
-  return (
+  return isLoaded &&  (
     <div ref={dropdownRef} className="profile-wrapper"> {/* NEW WRAPPER */}
       <button className='buttonprofilegood' onClick={openMenu}>
         <img src={profileImage} alt='the letter a but with holding hands' />
