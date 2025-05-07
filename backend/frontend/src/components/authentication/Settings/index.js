@@ -30,7 +30,7 @@ export default function SettingsForm() {
       setSearchRadiusMiles(user.searchRadiusMiles);
     }
     setLoaded(true);
-  }, [user]);
+  }, [dispatch, user]);
 
   if (!loaded) return <p>Loading settings…</p>;
   if (!user) return <Navigate to="/" />;
