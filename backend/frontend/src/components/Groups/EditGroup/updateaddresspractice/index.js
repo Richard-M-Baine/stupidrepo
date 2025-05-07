@@ -18,7 +18,7 @@ function UpdateAddressForm() {
     const [city, setCity] = useState('');
     const [county, setCounty] = useState('');
     const [statee, setStatee] = useState('');
-    const [country, setCountry] = useState('us')
+    const [country] = useState('us')
     const [postalCode, setPostalCode] = useState('')
     const [loaded, setIsLoaded] = useState(false);
  

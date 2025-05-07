@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { GoogleMap, useLoadScript, Marker, Circle } from "@react-google-maps/api";
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import './RequestMap.css';
 
 function RequestMap({ apiKey, locations = [] }) {

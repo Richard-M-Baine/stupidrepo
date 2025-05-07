@@ -12,7 +12,7 @@ import './homePage.css';
 function MyCharities() {
     const dispatch = useDispatch();
     
-    const session = useSelector(state => state?.session);
+ 
     const groups = useSelector(state => state?.group);
     const requests = useSelector(state => state?.requests); // Fix: access `requests` inside state
 

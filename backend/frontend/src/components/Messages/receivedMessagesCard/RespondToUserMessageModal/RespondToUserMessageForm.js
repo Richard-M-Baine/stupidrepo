@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux'
-import { Redirect, useNavigate, useParams } from 'react-router-dom';
+import React, { useState} from 'react';
+import {  useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
 
 import '../../createMessageModal/createMessage.css'
 
@@ -11,7 +11,7 @@ const RespondToUserMessageForm = ({receivedMessage}) => {
   
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const user = useSelector(state => state.session.user)
+
 
   const [body, setBody] = useState('')
  

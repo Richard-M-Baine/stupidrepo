@@ -30,7 +30,7 @@ import RequestDetails from './components/Requests/RequestDetails/index.js';
 import MyMessages from './components/Messages/messageHome/index.js';
 
 function App() {
-  const location = useLocation();
+
   const [loaded, setLoaded] = useState(false);
   const dispatch = useDispatch();
 

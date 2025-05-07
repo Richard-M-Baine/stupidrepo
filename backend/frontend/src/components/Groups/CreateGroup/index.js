@@ -24,7 +24,7 @@ function CreateGroupForm() {
     const [city, setCity] = useState('')
     const [state, setState] = useState('')
     const [county, setCounty] = useState('')
-    const [country, setCountry] = useState('us')
+    const [country] = useState('us')
     const [postalCode, setPostalCode] = useState('')
 
     //group part
