@@ -10,6 +10,9 @@ const session = require('express-session');
 const SQLiteStore = require('connect-sqlite3')(session);
 const path = require('path');
 const cors = require('cors');
+const fs = require('fs');
+const path = require('path');
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -24,19 +27,15 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
-// Auth session (if using sessions, uncomment and configure)
-// app.use(session({
-//   store: new SQLiteStore,
-//   secret: process.env.SESSION_SECRET,
-//   resave: false,
-//   saveUninitialized: false,
-//   cookie: {
-//     maxAge: 1000 * 60 * 60 * 24 // 1 day
-//   }
-// }));
+
 
 // Restore user if session/auth is used
 app.use(restoreUser);
+
+app.get("/", (req, res) => {
+  res.send("Server is running! Its Alive!");
+});
+
 
 // API routes
 app.use("/api", routes);
@@ -69,4 +68,22 @@ app.listen(PORT, async () => {
     console.error("Database connection failed:", error);
   }
   console.log(`Server running on port ${PORT}`);
+});
+
+process.on('SIGTERM', () => {
+  const logPath = '/root/.npm/_logs';
+  try {
+    const files = fs.readdirSync(logPath);
+    const debugFiles = files.filter(f => f.includes('debug'));
+    if (debugFiles.length > 0) {
+      const lastFile = debugFiles.sort().pop();
+      const logContent = fs.readFileSync(path.join(logPath, lastFile), 'utf-8');
+      console.log("---- DEBUG LOG ----\n", logContent);
+    } else {
+      console.log("No debug logs found in", logPath);
+    }
+  } catch (err) {
+    console.error("Could not read debug log:", err.message);
+  }
+  process.exit();
 });
