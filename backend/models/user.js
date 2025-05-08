@@ -1,4 +1,4 @@
-const bcrypt = require('bcryptjs');
+const bcrypt = require('bcrypt');
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
@@ -38,14 +38,14 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   // Hash password before saving
-  User.beforeCreate((user) => {
+  User.beforeCreate(async (user) => {
     if (typeof user.password === 'string') {
-      user.password = bcrypt.hashSync(user.password, 10);
+      user.password = await bcrypt.hash(user.password, 10);
     } else {
-      console.error('Invalid password passed to beforeCreate:', user.password);
       throw new Error('Password must be a string');
     }
   });
+  
   
   
 
