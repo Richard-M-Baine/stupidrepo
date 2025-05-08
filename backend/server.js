@@ -12,64 +12,67 @@ const path = require('path');
 const cors = require('cors');
 const fs = require('fs');
 
-
-
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS setup (adjust origin in dev)
+// ---------- MIDDLEWARE SETUP ----------
+console.log("🛠️ Initializing middleware...");
+
+// CORS setup
 app.use(cors({
-  origin: "http://localhost:3000", // In production, set to your actual frontend domain
+  origin: "http://localhost:3000", // Adjust for production
   credentials: true
 }));
 
-// JSON + Cookies
 app.use(express.json());
 app.use(cookieParser());
+app.use(restoreUser); // Restore session user if available
 
-
-
-// Restore user if session/auth is used
-app.use(restoreUser);
+// ---------- ROUTES ----------
+console.log("📡 Setting up API routes...");
 
 app.get("/", (req, res) => {
-  res.send("Server is running! Its Alive!");
+  res.send("✅ Server is running!");
 });
 
-
-// API routes
 app.use("/api", routes);
 app.use("/auth", authRoutes);
 app.use("/protected", protectedRoutes);
 
-// ---------- Serve Frontend in Production ----------
+// ---------- SERVE FRONTEND IN PRODUCTION ----------
 if (process.env.NODE_ENV === 'production') {
-  // Serve static files from frontend build folder
-  app.use(express.static(path.join(__dirname, '/frontend/build')));
+  const buildPath = path.join(__dirname, 'frontend', 'build');
+  console.log("🧱 Production mode: Serving React frontend...");
 
-  // Fallback to React's index.html for all other routes
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '/frontend/build/index.html'));
-  });
+  if (fs.existsSync(buildPath)) {
+    app.use(express.static(buildPath));
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(buildPath, 'index.html'));
+    });
+    console.log("✅ Frontend build served from:", buildPath);
+  } else {
+    console.warn("⚠️  Frontend build not found! Expected path:", buildPath);
+  }
 }
 
-// ---------- Error Handler ----------
+// ---------- ERROR HANDLER ----------
 app.use((err, req, res, next) => {
-  console.error("ERROR:", err.stack);
+  console.error("❌ ERROR:", err.stack);
   res.status(500).json({ error: err.message || "Internal Server Error" });
 });
 
-// ---------- Start Server ----------
+// ---------- SERVER STARTUP ----------
 app.listen(PORT, async () => {
   try {
     await sequelize.authenticate();
-    console.log("Database connected!");
+    console.log("🗄️  Database connected!");
   } catch (error) {
-    console.error("Database connection failed:", error);
+    console.error("❌ Database connection failed:", error);
   }
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
 
+// ---------- HANDLE SHUTDOWN ----------
 process.on('SIGTERM', () => {
   const logPath = '/root/.npm/_logs';
   try {
