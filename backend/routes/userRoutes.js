@@ -39,7 +39,8 @@ router.post('/signup', async (req, res) => {
   const { userName, email, password, latitude, longitude } = req.body;
   console.log(req.body, 'the aforementioned crap is req.body')
 
-  
+  console.log('password in route:', password, typeof password);
+
   try {
     const newUser = await User.create({
       userName,

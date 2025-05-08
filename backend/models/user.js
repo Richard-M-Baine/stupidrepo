@@ -39,8 +39,14 @@ module.exports = (sequelize, DataTypes) => {
 
   // Hash password before saving
   User.beforeCreate(async (user) => {
-    user.password = await bcrypt.hash(user.password, 10);
+    if (typeof user.password === 'string') {
+      user.password = await bcrypt.hash(user.password, 10);
+    } else {
+      console.error('Invalid password passed to beforeCreate hook:', user.password);
+      throw new Error('Password must be a valid string');
+    }
   });
+  
 
   User.prototype.toSafeObject = function () {
     const { id, userName, email, latitude, longitude } = this;
