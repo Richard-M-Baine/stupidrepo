@@ -38,14 +38,15 @@ module.exports = (sequelize, DataTypes) => {
   });
 
   // Hash password before saving
-  User.beforeCreate(async (user) => {
+  User.beforeCreate((user) => {
     if (typeof user.password === 'string') {
-      user.password = await bcrypt.hash(user.password, 10);
+      user.password = bcrypt.hashSync(user.password, 10);
     } else {
-      console.error('Invalid password passed to beforeCreate hook:', user.password);
-      throw new Error('Password must be a valid string');
+      console.error('Invalid password passed to beforeCreate:', user.password);
+      throw new Error('Password must be a string');
     }
   });
+  
   
 
   User.prototype.toSafeObject = function () {
