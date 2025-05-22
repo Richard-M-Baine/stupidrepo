@@ -1,14 +1,13 @@
 import { combineReducers } from 'redux';
-import { thunk } from 'redux-thunk';
 import { configureStore } from '@reduxjs/toolkit';
-import logger from 'redux-logger'; // Import logger properly
+import logger from 'redux-logger'; // Keep this for dev logging
 import session from './session';
-import group from './groups'
-import requests from './requests'
-import locations from './locations'
-import messages from './messages'
-import recmessages from './recmessages'
-import maps from './maps'
+import group from './groups';
+import requests from './requests';
+import locations from './locations';
+import messages from './messages';
+import recmessages from './recmessages';
+import maps from './maps';
 
 const rootReducer = combineReducers({
   session,
@@ -24,8 +23,8 @@ const store = configureStore({
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
     process.env.NODE_ENV === 'production'
-      ? getDefaultMiddleware().concat(thunk)
-      : getDefaultMiddleware().concat(thunk, logger),
+      ? getDefaultMiddleware()
+      : getDefaultMiddleware().concat(logger),
   devTools: process.env.NODE_ENV !== 'production',
 });
 
