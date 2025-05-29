@@ -111,20 +111,36 @@
 /* Media Query for screens with a maximum width of 600px (typical for smartphones) */
 @media (max-width: 600px) {
     .sppictureDiv {
-      margin-top: 0; /* Adjust top margin for mobile */
-    }
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Puts maximum space between items */
+  align-items: center; /* Centers items horizontally */
+  min-height: 100vh; /* Ensures the div takes at least the full viewport height */
+  padding-top: 20vh; /* Adds some space at the top to push the first heading down */
+  padding-bottom: 20vh; /* Adds some space at the bottom to push the second heading up */
+  box-sizing: border-box; /* Include padding in the element's total height calculation */
+}
   
     .sptitleDiv {
-      padding-top: 60px; /* Adjust padding */
-    }
+  width: 100%; /* Ensure it takes the full width */
+  text-align: center; /* Center the text within the div */
+}
   
     .spheaderone {
-      font-size: 28px;
+      font-size: 24px;
+      text-align: center;
+      padding-left: 50px;
+      padding-right: 50px;
+      
+      
     }
   
     .spheadertwo {
-      font-size: 22px;
+      font-size: 18px;
       margin-top: 10px;
+      text-align: center;
+      padding-left: 50px;
+      padding-right: 50px;
     }
   
     .sppictureHumanDiv {
